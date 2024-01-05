@@ -1,0 +1,32 @@
+commande inconnue :
+    readline + rl_ ?
+    wait3, wait4 ?
+    signal, sig ?
+    stat, lstat, fstat ?
+    unlink ?
+    opendir, readdir, closedir ?
+    isatty ?
+    tty.. ?
+    ioctl ?
+    getenv ?
+    tcsetattr, tcgetattr, tgetent, tgetflag,
+        tgetnum, tgetstr, tgoto, tputs ?
+
+
+debut du minishell :
+    boucle infinie, gnl de fd[0]
+    recup le env, dup pour creer le sien
+    parser
+    exec
+
+parser :
+    si quote -> function error quote not closed
+    si single quote
+    si pipe, pipeline
+    si built-in
+
+
+
+cd :
+    utiliser la commande chdir ?
+    modifier le env, variable PWD
