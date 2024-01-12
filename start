@@ -3,6 +3,7 @@ commande inconnue :
     wait3, wait4 ?
     signal, sig ?
     stat, lstat, fstat ?
+    
     unlink ?
     opendir, readdir, closedir ?
     isatty ?
@@ -50,3 +51,10 @@ built-in : cd, echo, env, exit, export, pwd and unset
 fonction free : 
     lst_clear etc..
 
+no pipe -> 
+    fd_in = 0
+    fd_out = 1;
+
+pipe ->
+    fd_in = 0;
+    fd_out = 1; 

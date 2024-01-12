@@ -1,0 +1,44 @@
+PARSING
+
+1. Les separations
+
+Les ; ->
+	Creer une liste chainee et y ajouter chaque commande
+	Un node = une commande 
+	Split l'entree standard grace a ft_split(cmd, ';')
+
+Les pipes ->
+	Check si il y a des pipes dans la liste chainee cree precedement
+	Si oui , recuperer le node contenant le pipe, et le ft_split(cmd, '|')
+	Puis pipex
+
+Parser les commandes ->
+	Si la commande n'est pas un builtin, il faut renvoyer un char**
+	Les options peuvent etre sous la forme -la, ou -l -a
+	Finir par NULL
+Etape ->
+	Creer char**
+	Malloc a chaque fois car on connait pas le nombre d'arguments a l'avance
+	Si espace non protege -> argument suivant
+	/!\ aux protections
+
+Protections ->
+	Dans des simples quotes ->
+		Les ' -> Nombre impair -> pas bon 
+		Les " -> Perdent leur signification, donc nombre impair -> ok
+		Le $  -> Perd sa signification d'environnement
+		Le \  -> Perd sa signification
+	Dans des doubles quotes ->
+		Les ' -> Perdent leur signification, donc nombre impair -> ok
+		Les " -> Nombre impair - > pas bon, sauf si il y a un \
+		Le $  -> Garde sa signification d'environnement
+		Le \  -> Garde sa signification lorsque suivi par \\ ?
+
+A l'interieur de double quote ->
+	\\ -> print \
+	\$ -> print $
+	\" -> print "
+	$ -> print l'env var
+
+Caractere d'echappement ->
+	
