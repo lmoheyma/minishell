@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:57:48 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/13 22:27:56 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/13 23:12:00 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*get_path(t_env *env)
 	while (env)
 	{
 		j = 0;
-		printf("%s\n", env->content);
+		//printf("%s\n", env->content);
 		while (env->content[j] != '=')
 		{
 			j++;

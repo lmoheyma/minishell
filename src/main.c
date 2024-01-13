@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/13 22:22:35 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/13 23:27:02 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int main(int argc, char **argv, char **envp)
     		add_history(buffer);
 		cmd = simple_init(buffer, envp);
 		//print_args(cmd->args);
+		//ft_env(cmd);
 		if (get_path1(cmd, cmd->args) || is_builtin(cmd) == TRUE)
 			command_execute(cmd);
 		else

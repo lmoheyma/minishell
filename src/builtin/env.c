@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:31:39 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/13 22:36:07 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/13 23:26:40 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,19 @@ t_env	*dup_env(char **envp)
 {
 	int	i;
 	t_env *env;
+	t_env	*first;
 
-	env = (t_env *)malloc(sizeof(t_env));
-	if (!env)
-		return (0);
-	i = -1;
-	while (envp[++i])
+	i = 0;
+	env = NULL;
+	add_back_node_env(&env, new_env_node(envp[i]));
+	first = env;
+	i++;
+	while (envp[i])
 	{
 		add_back_node_env(&env, new_env_node(envp[i]));
-		env = env->next;
+		i++;
 	}
+	env = first;
 	return (env);
 }
 
