@@ -6,11 +6,21 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/12 18:18:35 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/13 22:22:35 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void print_error(t_minishell *cmd, int flag)
+{
+	if (flag == 1)
+	{
+		ft_putstr_fd(cmd->args->cmd[0], 2);
+		ft_putstr_fd(": command not found", 2);
+		ft_putstr_fd("\n", 2);
+	}
+}
 
 t_args	*ft_new(void *content)
 {
@@ -60,9 +70,9 @@ t_minishell	*simple_init(char *line, char **envp)
 	cmd = (t_minishell *)malloc(sizeof(t_minishell));
 	ft_add_back(&arg, ft_new(line));
 	//ft_add_back(&arg, ft_new("head"));
-	ft_add_back(&arg, ft_new("wc -l"));
+	//ft_add_back(&arg, ft_new("wc -l"));
 	cmd->args = arg;
-	cmd->envs = envp;
+	cmd->envs = dup_env(envp);
 	cmd->fd_in = 0;
 	cmd->fd_out = 1;
 	cmd->is_pipe = 0;
@@ -109,16 +119,16 @@ int get_path1(t_minishell *cmd, t_args *arg)
 		if (access(exe, F_OK | X_OK) == 0)
 			break ;
 		free(exe);
+		exe = NULL;
 	}
 	free_str(path_split);
-	return (0);
+	return (exe == NULL ? 0 : 1);
 }
 
 int main(int argc, char **argv, char **envp)
 {
 	char		*buffer;
 	size_t		buffer_size;
-	//t_args *arg = NULL;
 	t_minishell *cmd;
 	(void)argc;
 	(void)argv;
@@ -130,12 +140,15 @@ int main(int argc, char **argv, char **envp)
 		return (0);
 	while (1)
 	{
-		//printf("Avant de lire l'input\n");
 		buffer = readline("minishell>");
-		//printf("Apres de lire l'input\n");
+		if (buffer && *buffer)
+    		add_history(buffer);
 		cmd = simple_init(buffer, envp);
 		//print_args(cmd->args);
-		command_execute(cmd);
+		if (get_path1(cmd, cmd->args) || is_builtin(cmd) == TRUE)
+			command_execute(cmd);
+		else
+			print_error(cmd, 1);
 		free(cmd);
 		free(buffer);
 		//free(line);
