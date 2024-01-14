@@ -20,17 +20,13 @@ SRCS = src/main.c \
 		src/builtin/pwd.c \
 		src/builtin/unset.c
 
-OBJS = $(SRCS:.c=.o)
+OBJS_BASE = $(SRCS:.c=.o)
 
-OBJ_DIR = obj
+OBJS = $(addprefix obj/,$(OBJS_BASE))
 
 NAME = minishell
 
 all: $(NAME)
-
-%.o : %.c
-	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r" $@
-	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
 
 $(NAME) : $(OBJS)
 	@echo "\n"
@@ -39,6 +35,14 @@ $(NAME) : $(OBJS)
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(INCLUDE) $(LIB)
 #	mv $(OBJS) $(OBJ_DIR)/
 	@echo "\n\033[0mDone !"
+
+obj/%.o : %.c
+	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r" $@
+	mkdir -p obj
+	mkdir -p obj/src
+	mkdir -p obj/src/builtin
+	mkdir -p obj/src/exec
+	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
 	@echo "\033[0;31m"
