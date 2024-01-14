@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/13 23:27:02 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/14 17:56:49 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,25 @@ int get_path1(t_minishell *cmd, t_args *arg)
 	return (exe == NULL ? 0 : 1);
 }
 
+char	*dynamic_prompt(size_t buffer_size)
+{
+	char	*prompt;
+	char 	cwd[PATH_MAX];
+
+	prompt = (char *)malloc(sizeof(char) * buffer_size);
+	if (!prompt)
+		return (NULL);
+	if (!getcwd(cwd, sizeof(cwd)))
+		perror("pwd");
+	prompt = ft_strjoin("minishell:", cwd);
+	prompt = ft_strjoin(prompt, " ");
+	return (prompt);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	char		*buffer;
+	char		*prompt;
 	size_t		buffer_size;
 	t_minishell *cmd;
 	(void)argc;
@@ -140,19 +156,19 @@ int main(int argc, char **argv, char **envp)
 		return (0);
 	while (1)
 	{
-		buffer = readline("minishell>");
+		prompt = dynamic_prompt(buffer_size);
+		buffer = readline(prompt);
 		if (buffer && *buffer)
     		add_history(buffer);
 		cmd = simple_init(buffer, envp);
 		//print_args(cmd->args);
-		//ft_env(cmd);
 		if (get_path1(cmd, cmd->args) || is_builtin(cmd) == TRUE)
 			command_execute(cmd);
 		else
 			print_error(cmd, 1);
 		free(cmd);
 		free(buffer);
-		//free(line);
+		free(prompt);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:54:13 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/13 19:33:10 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/14 17:35:56 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,6 @@ char	**fill_builtin_tab(char **builtin)
 	return (builtin);
 }
 
-// int is_builtin(t_minishell *cmd)
-// {
-// 	char **builtin;
-// 	int	nb_builtin;
-// 	int	i;
-
-// 	nb_builtin = 6;
-// 	builtin = (char **)malloc(sizeof(char *) * nb_builtin);
-// 	if (!builtin)
-// 		return (0);
-// 	builtin = fill_builtin_tab(builtin);
-// 	i = -1;
-// 	while (++i < nb_builtin)
-// 	{
-// 		printf("cmd[0] = %s\n", cmd->args->cmd[0]);
-// 		printf("builtin = %s\n", builtin[i]);
-// 		if (exec_builtin(cmd))
-// 			return (TRUE);
-// 	}
-// 	free(builtin);
-// 	return (FALSE);
-// }
-
 int is_builtin(t_minishell *cmd)
 {
 	if (ft_strncmp(cmd->args->cmd[0], "cd", 2) == 0)
@@ -82,7 +59,7 @@ void exec_builtin(t_minishell *cmd)
 	if (ft_strncmp(cmd->args->cmd[0], "cd", 2) == 0)
 		ft_cd(cmd);
 	else if (ft_strncmp(cmd->args->cmd[0], "pwd", 3) == 0)
-		ft_pwd(cmd);
+		ft_pwd();
 	else if (ft_strncmp(cmd->args->cmd[0], "env", 3) == 0)
 		ft_env(cmd);
 	else if (ft_strncmp(cmd->args->cmd[0], "export", 7) == 0)

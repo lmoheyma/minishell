@@ -6,14 +6,18 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:17 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/13 17:36:24 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/14 14:54:05 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int ft_pwd(t_minishell *cmd)
+void ft_pwd(void)
 {
-	(void)cmd;
-	return (0);
+	char cwd[PATH_MAX];
+
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+		printf("%s\n", cwd);
+	else
+		perror("pwd");
 }

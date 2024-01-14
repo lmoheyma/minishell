@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:31:39 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/13 23:26:40 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/14 14:23:58 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,13 @@ t_env	*dup_env(char **envp)
 	first = env;
 	i++;
 	while (envp[i])
-	{
-		add_back_node_env(&env, new_env_node(envp[i]));
-		i++;
-	}
+		add_back_node_env(&env, new_env_node(envp[i++]));
 	env = first;
 	return (env);
 }
 
 void print_env(t_env *env)
 {
-	int i;
-	int	j;
-
-	i = -1;
-	j = 0;
 	if (!env)
 		return ;
 	while (env)
@@ -90,6 +82,5 @@ void print_env(t_env *env)
 int ft_env(t_minishell *cmd)
 {
 	print_env(cmd->envs);
-	(void)cmd;
 	return (0);
 }
