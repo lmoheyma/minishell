@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:54:13 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/14 17:35:56 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/15 20:12:53 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,33 @@ char	**fill_builtin_tab(char **builtin)
 	return (builtin);
 }
 
-int is_builtin(t_minishell *cmd)
+int	is_builtin(t_minishell *cmd)
 {
-	if (ft_strncmp(cmd->args->cmd[0], "cd", 2) == 0)
+	if (ft_strncmp(cmd->args->cmd[0], "cd", ft_strlen(cmd->args->cmd[0])) == 0)
 		return (1);
-	else if (ft_strncmp(cmd->args->cmd[0], "pwd", 3) == 0)
+	else if (ft_strncmp(cmd->args->cmd[0], "pwd",
+			ft_strlen(cmd->args->cmd[0])) == 0)
 		return (1);
-	else if (ft_strncmp(cmd->args->cmd[0], "env", 3) == 0)
+	else if (ft_strncmp(cmd->args->cmd[0], "env",
+			ft_strlen(cmd->args->cmd[0])) == 0)
 		return (1);
-	else if (ft_strncmp(cmd->args->cmd[0], "export", 7) == 0)
+	else if (ft_strncmp(cmd->args->cmd[0], "export",
+			ft_strlen(cmd->args->cmd[0])) == 0)
 		return (1);
-	else if (ft_strncmp(cmd->args->cmd[0], "unset", 5) == 0)
+	else if (ft_strncmp(cmd->args->cmd[0], "unset",
+			ft_strlen(cmd->args->cmd[0])) == 0)
 		return (1);
-	else if (ft_strncmp(cmd->args->cmd[0], "exit", 4) == 0)
+	else if (ft_strncmp(cmd->args->cmd[0], "exit",
+			ft_strlen(cmd->args->cmd[0])) == 0)
 		return (1);
-	else if (ft_strncmp(cmd->args->cmd[0], "echo", 2) == 0)
+	else if (ft_strncmp(cmd->args->cmd[0], "echo",
+			ft_strlen(cmd->args->cmd[0])) == 0)
 		return (1);
 	else
 		return (0);
 }
 
-void exec_builtin(t_minishell *cmd)
+void	exec_builtin(t_minishell *cmd)
 {
 	if (ft_strncmp(cmd->args->cmd[0], "cd", 2) == 0)
 		ft_cd(cmd);

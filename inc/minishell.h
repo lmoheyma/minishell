@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/14 14:46:00 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/15 20:11:32 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ typedef struct s_minishell
 // Env
 t_env	*dup_env(char **envp);
 char	**env_tab(t_env *env);
+t_env	*new_env_node(void *content);
+void	add_back_node_env(t_env **lst, t_env *new);
+int	is_env_var_set(t_env *env, char *str);
 
 // CD
 int ft_cd(t_minishell *cmd);
@@ -67,10 +70,10 @@ int is_builtin(t_minishell *cmd);
 void exec_builtin(t_minishell *cmd);
 
 int ft_env(t_minishell *cmd);
-int ft_echo(t_minishell *cmd);
-int ft_export(t_minishell *cmd);
+void ft_echo(t_minishell *cmd);
+void ft_export(t_minishell *cmd);
 void ft_pwd(void);
-int ft_unset(t_minishell *cmd);
+void ft_unset(t_minishell *cmd);
 int ft_exit(t_minishell *cmd);
 
 // Pipe

@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:47 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/13 17:36:54 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/15 13:21:22 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int ft_exit(t_minishell *cmd)
 {
+	//free all
 	(void)cmd;
-	return (0);
+	ft_putstr_fd("exit\n", 1);
+	exit(0);
 }

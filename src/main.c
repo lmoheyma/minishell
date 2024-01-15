@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/14 17:56:49 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/15 19:38:51 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,16 @@ void	ft_add_back(t_args **lst, t_args *new)
 	}
 }
 
-t_minishell	*simple_init(char *line, char **envp)
+t_minishell	*simple_init(t_minishell *cmd, char *line, char **envp)
 {
-	t_minishell *cmd;
 	t_args *arg;
+	(void)envp;
 
 	arg = NULL;
-	cmd = (t_minishell *)malloc(sizeof(t_minishell));
 	ft_add_back(&arg, ft_new(line));
 	//ft_add_back(&arg, ft_new("head"));
 	//ft_add_back(&arg, ft_new("wc -l"));
 	cmd->args = arg;
-	cmd->envs = dup_env(envp);
 	cmd->fd_in = 0;
 	cmd->fd_out = 1;
 	cmd->is_pipe = 0;
@@ -110,6 +108,8 @@ int get_path1(t_minishell *cmd, t_args *arg)
 	int		i;
 	
 	i = 0;
+	if (!cmd->args->cmd[0])
+		return (0);
 	path_split = ft_split(get_path(cmd->envs), ':');
 	while (path_split[++i])
 	{
@@ -151,6 +151,10 @@ int main(int argc, char **argv, char **envp)
 	(void)envp;
 	
 	buffer_size = 2048;
+	cmd = (t_minishell *)malloc(sizeof(t_minishell));
+	if (!cmd)
+		return (0);
+	cmd->envs = dup_env(envp);
 	buffer = (char *)malloc(sizeof(char) * buffer_size);
 	if (!buffer)
 		return (0);
@@ -160,13 +164,17 @@ int main(int argc, char **argv, char **envp)
 		buffer = readline(prompt);
 		if (buffer && *buffer)
     		add_history(buffer);
-		cmd = simple_init(buffer, envp);
-		//print_args(cmd->args);
-		if (get_path1(cmd, cmd->args) || is_builtin(cmd) == TRUE)
-			command_execute(cmd);
+		cmd = simple_init(cmd, buffer, envp);
+		if (!cmd->args->cmd[0])
+			continue ;
 		else
-			print_error(cmd, 1);
-		free(cmd);
+		{
+			if (get_path1(cmd, cmd->args) || is_builtin(cmd) == TRUE)
+				command_execute(cmd);
+			else
+				print_error(cmd, 1);
+		}
+		//free(cmd);
 		free(buffer);
 		free(prompt);
 	}
