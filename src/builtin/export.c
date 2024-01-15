@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:11 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/15 19:55:12 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/15 23:16:12 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,7 @@ void change_var(t_env *env, char *str, char **str_split)
 void add_to_env(t_env *env, char *str)
 {
 	char	**str_split;
-	int		j;
 
-	j = 0;
 	str_split = ft_split(str, '=');
 	if (is_env_var_set(env, str_split[0]))
 		change_var(env, str, str_split);

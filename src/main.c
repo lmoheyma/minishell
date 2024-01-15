@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/15 19:38:51 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/15 23:27:37 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,23 @@ char	*dynamic_prompt(size_t buffer_size)
 	return (prompt);
 }
 
+void signals_manager(int signal)
+{
+	if (signal == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	else if (signal == SIGQUIT)
+	{
+		rl_on_new_line();
+		rl_redisplay();
+		printf(" \b\b");
+	}
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	char		*buffer;
@@ -154,6 +171,8 @@ int main(int argc, char **argv, char **envp)
 	cmd = (t_minishell *)malloc(sizeof(t_minishell));
 	if (!cmd)
 		return (0);
+	signal(SIGINT, signals_manager);
+	signal(SIGQUIT, signals_manager);
 	cmd->envs = dup_env(envp);
 	buffer = (char *)malloc(sizeof(char) * buffer_size);
 	if (!buffer)
@@ -162,6 +181,8 @@ int main(int argc, char **argv, char **envp)
 	{
 		prompt = dynamic_prompt(buffer_size);
 		buffer = readline(prompt);
+		if (!buffer)
+			continue ;
 		if (buffer && *buffer)
     		add_history(buffer);
 		cmd = simple_init(cmd, buffer, envp);
@@ -174,7 +195,7 @@ int main(int argc, char **argv, char **envp)
 			else
 				print_error(cmd, 1);
 		}
-		//free(cmd);
+		free(cmd);
 		free(buffer);
 		free(prompt);
 	}
