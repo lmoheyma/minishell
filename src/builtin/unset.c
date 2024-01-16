@@ -6,35 +6,43 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/15 20:57:46 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:30:23 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void unset_var(t_env *env, char *var)
+void unset_var(t_env **env, char *var)
 {
-	t_env	*temp;
 	char	**var_split;
+	t_env	*current;
+	t_env	*to_delete;
+	int		flag;
 
-	var_split = ft_split(env->content, '=');
-	temp = env;
-	if (env->next && ft_strncmp(var_split[0], var, ft_strlen(var)) == 0)
+	current = *env;
+	var_split = ft_split((*env)->content, '=');
+	flag = 0;
+	if (env && ft_strncmp(var_split[0], var, ft_strlen(var)) == 0)
 	{
-		printf("%s\n", env->next->content);
-		return ;
+		*env = current->next;
+		free(current);	
+		flag = 1;
 	}
-	while (env)
+	while (!flag && current && current->next)
 	{
-		var_split = ft_split(env->content, '=');
-		if (env->next && ft_strncmp(var_split[0], var, ft_strlen(var)) == 0)
+		var_split = ft_split(current->next->content, '=');
+		if (current->next && ft_strncmp(var_split[0], var, ft_strlen(var)) == 0)
 		{
-			printf("%s\n", env->next->content);
+			to_delete = current->next;
+			current->next = current->next->next;
+			free(to_delete);
+			break ;
 		}
-		env = env->next;
+		current = current->next;
 		free(var_split);
 	}
-	env = temp;
+	if (flag)
+		free(var_split);
 }
 
 void ft_unset(t_minishell *cmd)
@@ -42,11 +50,10 @@ void ft_unset(t_minishell *cmd)
 	int	i;
 
 	i = 1;
-	while (cmd->args->cmd[i])
+	while (cmd->envs && cmd->args->cmd[i])
 	{
 		if (is_env_var_set(cmd->envs, cmd->args->cmd[i]))
-			unset_var(cmd->envs, cmd->args->cmd[i]);
+			unset_var(&cmd->envs, cmd->args->cmd[i]);
 		i++;
 	}
-	
 }

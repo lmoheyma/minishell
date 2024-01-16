@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/15 19:38:37 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/16 11:56:52 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void command_execute(t_minishell *cmd)
 {
-	if (is_builtin(cmd) == TRUE)
+	//printf("%d\n", cmd->is_pipe);
+	// cmd->is_pipe = 1;
+	// cmd->nb_cmd = 2;
+	if (is_builtin(cmd) == TRUE && !cmd->is_pipe)
 		exec_builtin(cmd);
 	else if (cmd->is_pipe)
 		exec_pipe_command(cmd);

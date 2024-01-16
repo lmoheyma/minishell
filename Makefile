@@ -18,7 +18,15 @@ SRCS = src/main.c \
 		src/builtin/exit.c \
 		src/builtin/export.c \
 		src/builtin/pwd.c \
-		src/builtin/unset.c
+		src/builtin/unset.c \
+		src/parsing/args.c \
+		src/parsing/env_init.c \
+		src/parsing/error.c \
+		src/parsing/files.c \
+		src/parsing/parsing.c \
+		src/parsing/tokens.c \
+		src/parsing/utils.c \
+		src/parsing/utils2.c
 
 OBJS_BASE = $(SRCS:.c=.o)
 
@@ -27,6 +35,12 @@ OBJS = $(addprefix obj/,$(OBJS_BASE))
 NAME = minishell
 
 all: $(NAME)
+
+obj :
+	mkdir -p obj
+	mkdir -p obj/src
+	mkdir -p obj/src/builtin
+	mkdir -p obj/src/exec
 
 $(NAME) : $(OBJS)
 	@echo "\n"
@@ -38,10 +52,6 @@ $(NAME) : $(OBJS)
 
 obj/%.o : %.c
 	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r" $@
-	mkdir -p obj
-	mkdir -p obj/src
-	mkdir -p obj/src/builtin
-	mkdir -p obj/src/exec
 	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
 
 clean:

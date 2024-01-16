@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:11 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/15 23:16:12 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/16 14:37:27 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,7 @@ void ft_export(t_minishell *cmd)
 		while (arg->cmd[i])
 		{
 			if (check_syntax(cmd, arg->cmd[i]))
-			{
 				add_to_env(cmd->envs, arg->cmd[i]);
-			}
 			i++;
 		}
 	}
