@@ -6,13 +6,13 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/16 18:12:16 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/16 21:16:58 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int g_pid;
+int g_pid = 1;
 
 void print_error(t_minishell *cmd, int flag)
 {
@@ -145,7 +145,10 @@ char	*dynamic_prompt(size_t buffer_size)
 void signals_manager(int signal)
 {
 	if (g_pid == 0)
+	{
+		printf("g_pid = %d\n", g_pid);
 	 	printf("\n");
+	}
 	else if (signal == SIGINT)
 	{
 		printf("\n");
@@ -155,50 +158,58 @@ void signals_manager(int signal)
 	}
 }
 
+char	*get_input(void)
+{
+	char	*prompt;
+	char	*buffer;
+	int		buffer_size;
+
+	buffer_size = 4096;
+	prompt = dynamic_prompt(buffer_size);
+	buffer = readline(prompt);
+	free(prompt);
+	if (!buffer[0])
+		return (buffer);
+	if (!ft_strlen(buffer))
+		return (free(buffer), NULL);
+	if (buffer && *buffer)
+    	add_history(buffer);
+	return (buffer);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	char		*buffer;
-	char		*prompt;
-	size_t		buffer_size;
 	t_minishell *cmd;
 	(void)argc;
 	(void)argv;
 	(void)envp;
 	
-	buffer_size = 2048;
 	cmd = (t_minishell *)malloc(sizeof(t_minishell));
 	if (!cmd)
 		return (0);
 	signal(SIGINT, signals_manager);
 	signal(SIGQUIT, SIG_IGN);
 	cmd->envs = dup_env(envp);
-	buffer = (char *)malloc(sizeof(char) * buffer_size);
+	buffer = (char *)malloc(sizeof(char) * 4096);
 	if (!buffer)
 		return (0);
 	while (1)
 	{
 		cmd->is_pipe = 0;
-		prompt = dynamic_prompt(buffer_size);
-		buffer = readline(prompt);
-		//printf("%s\n", buffer);
-		if (!buffer[0])
+		buffer = get_input();
+		if (!buffer)
 			continue ;
-		if (buffer && *buffer)
-    		add_history(buffer);
 		parse_all_minishell(cmd, buffer);
 		//cmd = simple_init(cmd, buffer, envp);
-		if (!cmd->args->cmd[0])
+		if (!cmd->args)
 			continue ;
+		if (get_path1(cmd, cmd->args) || is_builtin(cmd) == TRUE || (ft_strncmp(buffer, "./", 2) == 0))
+			command_execute(cmd);
 		else
-		{
-			if (get_path1(cmd, cmd->args) || is_builtin(cmd) == TRUE || (ft_strncmp(buffer, "./", 2) == 0))
-				command_execute(cmd);
-			else
-				print_error(cmd, 1);
-		}
+			print_error(cmd, 1);
 		//free(cmd);
 		free(buffer);
-		free(prompt);
 	}
 	return (0);
 }
