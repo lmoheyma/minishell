@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/17 13:31:44 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/17 15:00:14 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,10 @@ int	add_line_to_fd(char **argv, int fd[2]);
 void		parse_all_minishell(t_minishell *minishell, char *cmd);
 void		init_env(t_minishell *minishell, char **envp);
 void		set_files(t_minishell *minishell, char *cmd);
+
+void    	ft_err(t_minishell *minishell, char *err);
+void	    free_tokens(t_tokens **tokens);
+void	    free_args(t_args **args);
 
 int			get_elem(char *cmd, char c);
 void		parse_all_minishell(t_minishell *minishell, char *cmd);
