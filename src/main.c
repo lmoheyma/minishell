@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/16 21:16:58 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:24:24 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,10 @@ int get_path1(t_minishell *cmd, t_args *arg)
 		exe = ft_strjoin(sub_path, arg->cmd[0]);
 		free(sub_path);
 		if (access(exe, F_OK | X_OK) == 0)
+		{
+			//printf("access authorized\n");
 			break ;
+		}
 		free(exe);
 		exe = NULL;
 	}
@@ -138,7 +141,7 @@ char	*dynamic_prompt(size_t buffer_size)
 	if (!getcwd(cwd, sizeof(cwd)))
 		perror("pwd");
 	prompt = ft_strjoin("minishell:", cwd);
-	prompt = ft_strjoin(prompt, " ");
+	prompt = ft_strjoin(prompt, "$ ");
 	return (prompt);
 }
 

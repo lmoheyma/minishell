@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/16 18:11:40 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/17 13:31:44 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ char	*get_home(t_env *env);
 // Builtin
 int is_builtin(t_minishell *cmd);
 void exec_builtin(t_minishell *cmd);
+t_args	*ft_last(t_args *lst);
+int	last_arg_is_builtin(t_minishell *cmd);
 
 int ft_env(t_minishell *cmd);
 void ft_echo(t_minishell *cmd);

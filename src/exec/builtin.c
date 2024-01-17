@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:54:13 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/15 20:12:53 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:12:23 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,33 @@ void	exec_builtin(t_minishell *cmd)
 		ft_exit(cmd);
 	else if (ft_strncmp(cmd->args->cmd[0], "echo", 2) == 0)
 		ft_echo(cmd);
+}
+
+int	last_arg_is_builtin(t_minishell *cmd)
+{
+	t_args *arg;
+
+	arg = ft_last(cmd->args);
+	if (ft_strncmp(arg->cmd[0], "cd", ft_strlen(arg->cmd[0])) == 0)
+		return (1);
+	else if (ft_strncmp(arg->cmd[0], "pwd",
+			ft_strlen(arg->cmd[0])) == 0)
+		return (1);
+	else if (ft_strncmp(arg->cmd[0], "env",
+			ft_strlen(arg->cmd[0])) == 0)
+		return (1);
+	else if (ft_strncmp(arg->cmd[0], "export",
+			ft_strlen(arg->cmd[0])) == 0)
+		return (1);
+	else if (ft_strncmp(arg->cmd[0], "unset",
+			ft_strlen(arg->cmd[0])) == 0)
+		return (1);
+	else if (ft_strncmp(arg->cmd[0], "exit",
+			ft_strlen(arg->cmd[0])) == 0)
+		return (1);
+	else if (ft_strncmp(arg->cmd[0], "echo",
+			ft_strlen(arg->cmd[0])) == 0)
+		return (1);
+	else
+		return (0);
 }

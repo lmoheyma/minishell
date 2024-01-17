@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/16 20:45:55 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/17 13:29:55 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void command_execute(t_minishell *cmd)
 {
+	if (last_arg_is_builtin(cmd) == TRUE && cmd->is_pipe)
+		return ;
 	if (is_builtin(cmd) == TRUE && !cmd->is_pipe)
 		exec_builtin(cmd);
 	else if (cmd->is_pipe)
