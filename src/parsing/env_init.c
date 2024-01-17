@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:49:13 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/16 10:36:02 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/13 20:14:06 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../minishell.h"
 
 void	init_env(t_minishell *minishell, char **envp)
 {

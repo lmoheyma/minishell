@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 16:38:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/16 10:48:53 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:11:22 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../minishell.h"
 
 void	create_args(t_minishell *minishell)
 {
@@ -38,7 +38,6 @@ void	create_args(t_minishell *minishell)
 		}
 		minishell->tokens = minishell->tokens->next;
 	}
-	//minishell->args->next = NULL;
 	minishell->args = first_arg;
 	minishell->tokens = save;
 }

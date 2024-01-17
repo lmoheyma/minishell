@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:47 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/16 12:29:18 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:08:43 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../minishell.h"
 
 int	get_elem(char *cmd, char c)
 {
@@ -34,17 +34,18 @@ void	parse_all_minishell(t_minishell *minishell, char *cmd)
 		return ;
 	setup_tokens(minishell, cmd);
 	create_args(minishell);
-	// while (minishell->tokens)
-	// {
-	// 	printf("End Token : %s - %s\n", minishell->tokens->content,
-	// 		minishell->tokens->type);
-	// 	minishell->tokens = minishell->tokens->next;
-	// }
-	// while (minishell->args)
-	// {
-	// 	printf("Args : %s\n", minishell->args->cmd[1]);
-	// 	minishell->args = minishell->args->next;
-	// }
+	while (minishell->tokens)
+	{
+		printf("End Token : %s - %s\n", minishell->tokens->content,
+			minishell->tokens->type);
+		minishell->tokens = minishell->tokens->next;
+	}
+	while (minishell->args)
+	{
+		printf("Args : %s\n", minishell->args->cmd[0]);
+		minishell->args = minishell->args->next;
+	}
+	ft_err(minishell, "");
 	minishell->nb_cmd = ft_cmdsize(minishell->args);
 	if (minishell->nb_cmd > 1)
 		minishell->is_pipe = 1;

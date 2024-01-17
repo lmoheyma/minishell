@@ -3,16 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 10:17:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/16 10:36:06 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/17 13:41:30 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../minishell.h"
 
-void	ft_err()
+void	ft_err(t_minishell *minishell, char *err)
 {
-	
+	free_tokens(&minishell->tokens);
+	free_args(&minishell->args);
+	ft_putstr_fd(err, 2);
+	exit(0);
+}
+
+void	free_tokens(t_tokens **tokens)
+{
+	t_tokens	*tmp;
+
+	while (*tokens)
+	{
+		tmp = (*tokens)->next;
+		free((*tokens)->content);
+		*tokens = tmp;
+	}
+}
+
+void	free_args(t_args **args)
+{
+	t_args	*tmp;
+	int		i;
+
+	while (*args)
+	{
+		tmp = (*args)->next;
+		i = 0;
+		if (!(*args)->cmd || !(*(*args)->cmd))
+			return ;
+		while ((*args)->cmd[i])
+			free((*args)->cmd[i++]);
+		free((*args)->cmd);
+		*args = tmp;
+	}
 }
