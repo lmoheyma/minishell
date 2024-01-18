@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 14:23:30 by antoine          ###   ########.fr       */
+/*   Updated: 2024/01/18 17:50:02 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_minishell
 	int				fd_out;
 	int				is_pipe;
 	int				nb_cmd;
+	int				exit_code;
 	t_args			*args;
 	t_tokens		*tokens;
 	t_write_params	*write_params;
@@ -140,7 +141,7 @@ int					ft_cmdsize(t_args *args);
 
 void				create_args(t_minishell *minishell);
 
-void				ft_err(t_minishell *minishell, char *err);
+void				ft_err(t_minishell *minishell, char *err, int code);
 void				free_tokens(t_tokens **tokens);
 void				free_args(t_args **args);
 

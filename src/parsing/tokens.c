@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/18 17:11:00 by antoine          ###   ########.fr       */
+/*   Updated: 2024/01/18 17:50:33 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,16 @@ t_tokens	*create_token(char *cmd, int *i, t_minishell *minishell)
 	j = 0;
 	token = malloc(sizeof(t_tokens));
 	if (!token)
-		return (ft_err(minishell, "Token Malloc err"), NULL);
+		return (ft_err(minishell, "Token Malloc err", 2), NULL);
 	set_token_type(token, cmd, i);
 	var_size = nb_special_char(minishell, token, cmd + *i, &j);
 	token->content = malloc(sizeof(char) * (j + var_size + 1));
 	if (!token->content)
-		return (ft_err(minishell, "Token Content Malloc err"), NULL);
+		return (ft_err(minishell, "Token Content Malloc err", 2), NULL);
 	write_word(minishell, token, cmd + *i);
 	if (ft_strlen(token->content) < 1)
 		return (ft_err(minishell,
-				"bash: syntax error near unexpected token '|'"), NULL);
+				"bash: syntax error near unexpected token '|'", 2), NULL);
 	*i += j;
 	return (token);
 }
@@ -92,7 +92,7 @@ void	setup_tokens(t_minishell *minishell, char *cmd)
 	i = 0;
 	skip_spaces(cmd, &i);
 	if (i >= ft_strlen(cmd))
-		return (ft_err(minishell, ""));
+		return (ft_err(minishell, "", 2));
 	minishell->tokens = create_token(cmd, &i, minishell);
 	if (!minishell->tokens)
 		return ;
