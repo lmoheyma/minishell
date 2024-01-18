@@ -3,95 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:47 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/16 10:36:09 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 11:49:52 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	replace_files(t_minishell *minishell, char *path, char c, int trigger)
+void	setup_files(t_minishell *minishell)
 {
-	if (c == '<' && access(path, F_OK | R_OK) != 0)
-		return ;
-	else
+	t_tokens	*tmp;
+
+	tmp = minishell->tokens;
+	while (tmp)
 	{
-		if (minishell->fd_in)
-			close(minishell->fd_in);
-		minishell->fd_in = open(path, O_RDONLY);
-	}
-	if (c == '<' && access(path, F_OK | R_OK | W_OK) != 0)
-		return ;
-	else
-	{
-		if (minishell->fd_in)
-			close(minishell->fd_in);
-		if (trigger)
-			minishell->fd_in = open(path, O_WRONLY | O_CREAT | O_APPEND, 00777);
-		else
-			minishell->fd_in = open(path, O_WRONLY | O_CREAT | O_TRUNC, 00777);
+		if (ft_strncmp(tmp->type, "in_file", 7) == 0)
+			replace_infile(minishell, tmp->content);
+		if (ft_strncmp(tmp->type, "out_file", 8) == 0)
+			replace_outfile(minishell, tmp->content);
+		if (ft_strncmp(tmp->type, "append_out_file", 15) == 0)
+			replace_append_outfile(minishell, tmp->content);
+		tmp = tmp->next;
 	}
 }
 
-char	*file_path(char *cmd, char c, int *trigger, int *i)
+void	replace_infile(t_minishell *minishell, char *path)
 {
-	char	*str;
-	int		j;
-
-	printf("1 : %s\n", cmd);
-	j = 0;
-	while (cmd[*i] != '\0' && cmd[*i] != c)
-		*i += 1;
-	printf("3 : %s\n", cmd + *i);
-	if (cmd[*i] != '\0' && cmd[*i + 1] == c)
-	{
-		*trigger = 1;
-		*i += 1;
-	}
-	while (cmd[*i] && (cmd[*i] == ' ' || (cmd[*i] <= 9 && cmd[*i] >= 13)))
-		*i += 1;
-	j = *i;
-	while (cmd[*i] && (cmd[j] != ' ' || (cmd[j] >= 9 && cmd[j] <= 13)))
-		j++;
-	str = malloc(sizeof(char) * (j - *i + 1));
-	if (!str)
-		return (NULL);
-	while (cmd[*i] && (cmd[*i] != ' ' || (cmd[*i] >= 9 && cmd[*i] <= 13)))
-	{
-		str[j] = cmd[*i];
-		*i += 1;
-		j++;
-	}
-	printf("2 : %s\n", str);
-	return (str);
-}
-// gerer 3 4 chevrons
-
-char	*file_set(t_minishell *minishell, char *cmd, char c)
-{
-	int		i;
-	int		trigger;
-	char	*str;
-	(void)minishell;
-
-	i = 0;
-	trigger = 0;
-	// while (cmd[i])
-	// {
-		str = file_path(cmd, c, &trigger, &i);
-		printf("I = %d\n", i);
-		// if (str)
-		// 	replace_files(minishell, str, c, trigger);
-		free(str);
-	// }
-	return (str);
+	if (minishell->fd_in != 0)
+		close(minishell->fd_in);
+	minishell->fd_in = open(path, O_RDONLY);
+	if (minishell->fd_in < 0)
+		ft_err(minishell, "In file open");
 }
 
-void	set_files(t_minishell *minishell, char *cmd)
+void	replace_outfile(t_minishell *minishell, char *path)
 {
-	file_set(minishell, cmd, '<');
-	// file_set(minishell, cmd, '>');
-	printf("1");
+	if (minishell->fd_out != 1)
+		close(minishell->fd_out);
+	minishell->fd_out = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (minishell->fd_out < 0)
+		ft_err(minishell, "Out file open");
+}
+
+void	replace_append_outfile(t_minishell *minishell, char *path)
+{
+	if (minishell->fd_out != 1)
+		close(minishell->fd_out);
+	minishell->fd_out = open(path, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	if (minishell->fd_out < 0)
+		ft_err(minishell, "Out file open");
 }

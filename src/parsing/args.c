@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 16:38:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/16 10:48:53 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:57:07 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	create_args(t_minishell *minishell)
 		}
 		minishell->tokens = minishell->tokens->next;
 	}
-	//minishell->args->next = NULL;
 	minishell->args = first_arg;
 	minishell->tokens = save;
 }

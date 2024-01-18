@@ -3,34 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:47 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/16 12:29:18 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:24:41 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	get_elem(char *cmd, char c)
+int	get_elem(char *cmd)
 {
-	int	i;
-	int	count;
+	char	trigger;
+	int		i;
 
+	trigger = '/';
 	i = 0;
-	count = 0;
 	while (cmd[i])
 	{
-		if (cmd[i] == c)
-			count++;
+		if (cmd[i] == '\'' && trigger == '/')
+			trigger = '\'';
+		else if (cmd[i] == '\"' && trigger == '/')
+			trigger = '\"';
+		else if (cmd[i] == trigger && trigger != '/')
+			trigger = '/';
 		i++;
 	}
-	return (count);
+	if (trigger == '/')
+		return (0);
+	else
+		return (1);
 }
 
 void	parse_all_minishell(t_minishell *minishell, char *cmd)
 {
-	if (get_elem(cmd, '\"') % 2 != 0 || get_elem(cmd, '\'') % 2 != 0)
+	if (get_elem(cmd) || get_elem(cmd))
 		return ;
 	setup_tokens(minishell, cmd);
 	create_args(minishell);
@@ -42,10 +49,14 @@ void	parse_all_minishell(t_minishell *minishell, char *cmd)
 	// }
 	// while (minishell->args)
 	// {
-	// 	printf("Args : %s\n", minishell->args->cmd[1]);
+	// 	printf("Args : %s\n", minishell->args->cmd[0]);
 	// 	minishell->args = minishell->args->next;
 	// }
+	// ft_err(minishell, "");
 	minishell->nb_cmd = ft_cmdsize(minishell->args);
 	if (minishell->nb_cmd > 1)
 		minishell->is_pipe = 1;
+	minishell->fd_in = 0;
+	minishell->fd_out = 1;
+	setup_files(minishell);
 }
