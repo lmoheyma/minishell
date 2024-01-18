@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 11:25:11 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 15:55:58 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,13 @@ void	exec_simple_command(t_minishell *cmd, t_args *arg)
 		{
 			if (execve(exe, arg->cmd, env_tab(cmd->envs)) == -1)
 			{
-				//perror("execve");
-				//exit(EXIT_FAILURE);
+				perror("execve");
+				exit(EXIT_FAILURE);
 			}
 		}
 		free(exe);
 	}
 	free_str(path_split);
+	perror("access");
+	exit(EXIT_FAILURE);
 }
