@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:58:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/16 20:40:40 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 11:25:23 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void exec_pipe_command(t_minishell *cmd)
 			add_pipe(cmd, arg);
 			arg = arg->next;
 		}
+		dup2(cmd->fd_out, STDOUT_FILENO);
 		exec_simple_command(cmd, arg);
 	}
 	else

@@ -20,7 +20,6 @@ SRCS = src/main.c \
 		src/builtin/pwd.c \
 		src/builtin/unset.c \
 		src/parsing/args.c \
-		src/parsing/env_init.c \
 		src/parsing/error.c \
 		src/parsing/files.c \
 		src/parsing/parsing.c \
