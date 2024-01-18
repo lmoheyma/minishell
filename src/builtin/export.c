@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:11 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/17 14:44:47 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:53:11 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,9 @@ int check_syntax(t_minishell *cmd, char *str)
 
 	(void)cmd;
 	str_split = ft_split(str, '=');
-	if (ft_isdigit(str_split[0][0]))
+	if (!str_split || !*str_split)
+		return (export_error(str), 0);	
+	if (ft_isdigit(str_split[0][0]) || str_split[0][0] == '=')
 		return (export_error(str), 0);	
 	else if (ft_strchr(str, '=') == 0)
 		return (0);
