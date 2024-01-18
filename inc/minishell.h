@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/17 16:09:01 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:23:30 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void				replace_infile(t_minishell *minishell, char *path);
 void				replace_outfile(t_minishell *minishell, char *path);
 void				replace_append_outfile(t_minishell *minishell, char *path);
 
-int					get_elem(char *cmd, char c);
+int					get_elem(char *cmd);
 void				parse_all_minishell(t_minishell *minishell, char *cmd);
 
 void				set_token_type(t_tokens *token, char *str, int *i);

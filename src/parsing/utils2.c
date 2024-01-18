@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 16:26:28 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/17 14:56:52 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:06:29 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,23 @@
 
 int	nb_special_char(t_minishell *minishell, t_tokens *token, char *cmd, int *i)
 {
-	int	trigger;
-	int	check_cmd;
-	int	env_size;
+	char	trigger;
+	int		check_cmd;
+	int		env_size;
 
-	trigger = 0;
+	trigger = '/';
 	env_size = 0;
 	check_cmd = is_cmd(token->type);
 	while ((cmd[*i] && !is_spaces(cmd[*i]) && !check_cmd) || (cmd[*i]
-			&& !is_special_char(cmd[*i]) && check_cmd) || (cmd[*i] && trigger))
+			&& !is_special_char(cmd[*i]) && check_cmd) || (cmd[*i]
+			&& (trigger == '\'' || trigger == '\"')))
 	{
-		if ((cmd[*i] == '\'' || cmd[*i] == '\"') && !trigger)
-			trigger = 1;
-		else if ((cmd[*i] == '\'' || cmd[*i] == '\"') && trigger)
-			trigger = 0;
+		if (cmd[*i] == '\'' && trigger == '/')
+			trigger = '\'';
+		else if (cmd[*i] == '\"' && trigger == '/')
+			trigger = '\"';
+		else if (cmd[*i] == trigger && trigger != '/')
+			trigger = '/';
 		else if (cmd[*i] == '$')
 			env_size += get_env_var_size(minishell->envs, cmd + *i + 1, i);
 		*i += 1;
@@ -121,8 +124,8 @@ int	write_env_var(t_minishell *minishell, char *content, char *cmd)
 	if (!splitted_env_var)
 	{
 		while (cmd[minishell->write_params->i + minishell->write_params->k
-				+ len] && !is_spaces(cmd[minishell->write_params->i
-					+ minishell->write_params->k + len]))
+			+ len] && !is_spaces(cmd[minishell->write_params->i
+				+ minishell->write_params->k + len]))
 			len++;
 		return (len);
 	}

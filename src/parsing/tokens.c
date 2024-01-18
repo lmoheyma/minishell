@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/17 14:56:57 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:08:20 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,24 @@ void	set_token_type(t_tokens *token, char *str, int *i)
 
 void	write_word(t_minishell *minishell, t_tokens *token, char *cmd)
 {
-	int				trigger;
+	char			trigger;
 	int				check_cmd;
 	t_write_params	*params;
 
 	params = init_write_params(minishell);
-	trigger = 0;
+	trigger = '/';
 	check_cmd = is_cmd(token->type);
 	while ((cmd[params->i + params->k] && !is_spaces(cmd[params->i + params->k])
 			&& !check_cmd) || (cmd[params->i + params->k]
 			&& !is_special_char(cmd[params->i + params->k]) && check_cmd)
-		|| (cmd[params->i + params->k] && trigger))
+		|| (cmd[params->i + params->k] && (trigger == '\'' || trigger == '\"')))
 	{
-		if ((cmd[params->i + params->k] == '\'' || cmd[params->i
-					+ params->k] == '\"') && !(trigger))
-			trigger = 1;
-		else if ((cmd[params->i + params->k] == '\'' || cmd[params->i
-					+ params->k] == '\"') && (trigger))
-			trigger = 0;
+		if (cmd[params->i + params->k] == '\'' && trigger == '/')
+			trigger = '\'';
+		else if (cmd[params->i + params->k] == '\"' && trigger == '/')
+			trigger = '\"';
+		else if (cmd[params->i + params->k] == trigger && trigger != '/')
+			trigger = '/';
 		else if (cmd[params->i + params->k] == '$')
 			params->k += write_env_var(minishell, token->content, cmd);
 		token->content[params->i + params->j] = cmd[params->i + params->k];
