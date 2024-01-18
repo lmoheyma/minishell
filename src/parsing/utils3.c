@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 11:58:11 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/17 14:56:45 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:10:39 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_write_params	*init_write_params(t_minishell *minishell)
 
 	params = malloc(sizeof(t_write_params));
 	if (!params)
-		ft_err(minishell, "Write Params Malloc err");
+		return (ft_err(minishell, "Write Params Malloc err"), NULL);
 	minishell->write_params = params;
 	params->i = 0;
 	params->j = 0;

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/18 14:08:20 by antoine          ###   ########.fr       */
+/*   Updated: 2024/01/18 17:11:00 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	write_word(t_minishell *minishell, t_tokens *token, char *cmd)
 	t_write_params	*params;
 
 	params = init_write_params(minishell);
+	if (!params)
+		return ;
 	trigger = '/';
 	check_cmd = is_cmd(token->type);
 	while ((cmd[params->i + params->k] && !is_spaces(cmd[params->i + params->k])
@@ -68,15 +70,16 @@ t_tokens	*create_token(char *cmd, int *i, t_minishell *minishell)
 	j = 0;
 	token = malloc(sizeof(t_tokens));
 	if (!token)
-		ft_err(minishell, "Token Malloc err");
+		return (ft_err(minishell, "Token Malloc err"), NULL);
 	set_token_type(token, cmd, i);
 	var_size = nb_special_char(minishell, token, cmd + *i, &j);
 	token->content = malloc(sizeof(char) * (j + var_size + 1));
 	if (!token->content)
-		ft_err(minishell, "Token Content Malloc err");
+		return (ft_err(minishell, "Token Content Malloc err"), NULL);
 	write_word(minishell, token, cmd + *i);
 	if (ft_strlen(token->content) < 1)
-		ft_err(minishell, "bash: syntax error near unexpected token '|'");
+		return (ft_err(minishell,
+				"bash: syntax error near unexpected token '|'"), NULL);
 	*i += j;
 	return (token);
 }
@@ -89,14 +92,18 @@ void	setup_tokens(t_minishell *minishell, char *cmd)
 	i = 0;
 	skip_spaces(cmd, &i);
 	if (i >= ft_strlen(cmd))
-		ft_err(minishell, "");
+		return (ft_err(minishell, ""));
 	minishell->tokens = create_token(cmd, &i, minishell);
+	if (!minishell->tokens)
+		return ;
 	save = minishell->tokens;
 	minishell->tokens->next = NULL;
 	skip_spaces(cmd, &i);
 	while (cmd[i])
 	{
 		minishell->tokens->next = create_token(cmd, &i, minishell);
+		if (!minishell->tokens->next)
+			return ;
 		minishell->tokens = minishell->tokens->next;
 		minishell->tokens->next = NULL;
 		skip_spaces(cmd, &i);
