@@ -6,13 +6,13 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/17 14:24:24 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 21:51:41 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int g_pid = 1;
+int g_pid;
 
 void print_error(t_minishell *cmd, int flag)
 {

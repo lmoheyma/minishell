@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 16:26:28 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/18 14:06:29 by antoine          ###   ########.fr       */
+/*   Updated: 2024/01/18 17:08:47 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,8 @@ int	write_env_var(t_minishell *minishell, char *content, char *cmd)
 	if (!splitted_env_var)
 	{
 		while (cmd[minishell->write_params->i + minishell->write_params->k
-			+ len] && !is_spaces(cmd[minishell->write_params->i
-				+ minishell->write_params->k + len]))
+				+ len] && !is_spaces(cmd[minishell->write_params->i
+					+ minishell->write_params->k + len]))
 			len++;
 		return (len);
 	}

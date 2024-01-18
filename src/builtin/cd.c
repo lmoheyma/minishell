@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:23:57 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/16 16:38:23 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 22:26:04 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ int	ft_cd(t_minishell *cmd)
 		path = ft_strdup(cmd->args->cmd[1]);
 	if (chdir(path) == -1)
 		perror("cd");
+	// exit(EXIT_SUCCESS);
 	return (0);
 }

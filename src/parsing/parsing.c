@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:47 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/18 14:24:41 by antoine          ###   ########.fr       */
+/*   Updated: 2024/01/18 17:52:44 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	get_elem(char *cmd)
 void	parse_all_minishell(t_minishell *minishell, char *cmd)
 {
 	if (get_elem(cmd) || get_elem(cmd))
-		return ;
+		return (ft_err(minishell, "Guillemets non fermees !\n", 2));
 	setup_tokens(minishell, cmd);
 	create_args(minishell);
 	// while (minishell->tokens)
@@ -52,7 +52,7 @@ void	parse_all_minishell(t_minishell *minishell, char *cmd)
 	// 	printf("Args : %s\n", minishell->args->cmd[0]);
 	// 	minishell->args = minishell->args->next;
 	// }
-	// ft_err(minishell, "");
+	// ft_err(minishell, "", 2);
 	minishell->nb_cmd = ft_cmdsize(minishell->args);
 	if (minishell->nb_cmd > 1)
 		minishell->is_pipe = 1;

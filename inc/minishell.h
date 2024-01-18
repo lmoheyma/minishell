@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 14:23:30 by antoine          ###   ########.fr       */
+/*   Updated: 2024/01/18 22:24:06 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_minishell
 	int				fd_out;
 	int				is_pipe;
 	int				nb_cmd;
+	int				exit_code;
 	t_args			*args;
 	t_tokens		*tokens;
 	t_write_params	*write_params;
@@ -86,6 +87,8 @@ int					is_builtin(t_minishell *cmd);
 void				exec_builtin(t_minishell *cmd);
 t_args				*ft_last(t_args *lst);
 int					last_arg_is_builtin(t_minishell *cmd);
+void 				fork_builtin(t_minishell *cmd);
+int					is_env_buitin(t_minishell *cmd);
 
 int					ft_env(t_minishell *cmd);
 void				ft_echo(t_minishell *cmd);
@@ -108,6 +111,7 @@ void				exec_last_command(t_minishell *cmd);
 char				*get_path(t_env *env);
 void				free_str(char **str);
 char				**ft_last_cmd(t_minishell *minishell);
+int					ft_strcmp(const char *str, const char *str2);
 
 // Here-doc
 int					add_line_to_fd(char **argv, int fd[2]);
@@ -140,7 +144,7 @@ int					ft_cmdsize(t_args *args);
 
 void				create_args(t_minishell *minishell);
 
-void				ft_err(t_minishell *minishell, char *err);
+void				ft_err(t_minishell *minishell, char *err, int code);
 void				free_tokens(t_tokens **tokens);
 void				free_args(t_args **args);
 

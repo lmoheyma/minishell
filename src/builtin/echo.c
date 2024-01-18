@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:35:08 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 17:27:59 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 21:39:01 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,5 @@ void ft_echo(t_minishell *cmd)
 	}
 	if (!has_n)
 		write(1, "\n", 1);
+	exit(EXIT_SUCCESS);
 }

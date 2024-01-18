@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:17 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/14 14:54:05 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 22:01:21 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,5 @@ void ft_pwd(void)
 		printf("%s\n", cwd);
 	else
 		perror("pwd");
+	exit(EXIT_SUCCESS);
 }

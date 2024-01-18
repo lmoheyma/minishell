@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:57:48 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/14 14:46:52 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 21:55:50 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,18 @@ char	**env_tab(t_env *env)
 	}
 	tab[i] = NULL;
 	return (tab);
+}
+
+int	ft_strcmp(const char *str, const char *str2)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] && str2[i])
+	{
+		if (str[i] != str2[i])
+			return ((unsigned char)str[i] -(unsigned char)str2[i]);
+		i++;
+	}
+	return (0);
 }

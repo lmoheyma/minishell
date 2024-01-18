@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:58:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 11:25:23 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:30:54 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void exec_pipe_command(t_minishell *cmd)
 		perror("fork");
 	if (pid == 0)
 	{
-		g_pid = pid;
+		// g_pid = pid;
 		while (++i < cmd->nb_cmd - 1)
 		{
 			add_pipe(cmd, arg);
@@ -36,7 +36,7 @@ void exec_pipe_command(t_minishell *cmd)
 	}
 	else
 	{
-		g_pid = pid;
+		// g_pid = pid;
 		waitpid(pid, NULL, 0);
 		kill(pid, SIGTERM);
 	}
