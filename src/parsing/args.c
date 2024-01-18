@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 16:38:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/17 14:57:07 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/18 18:59:02 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	create_args(t_minishell *minishell)
 			minishell->args = malloc(sizeof(t_args));
 			if (!minishell->args)
 				return ;
-			minishell->args->cmd = ft_split(minishell->tokens->content, ' ');
+			minishell->args->cmd = ft_split_args(minishell->tokens->content);
 			minishell->args->next = NULL;
 			if (!first_arg)
 				first_arg = minishell->args;
