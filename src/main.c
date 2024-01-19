@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/19 15:02:49 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/19 23:47:03 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,11 @@ char	*get_input(void)
 	prompt = dynamic_prompt(buffer_size);
 	buffer = readline(prompt);
 	free(prompt);
-	if (!buffer[0])
-		return (buffer);
+	if (!buffer)
+	{
+		printf("exit\n");
+		exit(0);
+	}
 	if (!ft_strlen(buffer))
 		return (free(buffer), NULL);
 	if (buffer && *buffer)

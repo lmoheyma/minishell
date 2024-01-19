@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:23:57 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 22:26:04 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/19 23:41:39 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,103 @@ char	*replace_home_alias(t_minishell *cmd)
 int	ft_cd(t_minishell *cmd)
 {
 	char	*path;
+	char	cwd[PATH_MAX];
+	char	old_cwd[PATH_MAX];
 
 	path = NULL;
-	if (!get_home(cmd->envs))
-		return (ft_putendl_fd("cd: HOME not set", 1),0);
+	getcwd(old_cwd, sizeof(old_cwd));
 	if (!cmd->args->cmd[1])
 	{
+		if (!get_home(cmd->envs))
+			return (ft_putendl_fd("cd: HOME not set", 1), 1);
 		if (chdir(get_home(cmd->envs)) == -1)
 			perror("cd");
-		return (0);
 	}
-	if (ft_strchr(cmd->args->cmd[1], '~'))
-		path = replace_home_alias(cmd);
 	else
-		path = ft_strdup(cmd->args->cmd[1]);
-	if (chdir(path) == -1)
-		perror("cd");
-	// exit(EXIT_SUCCESS);
+	{
+		if (ft_strchr(cmd->args->cmd[1], '~'))
+			path = replace_home_alias(cmd);
+		else
+			path = ft_strdup(cmd->args->cmd[1]);
+		if (chdir(path) == -1)
+			perror("cd");
+	}
+	getcwd(cwd, sizeof(cwd));
+	add_oldpwd_to_env(cmd->envs, old_cwd);
+	add_pwd_to_env(cmd->envs, cwd);
 	return (0);
+}
+
+void add_pwd_to_env(t_env *env, char *str)
+{
+	char	**pwd_split;
+	char	cwd[PATH_MAX];
+	char	*new_pwd;
+
+	pwd_split = ft_split(get_pwd(env, "PWD"), '=');
+	if (is_env_var_set(env, "PWD"))
+		change_pwd_var(env, str, ft_strlen(str) + 1, "PWD");
+	else
+	{
+		new_pwd = ft_strjoin("PWD=", getcwd(cwd, sizeof(cwd)));
+		add_back_node_env(&env, new_env_node(new_pwd));
+	}
+}
+
+void add_oldpwd_to_env(t_env *env, char *str)
+{
+	char	**pwd_split;
+
+	pwd_split = ft_split(get_pwd(env, "OLDPWD"), '=');
+	if (is_env_var_set(env, "OLDPWD"))
+		change_pwd_var(env, str, ft_strlen(str) + 1, "OLDPWD");
+}
+
+char	*get_pwd(t_env *env, char *str)
+{
+	int		j;
+	char	*sub_path;
+
+	while (env)
+	{
+		j = 0;
+		while (env->content[j] != '=')
+			j++;
+		sub_path = ft_substr(env->content, 0, j);
+		if (ft_strncmp(str, sub_path, j) == 0)
+		{
+			free(sub_path);
+			return (env->content);
+		}
+		free(sub_path);
+		env = env->next;
+	}
+	return (0);
+}
+
+void change_pwd_var(t_env *env, char *pwd, int path_len, char *str)
+{
+	char	*sub_path;
+	int		j;
+	
+	j = 0;
+	while (env)
+	{
+		j = 0;
+		while (env->content[j] != '=')
+			j++;
+		sub_path = ft_substr(env->content, 0, j);
+		if (ft_strncmp(str, sub_path, j) == 0)
+		{
+			if (!pwd && !env->content)
+				return ;
+			j++;
+			// if (!str_split[1])
+			// 	ft_strlcpy2(env->content, str_split[0], path_len);
+			// else
+			ft_strlcpy(env->content + j, pwd, path_len);
+		}
+		free(sub_path);
+		env = env->next;
+	}
 }

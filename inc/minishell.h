@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/19 16:44:44 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/19 23:23:38 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,23 @@ char				**env_tab(t_env *env);
 t_env				*new_env_node(void *content);
 void				add_back_node_env(t_env **lst, t_env *new);
 int					is_env_var_set(t_env *env, char *str);
+void				add_to_env(t_env *env, char *str);
+
+
+// Pwd
+void				add_pwd_to_env(t_env *env, char *str);
+void				add_oldpwd_to_env(t_env *env, char *str);
+char				*get_pwd(t_env *env, char *str);
+void 				change_var(t_env *env, char *str, char **str_split);
+void				change_pwd_var(t_env *env, char *pwd, int path_len, char *str);
 
 // CD
 int					ft_cd(t_minishell *cmd);
 char				*get_home(t_env *env);
+
+// Export
+int					ft_strlcpy2(char *dest, const char *src, size_t size);
+
 
 // Builtin
 int					is_builtin(t_minishell *cmd);
