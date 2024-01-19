@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/19 16:46:16 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:54:15 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void fork_process(t_minishell *cmd)
 	if (pid == 0)
 	{
 		dup2(cmd->fd_out, STDOUT_FILENO);
+		dup2(cmd->fd_in, STDIN_FILENO);
 		if ((access(cmd->args->cmd[0], F_OK | X_OK) == 0))
 			exec_absolute_path(cmd, cmd->args);
 		else
