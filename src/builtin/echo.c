@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:35:08 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 21:39:01 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/20 00:10:34 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,13 @@ void	print_arg(char *str)
 		return ;
 	while (str[i])
 	{
-		write(1, &str[i], 1);
+		if (ft_strncmp(str + i, "\\n", 2) == 0)
+		{
+			ft_putchar_fd('\n', 1);
+			i++;
+		}
+		else
+			ft_putchar_fd(str[i], 1);
 		i++;
 	}
 }
@@ -51,18 +57,16 @@ void ft_echo(t_minishell *cmd)
 	arg = cmd->args;
 	if (!cmd->args->cmd[1])
 		return ;
-	if ((ft_strncmp(cmd->args->cmd[1], "-n", ft_strlen(cmd->args->cmd[1])) == 0) || only_n(cmd->args->cmd[1] + 1))
+	while (arg->cmd && ((ft_strcmp(arg->cmd[i], "-n") == 0) || only_n(arg->cmd[i] + 1)))
 	{
 		has_n = 1;
 		i++;
 	}
-	// while (arg->cmd[i] && (ft_strncmp(cmd->args->cmd[i], "-n", ft_strlen(cmd->args->cmd[1])) == 0 || only_n(cmd->args->cmd[1] + 1)))
-	// 	i++;
 	while (arg->cmd[i])
 	{
-		if ((!has_n && i > 1) || (has_n && i > 2))
-			write(1, " ", 1);
 		print_arg(arg->cmd[i]);
+		if (arg->cmd[i + 1] && arg->cmd[i][0] != '\0')
+			write(1, " ", 1);
 		i++;
 	}
 	if (!has_n)
