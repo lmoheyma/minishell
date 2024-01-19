@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:58:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 19:30:54 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:47:13 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ void exec_pipe_command(t_minishell *cmd)
 			arg = arg->next;
 		}
 		dup2(cmd->fd_out, STDOUT_FILENO);
-		exec_simple_command(cmd, arg);
+		printf("%s\n", arg->cmd[0]);
+		if ((access(arg->cmd[0], F_OK | X_OK) == 0)) //mauvais check du arg
+			exec_absolute_path(cmd, arg);
+		else
+			exec_simple_command(cmd, arg);
 	}
 	else
 	{
@@ -57,7 +61,10 @@ void	add_pipe(t_minishell *cmd, t_args *arg)
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-		exec_simple_command(cmd, arg);
+		if ((access(arg->cmd[0], F_OK | X_OK) == 0))
+			exec_absolute_path(cmd, cmd->args);
+		else
+			exec_simple_command(cmd, arg);
 	}
 	else
 	{
