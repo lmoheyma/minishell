@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:31:39 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/19 22:26:01 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/19 23:57:49 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,17 @@ void	add_back_node_env(t_env **lst, t_env *new)
 
 t_env	*dup_env(char **envp)
 {
-	int	i;
-	t_env *env;
+	int		i;
+	t_env	*env;
 	t_env	*first;
 
-	if (!*envp)
-	{
-		printf("Empty env\n");
-		exit (1);
-	}
 	i = 0;
 	env = NULL;
+	if (!*envp)
+	{
+		add_back_node_env(&env, new_env_node("PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"));
+		return (env);
+	}
 	add_back_node_env(&env, new_env_node(envp[i]));
 	first = env;
 	i++;
@@ -73,7 +73,7 @@ t_env	*dup_env(char **envp)
 	return (env);
 }
 
-void print_env(t_env *env)
+void	print_env(t_env *env)
 {
 	if (!env)
 		return ;
@@ -84,7 +84,7 @@ void print_env(t_env *env)
 	}
 }
 
-int ft_env(t_minishell *cmd)
+int	ft_env(t_minishell *cmd)
 {
 	print_env(cmd->envs);
 	exit(EXIT_SUCCESS);
