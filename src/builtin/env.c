@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:31:39 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 22:01:09 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:02:26 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ t_env	*dup_env(char **envp)
 	t_env *env;
 	t_env	*first;
 
+	if (!*envp)
+	{
+		printf("Empty env\n");
+		exit (1);
+	}
 	i = 0;
 	env = NULL;
 	add_back_node_env(&env, new_env_node(envp[i]));

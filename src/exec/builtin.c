@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:54:13 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 22:26:50 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/19 13:14:45 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void fork_builtin(t_minishell *cmd)
 	}
 	else
 	{
-		g_pid = pid;
+		//g_pid = pid;
 		waitpid(pid, &status, 0);
 		kill(pid, SIGTERM);
 		if (ft_strcmp(cmd->args->cmd[0], "exit") == 0)

@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 21:51:41 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:23:33 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,16 +113,15 @@ int get_path1(t_minishell *cmd, t_args *arg)
 	if (!cmd->args->cmd[0])
 		return (0);
 	path_split = ft_split(get_path(cmd->envs), ':');
+	if (!path_split)
+		return (0);
 	while (path_split[++i])
 	{
 		sub_path = ft_strjoin(path_split[i], "/");
 		exe = ft_strjoin(sub_path, arg->cmd[0]);
 		free(sub_path);
 		if (access(exe, F_OK | X_OK) == 0)
-		{
-			//printf("access authorized\n");
 			break ;
-		}
 		free(exe);
 		exe = NULL;
 	}
@@ -184,10 +183,13 @@ int main(int argc, char **argv, char **envp)
 {
 	char		*buffer;
 	t_minishell *cmd;
-	(void)argc;
+	int			flag;
 	(void)argv;
-	(void)envp;
 	
+	flag = 0;
+	if (argc != 1)
+		return (ft_putendl_fd("Too much arguments", 1), 1);
+	g_pid = 1;
 	cmd = (t_minishell *)malloc(sizeof(t_minishell));
 	if (!cmd)
 		return (0);
@@ -204,14 +206,12 @@ int main(int argc, char **argv, char **envp)
 		if (!buffer)
 			continue ;
 		parse_all_minishell(cmd, buffer);
-		//cmd = simple_init(cmd, buffer, envp);
 		if (!cmd->args)
 			continue ;
-		if (get_path1(cmd, cmd->args) || is_builtin(cmd) == TRUE || (ft_strncmp(buffer, "./", 2) == 0))
+		if (get_path1(cmd, cmd->args) || is_builtin(cmd) == TRUE || (ft_strncmp(buffer, "./", 2) == 0) || (access(cmd->args->cmd[0], F_OK | X_OK) == 0))
 			command_execute(cmd);
 		else
 			print_error(cmd, 1);
-		//free(cmd);
 		free(buffer);
 	}
 	return (0);

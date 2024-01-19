@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 22:25:37 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:28:01 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void command_execute(t_minishell *cmd)
 {
+	if (access(cmd->args->cmd[0], F_OK | X_OK) == 0)
+		exec_absolute_path(cmd);
 	if (last_arg_is_builtin(cmd) == TRUE && cmd->is_pipe)
 		return ;
 	if (is_builtin(cmd) == TRUE && !cmd->is_pipe)
@@ -77,4 +79,27 @@ void	exec_simple_command(t_minishell *cmd, t_args *arg)
 	free_str(path_split);
 	// perror("access");
 	exit(EXIT_FAILURE);
+}
+
+void	exec_absolute_path(t_minishell *cmd)
+{
+	int pid;
+	int	status;
+
+	status = 0;
+	pid = fork();
+	if (pid == -1)
+		perror("fork");
+	if (pid == 0)
+	{
+		dup2(cmd->fd_out, STDOUT_FILENO);
+		execve(cmd->args->cmd[0], cmd->args->cmd, env_tab(cmd->envs));
+		perror("execve");
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		waitpid(pid, &status, 0);
+		kill(pid, SIGTERM);
+	}
 }

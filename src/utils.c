@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:57:48 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 21:55:50 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:22:06 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,6 @@ void	free_str(char **str)
 	}
 	free(str);
 }
-
-// char	*get_path(char **envp)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*sub_path;
-
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		j = 0;
-// 		while (envp[i][j] != '=')
-// 			j++;
-// 		sub_path = ft_substr(envp[i], 0, j);
-// 		if (ft_strncmp("PATH", sub_path, j) == 0)
-// 		{
-// 			free(sub_path);
-// 			return (envp[i] + j + 1);
-// 		}
-// 		free(sub_path);
-// 		i++;
-// 	}
-// 	return (0);
-// }
 
 char	*get_path(t_env *env)
 {
@@ -122,13 +98,13 @@ char	**env_tab(t_env *env)
 
 int	ft_strcmp(const char *str, const char *str2)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while (str[i] && str2[i])
+	while (str2[i])
 	{
 		if (str[i] != str2[i])
-			return ((unsigned char)str[i] -(unsigned char)str2[i]);
+			return ((unsigned char)str[i] - (unsigned char)str2[i]);
 		i++;
 	}
 	return (0);

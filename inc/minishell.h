@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 22:24:06 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:24:58 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void				add_pipe(t_minishell *cmd, t_args *arg);
 void				command_execute(t_minishell *cmd);
 void				fork_process(t_minishell *cmd);
 void				exec_simple_command(t_minishell *cmd, t_args *arg);
-void				exec_last_command(t_minishell *cmd);
+void				exec_absolute_path(t_minishell *cmd);
 
 // Utils
 char				*get_path(t_env *env);
