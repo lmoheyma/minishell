@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/19 23:23:38 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/20 02:43:36 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void				add_back_node_env(t_env **lst, t_env *new);
 int					is_env_var_set(t_env *env, char *str);
 void				add_to_env(t_env *env, char *str);
 
-
 // Pwd
 void				add_pwd_to_env(t_env *env, char *str);
 void				add_oldpwd_to_env(t_env *env, char *str);
@@ -93,7 +92,6 @@ char				*get_home(t_env *env);
 
 // Export
 int					ft_strlcpy2(char *dest, const char *src, size_t size);
-
 
 // Builtin
 int					is_builtin(t_minishell *cmd);

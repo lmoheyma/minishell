@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:57:48 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/19 14:22:06 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/20 03:16:22 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,7 @@ int	ft_strcmp(const char *str, const char *str2)
 			return ((unsigned char)str[i] - (unsigned char)str2[i]);
 		i++;
 	}
+	if (str[i] != str2[i])
+		return ((unsigned char)str[i] - (unsigned char)str2[i]);
 	return (0);
 }
