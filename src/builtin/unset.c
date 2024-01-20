@@ -6,13 +6,13 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/18 22:35:53 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/20 18:39:17 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void unset_var(t_env **env, char *var)
+void	unset_var(t_env **env, char *var)
 {
 	char	**var_split;
 	t_env	*current;
@@ -25,7 +25,7 @@ void unset_var(t_env **env, char *var)
 	if (env && ft_strncmp(var_split[0], var, ft_strlen(var)) == 0)
 	{
 		*env = current->next;
-		free(current);	
+		free(current);
 		flag = 1;
 	}
 	while (!flag && current && current->next)
@@ -45,7 +45,7 @@ void unset_var(t_env **env, char *var)
 		free(var_split);
 }
 
-void ft_unset(t_minishell *cmd)
+void	ft_unset(t_minishell *cmd)
 {
 	int	i;
 

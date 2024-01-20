@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/19 16:54:15 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/20 22:23:29 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void command_execute(t_minishell *cmd)
 {
-	if (last_arg_is_builtin(cmd) == TRUE && cmd->is_pipe)
+	t_args	*last_arg;
+
+	last_arg = ft_last(cmd->args);
+	if (last_arg_is_builtin(cmd) == TRUE && cmd->is_pipe && ft_strcmp(last_arg->cmd[0], "echo"))
 		return ;
 	if (is_builtin(cmd) == TRUE && !cmd->is_pipe)
 	{

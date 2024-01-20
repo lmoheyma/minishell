@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:11 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/20 17:14:51 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/20 21:38:42 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	export_without_arg(t_minishell *cmd)
 	temp = cmd->envs;
 	while (env)
 	{
-		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd("export ", 1);
 		ft_putstr_fd(env->content, 1);
 		write(1, "\n", 1);
 		env = env->next;
