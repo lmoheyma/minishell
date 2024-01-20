@@ -30,7 +30,7 @@ $ ->
 	$?
 	$?$?
 	$
-	$HOME        => bash: /home/vietdu91: Is a directory
+	$HOME        => bash: /home/lmoheyma: Is a directory
 	$HOMEdskjhfkdshfsd
 	$DONTEXIST
 
@@ -43,37 +43,13 @@ SIGNAUX ->
 
 ENV & EXPORT & UNSET ->
 	export      => retirer le declare -x, ordre alpha et quote ?
-	export | grep HOME   => car pas fork
-	export ""   => not a valid identifier
-	export %    => not a valid identifier
-	export $?
-	export ?=2
-	Bug de cmp pour remplacer le nom de env_var
-	ex : export HOLA=bonjour
-		 export HOLA9=
-	export _HOLA=bonjour   => bug strcmp
-	export ___HOLA=bonjour
-	export HOL@=bonjour    => not a valid identifier
-	export HOLA-=bonjour   => not a valid identifier
-	export HO-LA=bonjour   => not a valid identifier
-	export HOL.A-=bonjour   => not a valid identifier
-	export HOL}A=bonjour   => not a valid identifier
-	export HOL{A=bonjour   => not a valid identifier
-	export HO*LA=bonjour   => not a valid identifier
-	export HO#LA=bonjour   => not a valid identifier
-	export HO@LA=bonjour   => not a valid identifier
-	export HO!LA=bonjour    => event not found
-	export HO$?LA=bonjour    => event not found
-	export +HOLA=bonjour   => not a valid identifier
-	export HOL+A=bonjour   => not a valid identifier
-	export HOLA =bonjour   => not a valid identifier
-	export HOLA=bon!jour   => bash: !jour: event not found
-	export HOLA$USER=bonjour   => strcmp
+	export | grep HOME   => car pas fork => Fork export ?
+	export ""   => not a valid identifier => parsing des quotes
+	export $?   => expander du $?
 	export HOLA="bonjour        "   => parsing des quotes
 	export HOLA="   -n bonjour  "   => parsing des quotes
 	export HOLA="bonjour   "/   => parsing des quotes
 	export HOLA='""' + echo " $HOLA " | cat -e 
-	export "" HOLA=bonjour   => print lerreur mais continuer
 	export HOLA="cat Makefile | grep NAME"
 
 	A TESTER DE 300 A 330 APRES LE PARSING
