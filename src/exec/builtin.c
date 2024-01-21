@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:54:13 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/20 03:12:37 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:39:04 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,26 @@ int is_env_buitin(t_minishell *cmd)
 	else if (ft_strcmp(arg->cmd[0], "unset") == 0)
 		return (1);
 	else if (ft_strcmp(arg->cmd[0], "exit") == 0)
+		return (1);
+	else
+		return (0);
+}
+
+int	is_builtin_arg(t_args *arg)
+{
+	if (ft_strcmp(arg->cmd[0], "cd") == 0)
+		return (1);
+	else if (ft_strcmp(arg->cmd[0], "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(arg->cmd[0], "env") == 0)
+		return (1);
+	else if (ft_strcmp(arg->cmd[0], "export") == 0)
+		return (1);
+	else if (ft_strcmp(arg->cmd[0], "unset") == 0)
+		return (1);
+	else if (ft_strcmp(arg->cmd[0], "exit") == 0)
+		return (1);
+	else if (ft_strcmp(arg->cmd[0], "echo") == 0)
 		return (1);
 	else
 		return (0);

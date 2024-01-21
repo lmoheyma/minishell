@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:11 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/20 21:38:42 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:34:00 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	check_syntax(t_minishell *cmd, char *str)
 	char	**str_split;
 
 	(void)cmd;
+	if (!ft_strchr(str, '='))
+		return (0);
 	if (str[0] == '=')
 		return (export_error(str), 0);
 	str_split = ft_split(str, '=');

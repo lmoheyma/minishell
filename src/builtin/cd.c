@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:23:57 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/21 17:17:20 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:59:58 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ int	ft_cd(t_minishell *cmd)
 	{
 		if (!get_home(cmd->envs))
 			return (ft_putendl_fd("cd: HOME not set", 1), 1);
-		if (chdir(get_home(cmd->envs)) == -1)
-			perror("cd");
+		chdir(get_home(cmd->envs));
+			//perror("cd");
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/21 16:39:46 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:39:37 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void command_execute(t_minishell *cmd)
 		return ;
 	if (is_builtin(cmd) == TRUE && !cmd->is_pipe)
 	{
-		if (is_env_buitin(cmd) == TRUE)
+		if (is_env_buitin(cmd) == TRUE) //cd, export, unset, exit
 			exec_builtin(cmd);
 		else
-			fork_builtin(cmd);
+			fork_builtin(cmd); // echo, env, pwd
 	}
 	else if (cmd->is_pipe)
 		exec_pipe_command(cmd);
@@ -81,7 +81,8 @@ void	exec_simple_command(t_minishell *cmd, t_args *arg)
 		}
 		free(exe);
 	}
-	print_error_str(arg->cmd[0]);
+	if (!is_builtin_arg(arg))
+		print_error_str(arg->cmd[0]);
 	free_str(path_split);
 	exit(EXIT_FAILURE);
 }

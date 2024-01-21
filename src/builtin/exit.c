@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 15:30:16 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/21 16:22:45 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/21 17:44:04 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ long int	ft_atol(const char *str)
 		sign = -1;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
-	if (ft_strncmp(str + i, "9223372036854775807", 19) == 0)
+	if (ft_strncmp(str + i, "-9223372036854775808", 19) == 0)
 		return (LONG_MIN);
 	while (str[i] >= '0' && str[i] <= '9')
 	{	

@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/21 17:04:28 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/21 19:05:46 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,8 @@ char	*dynamic_prompt(size_t buffer_size)
 	prompt = (char *)malloc(sizeof(char) * buffer_size);
 	if (!prompt)
 		return (NULL);
-	if (!getcwd(cwd, sizeof(cwd)))
-		perror("pwd");
+	getcwd(cwd, sizeof(cwd));
+		// perror("pwd");
 	prompt = ft_strjoin("minishell:", cwd);
 	prompt = ft_strjoin(prompt, "$ ");
 	return (prompt);
