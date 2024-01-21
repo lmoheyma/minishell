@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/20 17:24:51 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/21 17:04:28 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void print_error(t_minishell *cmd, int flag)
 {
 	if (flag == 1)
 	{
+		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(cmd->args->cmd[0], 2);
 		ft_putstr_fd(": command not found", 2);
 		ft_putstr_fd("\n", 2);

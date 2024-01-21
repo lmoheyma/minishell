@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/20 02:43:36 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:39:35 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,11 @@ void				exec_absolute_path(t_minishell *cmd, t_args *arg);
 
 // Utils
 char				*get_path(t_env *env);
+void				print_error(t_minishell *cmd, int flag);
 void				free_str(char **str);
 char				**ft_last_cmd(t_minishell *minishell);
 int					ft_strcmp(const char *str, const char *str2);
+void 				print_error_str(char *str);
 
 // Here-doc
 int					add_line_to_fd(char **argv, int fd[2]);

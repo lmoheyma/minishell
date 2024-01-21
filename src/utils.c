@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:57:48 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/20 03:16:22 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/21 17:04:36 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,12 @@ int	ft_strcmp(const char *str, const char *str2)
 	if (str[i] != str2[i])
 		return ((unsigned char)str[i] - (unsigned char)str2[i]);
 	return (0);
+}
+
+void print_error_str(char *str)
+{
+	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": command not found", 2);
+	ft_putstr_fd("\n", 2);
 }

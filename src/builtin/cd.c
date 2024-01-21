@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:23:57 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/19 23:41:39 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/21 17:17:20 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	ft_cd(t_minishell *cmd)
 	char	cwd[PATH_MAX];
 	char	old_cwd[PATH_MAX];
 
+	if (cmd->args->cmd[1] && cmd->args->cmd[2])
+		return(ft_putstr_fd("bash: cd: too many arguments\n", 1), 1);
 	path = NULL;
 	getcwd(old_cwd, sizeof(old_cwd));
 	if (!cmd->args->cmd[1])

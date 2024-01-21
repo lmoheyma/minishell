@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/20 22:23:29 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:39:46 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	exec_simple_command(t_minishell *cmd, t_args *arg)
 		}
 		free(exe);
 	}
+	print_error_str(arg->cmd[0]);
 	free_str(path_split);
 	exit(EXIT_FAILURE);
 }

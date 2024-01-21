@@ -58,7 +58,6 @@ ENV & EXPORT & UNSET ->
 
 CD & PWD ->
 	cd ./././.  => cd .. au lieu de cd .
-	cd src obj   => bash: cd: too many arguments
 	cd 'src/' && cd "src/"  => pasing des quotes
 	cd '/'
 	gerer le - (?)
@@ -67,7 +66,6 @@ CD & PWD ->
 	cd '$PWD/minishell'
 	si HOME=   => cd fait rien
 	unset HOME, export HOME, cd   => SEGFAULT => HOME not set
-	cd minishell pipex   => too many arguments
 	cd / | echo $?   => dont change repo, but print $?
 
 	mkdir a
@@ -105,15 +103,9 @@ EXIT ->
 
 PIPE ->
 	cd .. | pwd
-	ls | hola    => bash: hola: command not found
-	ls | ls | hola
-	ls | hola | ls   => bash: hola: command not found + ls
-	ls | ls | hola | rev
 	ls -la | grep "'.'"   => A retester
 	echo hola ||| cat   => bash: syntax error near unexpected token `|''
-	ech|o hola | cat   => command not found
 	cat Makefile | grep pr | head -n 5 | cd rgrger   => bash: cd: file_not_exist: No such file or directory
-	cat Makefile | grep pr | head -n 5 | hello   => command not found
 	time sleep 3 | sleep 3   => affichage bug ?
 	sleep 3 | exit  => apparait au bout de 3sec
 	cat a | <b cat | cat > c | cat   => SEGFAULT  => parsing des quotes
