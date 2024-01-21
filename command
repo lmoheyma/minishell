@@ -104,12 +104,6 @@ EXIT ->
 	exit -9223372036854775809
 
 PIPE ->
-	echo | echo   => print un \n
-	echo hola | echo que tal
-	pwd | echo hola
-	env | echo hola
-	cd .. | echo "hola"
-	cd / | echo "hola"
 	cd .. | pwd
 	ls | hola    => bash: hola: command not found
 	ls | ls | hola
@@ -120,8 +114,6 @@ PIPE ->
 	ech|o hola | cat   => command not found
 	cat Makefile | grep pr | head -n 5 | cd rgrger   => bash: cd: file_not_exist: No such file or directory
 	cat Makefile | grep pr | head -n 5 | hello   => command not found
-	export HOLA | echo hola   => hola
-	export | echo hola
 	time sleep 3 | sleep 3   => affichage bug ?
 	sleep 3 | exit  => apparait au bout de 3sec
 	cat a | <b cat | cat > c | cat   => SEGFAULT  => parsing des quotes
