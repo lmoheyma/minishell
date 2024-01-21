@@ -97,12 +97,11 @@ BATARDS ->
 	env
 
 EXIT ->
-	exit exit   => bash: exit: exit: numeric argument required
-	exit hola
-	arg > 2     => bash: exit: too many arguments
-	exit hola 666 666   => bash: exit: hola: numeric argument required
+	
+	A TESTER DE 502 A 514 APRES LE PARSING
 
-	A TESTER DE 473 A 518 APRES LE PARSING
+	exit 9223372036854775808   => numeric arg required ?
+	exit -9223372036854775809
 
 PIPE ->
 	echo | echo   => print un \n
