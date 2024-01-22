@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:47 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/22 11:10:49 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:40:04 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ int	get_elem(char *cmd)
 		return (1);
 }
 
-void	parse_all_minishell(t_minishell *minishell, char *cmd)
+int	parse_all_minishell(t_minishell *minishell, char *cmd)
 {
 	if (get_elem(cmd) || get_elem(cmd))
-		return (ft_err(minishell, "Guillemets non fermees !\n", 2));
-	setup_tokens(minishell, cmd);
-	create_args(minishell);
+		return (ft_err(minishell, "Guillemets non fermees !\n", 2), 1);
+	if (setup_tokens(minishell, cmd))
+		return (1);
+	if (create_args(minishell))
+		return (1);
 	// while (minishell->tokens)
 	// {
 	// 	printf("End Token : %s - %s\n", minishell->tokens->content,
@@ -66,4 +68,5 @@ void	parse_all_minishell(t_minishell *minishell, char *cmd)
 	minishell->fd_in = 0;
 	minishell->fd_out = 1;
 	setup_files(minishell);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/21 19:05:46 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:25:29 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,8 @@ int main(int argc, char **argv, char **envp)
 		buffer = get_input();
 		if (!buffer)
 			continue ;
-		parse_all_minishell(cmd, buffer);
+		if (parse_all_minishell(cmd, buffer))
+			continue ;
 		if (!cmd->args)
 			continue ;
 		if (get_path1(cmd, cmd->args) || is_builtin(cmd) == TRUE || (ft_strncmp(buffer, "./", 2) == 0) || (access(cmd->args->cmd[0], F_OK | X_OK) == 0))

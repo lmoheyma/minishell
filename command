@@ -21,13 +21,13 @@ ECHO ->
 	echo $9HOME
 \	echo $SHLVL$HOME
 
-	echo > <    => bash: syntax error near unexpected token `<''
-	echo 
-	>echo>
-	<echo<
-	>>echo>>
-	|echo|
-	|echo -n hola
+\	echo > <    => bash: syntax error near unexpected token `<''
+\	echo 
+\	>echo>
+\	<echo<
+\	>>echo>>
+\	|echo|
+\	|echo -n hola
 
 $ ->
 	$?

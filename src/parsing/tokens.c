@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/22 14:17:18 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:48:08 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ void	write_word(t_minishell *minishell, t_tokens *token, char *cmd)
 	trigger = '/';
 	check_cmd = is_cmd(token->type);
 	while ((cmd[params->i + params->k] && !is_spaces(cmd[params->i + params->k])
-			&& !check_cmd) || (cmd[params->i + params->k]
-			&& !is_special_char(cmd[params->i + params->k]) && check_cmd)
-		|| (cmd[params->i + params->k] && (trigger == '\'' || trigger == '\"')))
+			&& !is_special_char(cmd[params->i + params->k]) && !check_cmd)
+		|| (cmd[params->i + params->k] && !is_special_char(cmd[params->i
+				+ params->k]) && check_cmd) || (cmd[params->i + params->k]
+			&& (trigger == '\'' || trigger == '\"')))
 	{
 		if (cmd[params->i + params->k] == '\\')
 		{
@@ -104,18 +105,21 @@ t_tokens	*create_token(char *cmd, int *i, t_minishell *minishell)
 	return (token);
 }
 
-void	setup_tokens(t_minishell *minishell, char *cmd)
+int	setup_tokens(t_minishell *minishell, char *cmd)
 {
 	int			i;
 	t_tokens	*save;
 
 	i = 0;
 	skip_spaces(cmd, &i);
+	if (cmd[i] == '|')
+		return (ft_err(minishell,
+				"bash: syntax error near unexpected token `|'", 2), 1);
 	if (i >= ft_strlen(cmd))
-		return (ft_err(minishell, "", 2));
+		return (ft_err(minishell, "", 2), 1);
 	minishell->tokens = create_token(cmd, &i, minishell);
 	if (!minishell->tokens)
-		return ;
+		return (1);
 	save = minishell->tokens;
 	minishell->tokens->next = NULL;
 	skip_spaces(cmd, &i);
@@ -123,10 +127,11 @@ void	setup_tokens(t_minishell *minishell, char *cmd)
 	{
 		minishell->tokens->next = create_token(cmd, &i, minishell);
 		if (!minishell->tokens->next)
-			return ;
+			return (1);
 		minishell->tokens = minishell->tokens->next;
 		minishell->tokens->next = NULL;
 		skip_spaces(cmd, &i);
 	}
 	minishell->tokens = save;
+	return (0);
 }

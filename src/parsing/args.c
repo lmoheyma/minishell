@@ -6,13 +6,13 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 16:38:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/22 09:43:58 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:22:56 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	create_args(t_minishell *minishell)
+int	create_args(t_minishell *minishell)
 {
 	t_tokens	*save;
 	t_args		*first_arg;
@@ -27,7 +27,7 @@ void	create_args(t_minishell *minishell)
 		{
 			minishell->args = malloc(sizeof(t_args));
 			if (!minishell->args)
-				return ;
+				return (1);
 			minishell->args->cmd = ft_split_args(minishell->tokens->content);
 			// minishell->args->cmd = ft_split(minishell->tokens->content, ' ');
 			minishell->args->next = NULL;
@@ -41,4 +41,5 @@ void	create_args(t_minishell *minishell)
 	}
 	minishell->args = first_arg;
 	minishell->tokens = save;
+	return (0);
 }

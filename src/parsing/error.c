@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 10:17:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/18 17:49:32 by antoine          ###   ########.fr       */
+/*   Updated: 2024/01/22 14:31:04 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	ft_err(t_minishell *minishell, char *err, int code)
 {
-	free_tokens(&minishell->tokens);
-	free_args(&minishell->args);
+	// free_tokens(&minishell->tokens);
+	// free_args(&minishell->args);
 	minishell->exit_code = code;
-	ft_putstr_fd(err, 2);
+	ft_putendl_fd(err, 2);
 }
 
 void	free_tokens(t_tokens **tokens)
