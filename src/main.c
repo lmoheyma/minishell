@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/22 16:07:07 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:56:20 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int g_pid;
+int g_exit_code;
 
 void print_error(t_minishell *cmd, int flag)
 {
@@ -147,12 +147,8 @@ char	*dynamic_prompt(size_t buffer_size)
 
 void signals_manager(int signal)
 {
-	if (g_pid == 0)
-	{
-		printf("g_pid = %d\n", g_pid);
-	 	printf("\n");
-	}
-	else if (signal == SIGINT)
+
+	if (signal == SIGINT)
 	{
 		printf("\n");
 		rl_on_new_line();
@@ -195,7 +191,6 @@ int main(int argc, char **argv, char **envp)
 	flag = 0;
 	if (argc != 1)
 		return (ft_putendl_fd("Too much arguments", 1), 1);
-	g_pid = 1;
 	cmd = (t_minishell *)malloc(sizeof(t_minishell));
 	if (!cmd)
 		return (0);

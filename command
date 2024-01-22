@@ -15,35 +15,51 @@ $ ->$DONTEXIST
 	$HOMEdskjhfkdshfsd
 	$DONTEXIST
 
-SIGNAUX ->
-	EXEC -> 
-		cat + Ctrl-C
-		cat | rev + Ctrl-C
-		cat + Ctrl-\   => ^\Quit (core dumped)
-		sleep 3 | sleep 3 | sleep 3 + Ctrl-C (after 1s)
-		sleep 3 | sleep 3 | sleep 3 + Ctrl-\ (after 1s)
-
 ENV & EXPORT & UNSET ->
 	EXEC ->
-		export      => retirer le declare -x, ordre alpha et quote ?
 		export | grep HOME   => car pas fork => Fork export ?
 	PARSING ->
-		export ""   => not a valid identifier => parsing des quotes
+		export ""   => not a valid identifier => if a rajouter
 		export $?   => expander du $?
-		export HOLA="bonjour        "   => parsing des quotes
-		export HOLA="   -n bonjour  "   => parsing des quotes
-		export HOLA="bonjour   "/   => parsing des quotes
 		export HOLA='""' + echo " $HOLA " | cat -e 
-		export HOLA="cat Makefile | grep NAME"
+		echo $HOLA$HOLA$HOLA=hey$HOLA
 
-	A TESTER DE 300 A 330 APRES LE PARSING
+		export HOLA="  bonjour  hey  "
+		echo """$HOLA""" | cat -e
+		echo wesh"$HOLA" | cat -e
+		echo wesh""$HOLA.
+		echo wesh$"HOLA HOLA".
 
-CD & PWD ->
-	EXEC -> 
-		rm lien de fichier -> chdir: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
-	PARSING->
-		cd 'src/' && cd "src/"  => pasing des quotes
-		cd '/'
+		export HOLA=bonjour
+		export HOLA=" hola et $HOLA"
+		echo $HOLA
+
+		export HOLA=bonjour
+		export HOLA=' hola et $HOLA'
+		echo $HOLA
+
+		export HOLA=bonjour
+		export HOLA=" hola et $HOLA"$HOLA
+		echo $HOLA
+
+		export HOLA="l" 
+		$HOLAs   => mauvaise sortie d'erreur'
+
+		export HOLA="l" 
+		"$HOLA"s    => execve: permission denied ??
+
+		export HOL=A=""
+		env      => strlcpy de export, prblm de len
+
+		$HOLA"BYE"d  => mauvaise sortie d'erreur'
+
+		"$HOLA"'$BYE'd  => permission denied ??
+		"$HOLA""$BYE"d
+		$"HOLA"$"BYE"d  => mauvaise sortie d'erreur'
+		$'HOLA'$'BYE'd
+
+		export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8
+		echo "$A'$B"'$C"$D'$E'"$F'"'$G'$H"
 
 BATARDS ->
 	EXEC ->
@@ -71,8 +87,7 @@ PIPE ->
 		time sleep 3 | sleep 3   => affichage bug ?
 		sleep 3 | exit  => apparait au bout de 3sec
 	PARSING ->
-		ls -la | grep "'.'"   => A retester
-		cat a | <b cat | cat > c | cat
+		cat a | <b cat | cat > c | cat  => mauvaise sortie d'erreur'
 	
 REDIRECTIONS ->
 	

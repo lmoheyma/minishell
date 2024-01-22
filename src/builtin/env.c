@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:31:39 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/19 23:57:49 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:16:49 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,15 @@ void	add_back_node_env(t_env **lst, t_env *new)
 	}
 }
 
+t_env	*empty_start_env(t_env *env)
+{
+	add_back_node_env(&env, new_env_node("PWD=/home/lmoheyma/Documents/minishell2"));
+	add_back_node_env(&env, new_env_node("SHLVL=1"));
+	add_back_node_env(&env, new_env_node("PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"));
+	add_back_node_env(&env, new_env_node("_=/usr/bin/env"));
+	return (env);
+}
+
 t_env	*dup_env(char **envp)
 {
 	int		i;
@@ -61,7 +70,7 @@ t_env	*dup_env(char **envp)
 	env = NULL;
 	if (!*envp)
 	{
-		add_back_node_env(&env, new_env_node("PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"));
+		env = empty_start_env(env);
 		return (env);
 	}
 	add_back_node_env(&env, new_env_node(envp[i]));

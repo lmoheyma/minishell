@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:58:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/19 16:55:19 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:33:05 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void exec_pipe_command(t_minishell *cmd)
 		perror("fork");
 	if (pid == 0)
 	{
-		// g_pid = pid;
+		signal(SIGQUIT, signals_manager_child);
 		while (++i < cmd->nb_cmd - 1)
 		{
 			add_pipe(cmd, arg);
@@ -33,16 +33,19 @@ void exec_pipe_command(t_minishell *cmd)
 		}
 		dup2(cmd->fd_out, STDOUT_FILENO);
 		dup2(cmd->fd_in, STDIN_FILENO);
-		if ((access(arg->cmd[0], F_OK | X_OK) == 0)) //mauvais check du arg
+		if ((access(arg->cmd[0], F_OK | X_OK) == 0))
 			exec_absolute_path(cmd, arg);
 		else
 			exec_simple_command(cmd, arg);
 	}
 	else
 	{
-		// g_pid = pid;
+		signal(SIGQUIT, signals_manager_child);
+		signal(SIGINT, signals_manager_child);
 		waitpid(pid, NULL, 0);
 		kill(pid, SIGTERM);
+		signal(SIGINT, signals_manager);
+		signal(SIGQUIT, SIG_IGN);
 	}
 }
 

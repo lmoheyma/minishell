@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:35:08 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/20 03:12:01 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/22 17:15:14 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,13 @@ void ft_echo(t_minishell *cmd)
 	{
 		has_n = 1;
 		i++;
+	}
+	if (ft_strncmp(arg->cmd[1], "$?", 2) == 0)
+	{
+		ft_putnbr_fd(cmd->exit_code, 1);
+		if (!has_n)
+			write(1, "\n", 1);
+		exit(EXIT_SUCCESS);
 	}
 	while (arg->cmd[i])
 	{

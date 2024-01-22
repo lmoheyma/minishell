@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/22 14:55:33 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:32:11 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define FALSE 0
 # define PATH_MAX 4096
 
-extern int			g_pid;
+extern int			g_exit_code;
 
 typedef struct s_env
 {
@@ -113,6 +113,10 @@ int					ft_exit(t_minishell *cmd);
 // Pipe
 void				exec_pipe_command(t_minishell *cmd);
 void				add_pipe(t_minishell *cmd, t_args *arg);
+
+// Signals 
+void 				signals_manager(int signal);
+void 				signals_manager_child(int signal);
 
 // Execute command
 void				command_execute(t_minishell *cmd);

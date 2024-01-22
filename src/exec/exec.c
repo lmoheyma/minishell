@@ -6,11 +6,24 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/21 18:39:37 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:32:02 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void signals_manager_child(int signal)
+{
+
+	if (signal == SIGINT)
+	{
+		printf("\n");
+	}
+	else if (signal == SIGQUIT)
+	{
+		ft_putstr_fd("Quit (core dumped)\n", 1);
+	}
+}
 
 void command_execute(t_minishell *cmd)
 {
@@ -43,6 +56,7 @@ void fork_process(t_minishell *cmd)
 		perror("fork");
 	if (pid == 0)
 	{
+		signal(SIGQUIT, signals_manager_child);
 		dup2(cmd->fd_out, STDOUT_FILENO);
 		dup2(cmd->fd_in, STDIN_FILENO);
 		if ((access(cmd->args->cmd[0], F_OK | X_OK) == 0))
@@ -52,8 +66,12 @@ void fork_process(t_minishell *cmd)
 	}
 	else
 	{
+		signal(SIGQUIT, signals_manager_child);
+		signal(SIGINT, signals_manager_child);
 		waitpid(pid, &status, 0);
-		kill(pid, SIGTERM);
+		kill(pid, SIGTERM);	
+		signal(SIGINT, signals_manager);
+		signal(SIGQUIT, SIG_IGN);
 	}
 }
 
