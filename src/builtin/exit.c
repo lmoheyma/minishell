@@ -6,13 +6,20 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 15:30:16 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/21 17:44:04 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/22 22:03:46 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-long int	ft_atol(const char *str)
+void	print_error_exit(char *str)
+{
+	ft_putstr_fd("bash: exit: ", 1);
+	ft_putstr_fd(str, 1);
+	ft_putstr_fd(": numeric argument required\n", 1);
+}
+
+long int	ft_atol(char *str)
 {
 	int		i;
 	int		sign;
@@ -30,35 +37,39 @@ long int	ft_atol(const char *str)
 	if (ft_strncmp(str + i, "-9223372036854775808", 19) == 0)
 		return (LONG_MIN);
 	while (str[i] >= '0' && str[i] <= '9')
-	{	
+	{
 		res = res * 10 + (str[i] - '0');
+		// if ((unsigned long long)res * sign > 9223372036854775807ULL
+		// 	|| (unsigned long long)res * sign < -9223372036854775808ULL)
+		// 	return (print_error_exit(str), 2);
 		i++;
 	}
 	return (res * sign);
 }
 
-int is_too_long(char *str, int i)
+int	is_too_long(char *str, int i)
 {
-	int nb_digits;
+	int	nb_digits;
 
 	nb_digits = ft_strlen(str + i);
 	if (nb_digits > 19)
 		return (1);
 	if (nb_digits == 19)
 	{
-		if (str[0] == '-' && ft_strncmp(str + i, "-9223372036854775808", 19) < 0)
+		if (str[0] == '-' && ft_strncmp(str + i, "-9223372036854775808",
+				19) < 0)
 			return (1);
-		if ((str[0] == '+' || ft_isdigit(str[0])) && ft_strncmp(str + i, "9223372036854775807", 19) < 0)
+		if ((str[0] == '+' || ft_isdigit(str[0])) && ft_strncmp(str + i,
+				"9223372036854775807", 19) < 0)
 			return (1);
-	} 
+	}
 	return (0);
 }
 
-int check_exit_syntax(char *str)
+int	check_exit_syntax(char *str)
 {
 	int	i;
-	
-	//skip space ?
+
 	i = 0;
 	if (str[i] == '+' || str[i] == '-')
 		i++;
@@ -73,17 +84,18 @@ int check_exit_syntax(char *str)
 	return (1);
 }
 
-int ft_exit_code(t_args *arg)
+int	ft_exit_code(t_args *arg)
 {
-	int exit_code;
-	
+	int	exit_code;
+
 	if (!arg->cmd[1])
 		exit_code = 0;
+	// if ((unsigned long long)ft_atol(arg->cmd[1]) == -9223372036854775808ULL
+	// 	|| (unsigned long long)ft_atol(arg->cmd[1]) == 9223372036854775807)
+	// 	return (print_error_exit(arg), 2);
 	else if (!check_exit_syntax(arg->cmd[1]))
 	{
-		ft_putstr_fd("bash: exit: ", 1);
-		ft_putstr_fd(arg->cmd[1], 1);
-		ft_putstr_fd(": numeric argument required\n", 1);
+		print_error_exit(arg->cmd[1]);
 		exit_code = 2;
 	}
 	else
@@ -96,11 +108,11 @@ int ft_exit_code(t_args *arg)
 	return (exit_code);
 }
 
-int ft_exit(t_minishell *cmd)
+int	ft_exit(t_minishell *cmd)
 {
 	int exit_code;
 	t_args *arg;
-	
+
 	arg = cmd->args;
 	ft_putstr_fd("exit\n", 1);
 	exit_code = ft_exit_code(arg);

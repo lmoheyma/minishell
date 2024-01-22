@@ -66,28 +66,36 @@ BATARDS ->
 		Gerer les fichiers executables
 		touch hola
 		./hola
-		env -i
-		env
 	PARSING ->
-		env|"wc" -l   => parsing des quotes
-		env|"wc "-l   => parsing des quotes
-		expr $? + $?
+		env|"wc "-l   => "wc -l" command not found
+		expr $? + $?  => non integer argument
 
 EXIT ->
 	EXEC ->
 		exit 9223372036854775808   => numeric arg required ?
 		exit -9223372036854775809
-	PARSING ->
-		A TESTER DE 502 A 514 APRES LE PARSING
 
 PIPE ->
-	EXEC ->
-		cd .. | pwd
-		cat Makefile | grep pr | head -n 5 | cd rgrger   => bash: cd: file_not_exist: No such file or directory
-		time sleep 3 | sleep 3   => affichage bug ?
-		sleep 3 | exit  => apparait au bout de 3sec
 	PARSING ->
 		cat a | <b cat | cat > c | cat  => mauvaise sortie d'erreur'
 	
 REDIRECTIONS ->
-	
+	echo hola >>> bonjour  => error
+	>bonjour echo > hola>bonjour>hola>>bonjour>hola hey >bonjour hola >hola  => execve: text file busy
+	cat <pwd  => No such file or directory & return
+	cat <src/pwd
+	cat <../pwd
+	cat < ls
+	cat < ls > ls
+	cat > ls1 < ls2
+	echo hola > bonjour hey   => execve: text file busy
+	>bonjour <prout hello     => execve: text file busy
+
+	export HOLA="bonjour hello"
+	>$"HOLA"
+	ls
+	>$HOLA>hey
+	>hey>$HOLA>hey>hey
+
+
+
