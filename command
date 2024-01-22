@@ -1,3 +1,7 @@
+
+https://docs.google.com/spreadsheets/d/1uJHQu0VPsjjBkR4hxOeCMEt3AOM1Hp_SmUzPFhAH-nA/edit#gid=0
+
+
 Commande qui marche pas :
 ECHO ->
 	echo "-n" Hola
@@ -13,7 +17,6 @@ ECHO ->
 	echo \$HOME
 	echo my shit terminal is [$TERM4
 	echo my shit terminal is [$TERM4]
-	echo $UID (?)
 	echo $HOME9
 	echo $9HOME
 	echo $SHLVL$HOME
@@ -75,7 +78,6 @@ BATARDS ->
 		env|"wc" -l   => parsing des quotes
 		env|"wc "-l   => parsing des quotes
 		expr $? + $?
-
 
 EXIT ->
 	EXEC ->
