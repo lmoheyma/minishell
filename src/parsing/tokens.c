@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/18 17:50:33 by antoine          ###   ########.fr       */
+/*   Updated: 2024/01/22 14:17:18 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	set_token_type(t_tokens *token, char *str, int *i)
+int	set_token_type(t_tokens *token, char *str, int *i)
 {
 	if (ft_strncmp(str + *i, "<<", 2) == 0)
 		token->type = "here_doc";
@@ -28,6 +28,13 @@ void	set_token_type(t_tokens *token, char *str, int *i)
 		token->type = "simple_cmd";
 	skip_special_char(str, i);
 	skip_spaces(str, i);
+	if (!str[*i] || (ft_strncmp(token->type, "pipe", 4) && (ft_strncmp(str + *i,
+					"<<", 2) == 0 || ft_strncmp(str + *i, ">>", 2) == 0
+				|| ft_strncmp(str + *i, "<", 1) == 0 || ft_strncmp(str + *i,
+					">", 1) == 0)))
+		return (1);
+	else
+		return (0);
 }
 
 void	write_word(t_minishell *minishell, t_tokens *token, char *cmd)
@@ -46,6 +53,13 @@ void	write_word(t_minishell *minishell, t_tokens *token, char *cmd)
 			&& !is_special_char(cmd[params->i + params->k]) && check_cmd)
 		|| (cmd[params->i + params->k] && (trigger == '\'' || trigger == '\"')))
 	{
+		if (cmd[params->i + params->k] == '\\')
+		{
+			token->content[params->i + params->j] = cmd[params->i + params->k
+				+ 1];
+			params->i++;
+			params->k++;
+		}
 		if (cmd[params->i + params->k] == '\'' && trigger == '/')
 			trigger = '\'';
 		else if (cmd[params->i + params->k] == '\"' && trigger == '/')
@@ -53,7 +67,11 @@ void	write_word(t_minishell *minishell, t_tokens *token, char *cmd)
 		else if (cmd[params->i + params->k] == trigger && trigger != '/')
 			trigger = '/';
 		else if (cmd[params->i + params->k] == '$')
+		{
 			params->k += write_env_var(minishell, token->content, cmd);
+			if (cmd[params->i + params->k] == '$')
+				continue ;
+		}
 		token->content[params->i + params->j] = cmd[params->i + params->k];
 		params->i++;
 	}
@@ -71,7 +89,9 @@ t_tokens	*create_token(char *cmd, int *i, t_minishell *minishell)
 	token = malloc(sizeof(t_tokens));
 	if (!token)
 		return (ft_err(minishell, "Token Malloc err", 2), NULL);
-	set_token_type(token, cmd, i);
+	if (set_token_type(token, cmd, i))
+		return (ft_err(minishell, "bash: syntax error near unexpected token",
+				2), NULL);
 	var_size = nb_special_char(minishell, token, cmd + *i, &j);
 	token->content = malloc(sizeof(char) * (j + var_size + 1));
 	if (!token->content)

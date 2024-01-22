@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 16:26:28 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/18 17:08:47 by antoine          ###   ########.fr       */
+/*   Updated: 2024/01/22 13:57:04 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,21 @@ int	get_env_var_size(t_env *env, char *str, int *i)
 	return (0);
 }
 
+int	get_len_for_env(char *str, char *sub_path)
+{
+	int		i;
+	char	*s;
+
+	i = 0;
+	if (ft_strlen(str) > ft_strlen(sub_path))
+		s = str;
+	else
+		s = sub_path;
+	while (s[i] && !is_spaces(s[i]) && s[i] != '$')
+		i++;
+	return (i);
+}
+
 char	**get_env_var_content(t_env *env, char *str)
 {
 	int		j;
@@ -98,7 +113,7 @@ char	**get_env_var_content(t_env *env, char *str)
 		while (env->content[j] != '=')
 			j++;
 		sub_path = ft_substr(env->content, 0, j);
-		if (ft_strncmp(str, sub_path, j) == 0)
+		if (ft_strncmp(str, sub_path, get_len_for_env(str, sub_path)) == 0)
 		{
 			free(sub_path);
 			splitted_env = ft_split(env->content, '=');
@@ -119,13 +134,25 @@ int	write_env_var(t_minishell *minishell, char *content, char *cmd)
 
 	iter = 0;
 	len = 0;
+	if (is_spaces(cmd[minishell->write_params->i + minishell->write_params->k
+				+ 1]) || !cmd[minishell->write_params->i
+			+ minishell->write_params->k + 1])
+	{
+		content[minishell->write_params->i + minishell->write_params->j] = '$';
+		minishell->write_params->j++;
+		return (1);
+	}
 	splitted_env_var = get_env_var_content(minishell->envs, cmd
 			+ minishell->write_params->i + minishell->write_params->k);
 	if (!splitted_env_var)
 	{
+		len++;
 		while (cmd[minishell->write_params->i + minishell->write_params->k
 				+ len] && !is_spaces(cmd[minishell->write_params->i
-					+ minishell->write_params->k + len]))
+					+ minishell->write_params->k + len])
+			&& cmd[minishell->write_params->i + minishell->write_params->k
+				+ len] != '$' && cmd[minishell->write_params->i + minishell->write_params->k
+				+ len] != ']')
 			len++;
 		return (len);
 	}

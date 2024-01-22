@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_args.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:51:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/18 19:26:56 by antoine          ###   ########.fr       */
+/*   Updated: 2024/01/22 10:42:08 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ static int	get_len(char *s, int add)
 	{
 		if (ft_trigger(s[i + len], &trigger))
 			i++;
-		len++;
+		else
+			len++;
 	}
 	if (add)
 		return (len + i);
@@ -98,13 +99,16 @@ static char	*write_word(char *s)
 	{
 		if (ft_trigger(s[i + j], &trigger))
 			j++;
-		str[i] = s[i + j];
-		i++;
+		else
+		{
+			str[i] = s[i + j];
+			i++;
+		}
 	}
 	str[i] = '\0';
 	return (str);
 }
-
+#include <stdio.h>
 char	**ft_split_args(char *s)
 {
 	char	**str;
@@ -118,10 +122,10 @@ char	**ft_split_args(char *s)
 		return (NULL);
 	i = 0;
 	j = 0;
+	while (s[i] == 32 || (s[i] >= 9 && s[i] <= 13))
+		i++;
 	while (s[i])
 	{
-		while (s[i] == 32 || (s[i] >= 9 && s[i] <= 13))
-			i++;
 		str[j] = write_word(s + i);
 		if (!str[j])
 		{
@@ -132,6 +136,8 @@ char	**ft_split_args(char *s)
 		}
 		j++;
 		i += get_len(s + i, 1);
+		while (s[i] == 32 || (s[i] >= 9 && s[i] <= 13))
+			i++;
 	}
 	str[j] = 0;
 	return (str);

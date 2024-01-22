@@ -4,22 +4,22 @@ https://docs.google.com/spreadsheets/d/1uJHQu0VPsjjBkR4hxOeCMEt3AOM1Hp_SmUzPFhAH
 
 Commande qui marche pas :
 ECHO ->
-	echo "-n" Hola
-	echo \n Hola
-	echo "       " | cat -e
-	""''echo hola""'''' que""'' tal""''
+\	echo "-n" Hola 
+\	echo \n Hola
+\	echo "       " | cat -e
+\	""''echo hola""'''' que""'' tal""''
 
-	echo $
+\	echo $
 	echo $?
 	echo $?$
-	echo " $ " | cat -e
-	echo ' $ ' | cat -e
-	echo \$HOME
-	echo my shit terminal is [$TERM4
-	echo my shit terminal is [$TERM4]
-	echo $HOME9
+\	echo " $ " | cat -e
+\	echo ' $ ' | cat -e
+\	echo \$HOME
+\	echo my shit terminal is [$TERM4
+\	echo my shit terminal is [$TERM4]
+\	echo $HOME9
 	echo $9HOME
-	echo $SHLVL$HOME
+\	echo $SHLVL$HOME
 
 	echo > <    => bash: syntax error near unexpected token `<''
 	echo 
