@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/22 14:22:49 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:55:33 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_minishell
 	int				exit_code;
 	t_args			*args;
 	t_tokens		*tokens;
+	t_tokens		*tokens_start;
 	t_write_params	*write_params;
 }					t_minishell;
 

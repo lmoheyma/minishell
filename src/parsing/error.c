@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 10:17:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/22 14:31:04 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/22 15:25:08 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	ft_err(t_minishell *minishell, char *err, int code)
 {
-	// free_tokens(&minishell->tokens);
-	// free_args(&minishell->args);
+	free_tokens(&minishell->tokens_start);
+	// if (minishell->args)
+	// 	free_args(&minishell->args);
 	minishell->exit_code = code;
 	ft_putendl_fd(err, 2);
 }

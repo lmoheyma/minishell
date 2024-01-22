@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/22 14:48:08 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/22 15:29:50 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ t_tokens	*create_token(char *cmd, int *i, t_minishell *minishell)
 int	setup_tokens(t_minishell *minishell, char *cmd)
 {
 	int			i;
-	t_tokens	*save;
 
 	i = 0;
 	skip_spaces(cmd, &i);
@@ -120,7 +119,7 @@ int	setup_tokens(t_minishell *minishell, char *cmd)
 	minishell->tokens = create_token(cmd, &i, minishell);
 	if (!minishell->tokens)
 		return (1);
-	save = minishell->tokens;
+	minishell->tokens_start = minishell->tokens;
 	minishell->tokens->next = NULL;
 	skip_spaces(cmd, &i);
 	while (cmd[i])
@@ -132,6 +131,6 @@ int	setup_tokens(t_minishell *minishell, char *cmd)
 		minishell->tokens->next = NULL;
 		skip_spaces(cmd, &i);
 	}
-	minishell->tokens = save;
+	minishell->tokens = minishell->tokens_start;
 	return (0);
 }
