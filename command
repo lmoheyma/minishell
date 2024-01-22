@@ -4,35 +4,13 @@ https://docs.google.com/spreadsheets/d/1uJHQu0VPsjjBkR4hxOeCMEt3AOM1Hp_SmUzPFhAH
 
 Commande qui marche pas :
 ECHO ->
-\	echo "-n" Hola 
-\	echo \n Hola
-\	echo "       " | cat -e
-\	""''echo hola""'''' que""'' tal""''
 
-\	echo $
 	echo $?
 	echo $?$
-\	echo " $ " | cat -e
-\	echo ' $ ' | cat -e
-\	echo \$HOME
-\	echo my shit terminal is [$TERM4
-\	echo my shit terminal is [$TERM4]
-\	echo $HOME9
 	echo $9HOME
-\	echo $SHLVL$HOME
 
-\	echo > <    => bash: syntax error near unexpected token `<''
-\	echo 
-\	>echo>
-\	<echo<
-\	>>echo>>
-\	|echo|
-\	|echo -n hola
 
 $ ->$DONTEXIST
-\	$?
-\	$?$?
-\	$
 	$HOME        => bash: /home/lmoheyma: Is a directory
 	$HOMEdskjhfkdshfsd
 	$DONTEXIST
@@ -94,7 +72,7 @@ PIPE ->
 		sleep 3 | exit  => apparait au bout de 3sec
 	PARSING ->
 		ls -la | grep "'.'"   => A retester
-		cat a | <b cat | cat > c | cat   => SEGFAULT  => parsing des quotes
+		cat a | <b cat | cat > c | cat
 	
 REDIRECTIONS ->
 	
