@@ -62,10 +62,6 @@ ENV & EXPORT & UNSET ->
 		echo "$A'$B"'$C"$D'$E'"$F'"'$G'$H"
 
 BATARDS ->
-	EXEC ->
-		Gerer les fichiers executables
-		touch hola
-		./hola
 	PARSING ->
 		env|"wc "-l   => "wc -l" command not found
 		expr $? + $?  => non integer argument
@@ -96,6 +92,4 @@ REDIRECTIONS ->
 	ls
 	>$HOLA>hey
 	>hey>$HOLA>hey>hey
-
-
 
