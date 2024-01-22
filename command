@@ -29,10 +29,10 @@ ECHO ->
 \	|echo|
 \	|echo -n hola
 
-$ ->
-	$?
-	$?$?
-	$
+$ ->$DONTEXIST
+\	$?
+\	$?$?
+\	$
 	$HOME        => bash: /home/lmoheyma: Is a directory
 	$HOMEdskjhfkdshfsd
 	$DONTEXIST

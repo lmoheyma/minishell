@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 16:26:28 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/22 14:41:53 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:09:17 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,8 @@ int	write_env_var(t_minishell *minishell, char *content, char *cmd)
 	iter = 0;
 	len = 0;
 	if (is_spaces(cmd[minishell->write_params->i + minishell->write_params->k
-			+ 1]) || !cmd[minishell->write_params->i
-		+ minishell->write_params->k + 1])
+				+ 1]) || !cmd[minishell->write_params->i
+			+ minishell->write_params->k + 1])
 	{
 		content[minishell->write_params->i + minishell->write_params->j] = '$';
 		minishell->write_params->j++;
@@ -148,11 +148,11 @@ int	write_env_var(t_minishell *minishell, char *content, char *cmd)
 	{
 		len++;
 		while (cmd[minishell->write_params->i + minishell->write_params->k
-			+ len] && !is_spaces(cmd[minishell->write_params->i
-				+ minishell->write_params->k + len])
+				+ len] && !is_spaces(cmd[minishell->write_params->i
+					+ minishell->write_params->k + len])
 			&& cmd[minishell->write_params->i + minishell->write_params->k
-			+ len] != '$' && cmd[minishell->write_params->i
-			+ minishell->write_params->k + len] != ']')
+				+ len] != '$' && cmd[minishell->write_params->i
+				+ minishell->write_params->k + len] != ']')
 			len++;
 		return (len);
 	}

@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/22 15:56:16 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:07:07 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,19 +183,15 @@ char	*get_input(void)
 	return (buffer);
 }
 
-void	print_exit_code(t_minishell *cmd)
-{
-	ft_putnbr_fd(cmd->exit_code, 1);
-	ft_putstr_fd("\n", 1);
-}
-
 int main(int argc, char **argv, char **envp)
 {
 	char		*buffer;
 	t_minishell *cmd;
 	int			flag;
+	int			i;
 	(void)argv;
 	
+	i = 0;
 	flag = 0;
 	if (argc != 1)
 		return (ft_putendl_fd("Too much arguments", 1), 1);
@@ -217,7 +213,13 @@ int main(int argc, char **argv, char **envp)
 			continue ;
 		if (ft_strncmp(buffer, "$?", 2) == 0)
 		{
-			print_exit_code(cmd);
+			while (ft_strncmp(buffer + i, "$?", 2) == 0)
+			{
+				ft_putnbr_fd(cmd->exit_code, 1);
+				i += 2;
+			}
+			ft_putstr_fd("\n", 1);
+			i = 0;
 			continue ;
 		}
 		if (parse_all_minishell(cmd, buffer))
