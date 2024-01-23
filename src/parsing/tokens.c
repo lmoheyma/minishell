@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/22 15:29:50 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:47:42 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ t_tokens	*create_token(char *cmd, int *i, t_minishell *minishell)
 	token = malloc(sizeof(t_tokens));
 	if (!token)
 		return (ft_err(minishell, "Token Malloc err", 2), NULL);
+	if (cmd[0] == '$' && get_env_var_size(minishell->envs, cmd, &j))
+		return (ft_err(minishell, "test",
+				2), NULL);
 	if (set_token_type(token, cmd, i))
 		return (ft_err(minishell, "bash: syntax error near unexpected token",
 				2), NULL);

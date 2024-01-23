@@ -15,6 +15,8 @@ $ ->$DONTEXIST
 	$HOMEdskjhfkdshfsd
 	$DONTEXIST
 
+	# Rajouter condition au debut de la creation de token pour faire passer les variables d'environnement qui existent et return celles qui sont vides et sans rien derriere
+
 ENV & EXPORT & UNSET ->
 	EXEC ->
 		export | grep HOME   => car pas fork => Fork export ?
@@ -76,7 +78,6 @@ PIPE ->
 		cat a | <b cat | cat > c | cat  => mauvaise sortie d'erreur'
 	
 REDIRECTIONS ->
-	echo hola >>> bonjour  => error
 	>bonjour echo > hola>bonjour>hola>>bonjour>hola hey >bonjour hola >hola  => execve: text file busy
 	cat <pwd  => No such file or directory & return
 	cat <src/pwd
@@ -87,7 +88,7 @@ REDIRECTIONS ->
 	echo hola > bonjour hey   => execve: text file busy
 	>bonjour <prout hello     => execve: text file busy
 
-	export HOLA="bonjour hello"
+\	export HOLA="bonjour hello"
 	>$"HOLA"
 	ls
 	>$HOLA>hey
