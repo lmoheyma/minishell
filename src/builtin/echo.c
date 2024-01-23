@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:35:08 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/22 17:15:14 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:04:25 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	print_arg(char *str)
 	}
 }
 
-void ft_echo(t_minishell *cmd)
+int ft_echo(t_minishell *cmd)
 {
 	int		i;
 	int		has_n;
@@ -58,7 +58,7 @@ void ft_echo(t_minishell *cmd)
 	if (!cmd->args->cmd[1])
 	{
 		ft_putchar_fd('\n', 1);
-		exit(EXIT_SUCCESS);
+		return (0);
 	}
 	while (arg->cmd && ((ft_strcmp(arg->cmd[i], "-n") == 0) || (arg->cmd[i][0] == '-' && only_n(arg->cmd[i] + 1))))
 	{
@@ -67,10 +67,10 @@ void ft_echo(t_minishell *cmd)
 	}
 	if (ft_strncmp(arg->cmd[1], "$?", 2) == 0)
 	{
-		ft_putnbr_fd(cmd->exit_code, 1);
+		ft_putnbr_fd(g_exit_code, 1);
 		if (!has_n)
 			write(1, "\n", 1);
-		exit(EXIT_SUCCESS);
+		return (0);
 	}
 	while (arg->cmd[i])
 	{
@@ -81,5 +81,5 @@ void ft_echo(t_minishell *cmd)
 	}
 	if (!has_n)
 		write(1, "\n", 1);
-	exit(EXIT_SUCCESS);
+	return (0);
 }
