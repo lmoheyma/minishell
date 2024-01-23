@@ -10,12 +10,8 @@ ECHO ->
 	echo $9HOME
 
 
-$ ->$DONTEXIST
+$ ->
 	$HOME        => bash: /home/lmoheyma: Is a directory
-	$HOMEdskjhfkdshfsd
-	$DONTEXIST
-
-	# Rajouter condition au debut de la creation de token pour faire passer les variables d'environnement qui existent et return celles qui sont vides et sans rien derriere
 
 ENV & EXPORT & UNSET ->
 	EXEC ->
@@ -79,12 +75,6 @@ PIPE ->
 	
 REDIRECTIONS ->
 	>bonjour echo > hola>bonjour>hola>>bonjour>hola hey >bonjour hola >hola  => execve: text file busy
-	cat <pwd  => No such file or directory & return
-	cat <src/pwd
-	cat <../pwd
-	cat < ls
-	cat < ls > ls
-	cat > ls1 < ls2
 	echo hola > bonjour hey   => execve: text file busy
 	>bonjour <prout hello     => execve: text file busy
 

@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/23 13:47:42 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/23 14:05:23 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,21 +89,20 @@ t_tokens	*create_token(char *cmd, int *i, t_minishell *minishell)
 	j = 0;
 	token = malloc(sizeof(t_tokens));
 	if (!token)
-		return (ft_err(minishell, "Token Malloc err", 2), NULL);
-	if (cmd[0] == '$' && get_env_var_size(minishell->envs, cmd, &j))
-		return (ft_err(minishell, "test",
-				2), NULL);
+		return (ft_err(minishell, "Token Malloc err\n", 2), NULL);
+	if (cmd[0] == '$' && get_env_var_size(minishell->envs, cmd + 1, &j) == 0)
+		return (ft_err(minishell, "", 2), NULL);
 	if (set_token_type(token, cmd, i))
-		return (ft_err(minishell, "bash: syntax error near unexpected token",
+		return (ft_err(minishell, "bash: syntax error near unexpected token\n",
 				2), NULL);
 	var_size = nb_special_char(minishell, token, cmd + *i, &j);
 	token->content = malloc(sizeof(char) * (j + var_size + 1));
 	if (!token->content)
-		return (ft_err(minishell, "Token Content Malloc err", 2), NULL);
+		return (ft_err(minishell, "Token Content Malloc err\n", 2), NULL);
 	write_word(minishell, token, cmd + *i);
 	if (ft_strlen(token->content) < 1)
 		return (ft_err(minishell,
-				"bash: syntax error near unexpected token '|'", 2), NULL);
+				"bash: syntax error near unexpected token '|'\n", 2), NULL);
 	*i += j;
 	return (token);
 }
@@ -116,7 +115,7 @@ int	setup_tokens(t_minishell *minishell, char *cmd)
 	skip_spaces(cmd, &i);
 	if (cmd[i] == '|')
 		return (ft_err(minishell,
-				"bash: syntax error near unexpected token `|'", 2), 1);
+				"bash: syntax error near unexpected token `|'\n", 2), 1);
 	if (i >= ft_strlen(cmd))
 		return (ft_err(minishell, "", 2), 1);
 	minishell->tokens = create_token(cmd, &i, minishell);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:54:13 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 13:08:26 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 14:42:15 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,6 @@ void fork_builtin(t_minishell *cmd)
 	{
 		dup2(cmd->fd_out, STDOUT_FILENO);
 		g_exit_code = exec_builtin(cmd);
-		ft_putnbr_fd(g_exit_code, 2);
-		ft_putstr_fd("\n", 2);
 		exit(g_exit_code);
 	}
 	else

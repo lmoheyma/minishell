@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 16:26:28 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/22 16:31:29 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:18:05 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,22 @@ int	ft_cmdsize(t_args *args)
 	return (i);
 }
 
+int	get_len_for_env(char *str, char *sub_path)
+{
+	int		i;
+	char	*s;
+
+	i = 0;
+	if (ft_strlen(str) > ft_strlen(sub_path))
+		s = str;
+	else
+		s = sub_path;
+	while (s[i] && !is_spaces(s[i]) && ((s[i] >= 'a' && s[i] <= 'z')
+			|| (s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= '0' && s[i] <= '9')))
+		i++;
+	return (i);
+}
+
 int	get_env_var_size(t_env *env, char *str, int *i)
 {
 	int		j;
@@ -65,13 +81,16 @@ int	get_env_var_size(t_env *env, char *str, int *i)
 	temp = env;
 	if (ft_strncmp(str, "$?", 2) == 0)
 		return (2);
+	// if ((!(str[0] >= 'a' && str[0] <= 'z')
+	// 		|| (str[0] >= 'A' && str[0] <= 'Z') || (str[0] >= '0' && str[0] <= '9')))
+	// 	return (0);
 	while (env)
 	{
 		j = 0;
 		while (env->content[j] != '=')
 			j++;
 		sub_path = ft_substr(env->content, 0, j);
-		if (ft_strncmp(str, sub_path, j) == 0)
+		if (ft_strncmp(str, sub_path, get_len_for_env(str, sub_path)) == 0)
 		{
 			free(sub_path);
 			splitted_env = ft_split(env->content, '=');
@@ -85,21 +104,6 @@ int	get_env_var_size(t_env *env, char *str, int *i)
 	return (0);
 }
 
-int	get_len_for_env(char *str, char *sub_path)
-{
-	int		i;
-	char	*s;
-
-	i = 0;
-	if (ft_strlen(str) > ft_strlen(sub_path))
-		s = str;
-	else
-		s = sub_path;
-	while (s[i] && !is_spaces(s[i]) && s[i] != '$')
-		i++;
-	return (i);
-}
-
 char	**get_env_var_content(t_env *env, char *str)
 {
 	int		j;
@@ -109,6 +113,9 @@ char	**get_env_var_content(t_env *env, char *str)
 
 	str++;
 	temp = env;
+	// if ((str[0] >= 'a' && str[0] <= 'z')
+	// 	|| (str[0] >= 'A' && str[0] <= 'Z') || (str[0] >= '0' && str[0] <= '9'))
+	// 	return (0);
 	while (env)
 	{
 		j = 0;

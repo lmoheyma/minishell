@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 12:53:56 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 14:08:41 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,10 +137,10 @@ int					add_line_to_fd(char **argv, int fd[2]);
 
 // PARSING
 
-void				setup_files(t_minishell *minishell);
-void				replace_infile(t_minishell *minishell, char *path);
-void				replace_outfile(t_minishell *minishell, char *path);
-void				replace_append_outfile(t_minishell *minishell, char *path);
+int					setup_files(t_minishell *minishell);
+int					replace_infile(t_minishell *minishell, char *path);
+int					replace_outfile(t_minishell *minishell, char *path);
+int					replace_append_outfile(t_minishell *minishell, char *path);
 
 int					get_elem(char *cmd);
 int					parse_all_minishell(t_minishell *minishell, char *cmd);
