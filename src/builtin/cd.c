@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:23:57 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 15:59:53 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 19:39:53 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,25 @@ char	*get_home(t_env *env)
 	return (0);
 }
 
-char	*replace_home_alias(t_minishell *cmd)
+char	*replace_home_alias(t_minishell *cmd, char *path)
 {
 	char	*sub_path;
-	char	*path;
 	int		i;
 	int		cmd_len;
 
 	i = 0;
 	cmd_len = ft_strlen(cmd->args->cmd[1]);
-	path = NULL;
+	if (!path)
+		path = ft_strdup("");
 	while (cmd->args->cmd[1][i] && cmd->args->cmd[1][i] != '~')
 		i++;
 	sub_path = ft_substr(cmd->args->cmd[1], 0, i);
-	path = ft_strjoin(path, sub_path);
+	path = ft_strjoin_free(path, sub_path);
 	free(sub_path);
-	path = ft_strjoin(path, get_home(cmd->envs));
+	path = ft_strjoin_free(path, get_home(cmd->envs));
 	i++;
 	sub_path = ft_substr(cmd->args->cmd[1], i, cmd_len);
-	path = ft_strjoin(path, sub_path);
+	path = ft_strjoin_free(path, sub_path);
 	free(sub_path);
 	return (path);
 }
@@ -80,7 +80,7 @@ int	ft_cd(t_minishell *cmd)
 	else
 	{
 		if (ft_strchr(cmd->args->cmd[1], '~'))
-			path = replace_home_alias(cmd);
+			path = replace_home_alias(cmd, path);
 		else
 			path = ft_strdup(cmd->args->cmd[1]);
 		if (chdir(path) == -1)

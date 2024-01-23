@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/22 19:32:02 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 20:15:46 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ void command_execute(t_minishell *cmd)
 			fork_builtin(cmd); // echo, env, pwd
 	}
 	else if (cmd->is_pipe)
+	{
+		printf("pipe\n");
 		exec_pipe_command(cmd);
+	}
 	else if (!cmd->is_pipe)
 		fork_process(cmd);
 }

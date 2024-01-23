@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 12:51:36 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 20:03:10 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	unset_var(t_env **env, char *var)
 		free(current);
 		flag = 1;
 	}
+	free_2d_array(var_split);
 	while (!flag && current && current->next)
 	{
 		var_split = ft_split(current->next->content, '=');
@@ -36,13 +37,12 @@ void	unset_var(t_env **env, char *var)
 			to_delete = current->next;
 			current->next = current->next->next;
 			free(to_delete);
+			free_2d_array(var_split);
 			break ;
 		}
 		current = current->next;
-		free(var_split);
+		free_2d_array(var_split);
 	}
-	if (flag)
-		free(var_split);
 }
 
 int	ft_unset(t_minishell *cmd)

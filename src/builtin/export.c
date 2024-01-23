@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:11 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 16:24:41 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 19:17:47 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ int	ft_strlcpy2(char *dest, const char *src, size_t size)
 		dest[i++] = '=';
 		dest[i] = '\0';
 	}
-	while (src[i])
-		i++;
 	return (i);
 }
 
