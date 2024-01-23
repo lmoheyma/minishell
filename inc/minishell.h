@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 14:08:41 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:28:33 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_minishell
 	int				nb_cmd;
 	int				exit_code;
 	t_args			*args;
+	t_args			*args_start;
 	t_tokens		*tokens;
 	t_tokens		*tokens_start;
 	t_write_params	*write_params;
@@ -163,6 +164,7 @@ int					ft_cmdsize(t_args *args);
 int					create_args(t_minishell *minishell);
 
 void				ft_err(t_minishell *minishell, char *err, int code);
+void				ft_err_args(t_minishell *minishell, char *err, int code);
 void				free_tokens(t_tokens **tokens);
 void				free_args(t_args **args);
 

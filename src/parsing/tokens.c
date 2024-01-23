@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/23 14:05:23 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:49:14 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_tokens	*create_token(char *cmd, int *i, t_minishell *minishell)
 	t_tokens	*token;
 
 	j = 0;
-	token = malloc(sizeof(t_tokens));
+	token = ft_calloc(sizeof(t_tokens), 1);
 	if (!token)
 		return (ft_err(minishell, "Token Malloc err\n", 2), NULL);
 	if (cmd[0] == '$' && get_env_var_size(minishell->envs, cmd + 1, &j) == 0)
@@ -96,7 +96,7 @@ t_tokens	*create_token(char *cmd, int *i, t_minishell *minishell)
 		return (ft_err(minishell, "bash: syntax error near unexpected token\n",
 				2), NULL);
 	var_size = nb_special_char(minishell, token, cmd + *i, &j);
-	token->content = malloc(sizeof(char) * (j + var_size + 1));
+	token->content = ft_calloc(sizeof(char), (j + var_size + 1));
 	if (!token->content)
 		return (ft_err(minishell, "Token Content Malloc err\n", 2), NULL);
 	write_word(minishell, token, cmd + *i);
