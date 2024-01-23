@@ -8,16 +8,22 @@ LIB = -L libft/ -lft -lreadline
 
 SRCS = src/main.c \
 		src/utils.c \
+		src/utils2.c \
 		src/free.c \
 		src/exec/exec.c \
 		src/exec/builtin.c \
 		src/exec/here_doc.c \
 		src/exec/pipe.c \
+		src/exec/path.c \
+		src/exec/signals.c \
 		src/builtin/cd.c \
+		src/builtin/cd_utils.c \
 		src/builtin/echo.c \
 		src/builtin/env.c \
+		src/builtin/env_utils.c \
 		src/builtin/exit.c \
 		src/builtin/export.c \
+		src/builtin/export_utils.c \
 		src/builtin/pwd.c \
 		src/builtin/unset.c \
 		src/parsing/args.c \

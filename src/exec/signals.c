@@ -1,38 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 13:10:40 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 22:58:54 by lmoheyma         ###   ########.fr       */
+/*   Created: 2024/01/23 21:40:58 by lmoheyma          #+#    #+#             */
+/*   Updated: 2024/01/23 22:19:54 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-void	free_env(t_env *env)
+void	signals_manager(int signal)
 {
-	t_env	*tmp;
-
-	while (env)
+	if (signal == SIGINT)
 	{
-		tmp = env->next;
-		free(env);
-		env = tmp;
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }
 
-void	free_2d_array(char **str)
+void	signals_manager_child(int signal)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
+	if (signal == SIGINT)
 	{
-		free(str[i]);
-		i++;
+		printf("\n");
 	}
-	free(str);
+	else if (signal == SIGQUIT)
+	{
+		ft_putstr_fd("Quit (core dumped)\n", 1);
+	}
 }

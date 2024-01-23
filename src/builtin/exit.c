@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 15:30:16 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 14:15:34 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 22:19:05 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,34 +19,6 @@ void	print_error_exit(char *str)
 	ft_putstr_fd(": numeric argument required\n", 1);
 }
 
-long int	ft_atol(char *str)
-{
-	int		i;
-	int		sign;
-	long	res;
-
-	i = 0;
-	sign = 1;
-	res = 0;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '-')
-		sign = -1;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	if (ft_strncmp(str + i, "9223372036854775808", 19) == 0)
-		return (LONG_MIN);
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		res = res * 10 + (str[i] - '0');
-		// if ((unsigned long long)res * sign > 9223372036854775807ULL
-		// 	|| (unsigned long long)res * sign < -9223372036854775808ULL)
-		// 	return (print_error_exit(str), 2);
-		i++;
-	}
-	return (res * sign);
-}
-
 int	is_too_long(char *str, int i)
 {
 	int	nb_digits;
@@ -56,8 +28,7 @@ int	is_too_long(char *str, int i)
 		return (1);
 	if (nb_digits == 19)
 	{
-		if (str[0] == '-' && ft_strncmp(str + i, "9223372036854775808",
-				19) < 0)
+		if (str[0] == '-' && ft_strncmp(str + i, "9223372036854775808", 19) < 0)
 			return (1);
 		if ((str[0] == '+' || ft_isdigit(str[0])) && ft_strncmp(str + i,
 				"9223372036854775807", 19) < 0)
@@ -110,13 +81,14 @@ int	ft_exit_code(t_args *arg)
 
 int	ft_exit(t_minishell *cmd)
 {
-	int exit_code;
-	t_args *arg;
+	int		exit_code;
+	t_args	*arg;
 
 	arg = cmd->args;
 	ft_putstr_fd("exit\n", 1);
 	exit_code = ft_exit_code(arg);
 	free_env(cmd->envs);
+	free(cmd);
 	if (exit_code == 256)
 		return (1);
 	exit(exit_code);

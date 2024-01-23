@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:47 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/23 16:03:20 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/23 22:59:29 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	check_chevrons(char *cmd)
 			while (cmd[i + count] == chevron)
 				count++;
 			if (count > 2 || (cmd[i + count] == '<' && cmd[i] == '>') || (cmd[i
-						+ count] == '>' && cmd[i] == '<'))
+					+ count] == '>' && cmd[i] == '<'))
 				return (1);
 		}
 		i++;

@@ -6,38 +6,26 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 20:15:46 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 22:54:19 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void signals_manager_child(int signal)
-{
-
-	if (signal == SIGINT)
-	{
-		printf("\n");
-	}
-	else if (signal == SIGQUIT)
-	{
-		ft_putstr_fd("Quit (core dumped)\n", 1);
-	}
-}
-
-void command_execute(t_minishell *cmd)
+void	command_execute(t_minishell *cmd)
 {
 	t_args	*last_arg;
 
 	last_arg = ft_last(cmd->args);
-	if (last_arg_is_builtin(cmd) == TRUE && cmd->is_pipe && ft_strcmp(last_arg->cmd[0], "echo"))
+	if (last_arg_is_builtin(cmd) == TRUE && cmd->is_pipe
+		&& ft_strcmp(last_arg->cmd[0], "echo"))
 		return ;
 	if (is_builtin(cmd) == TRUE && !cmd->is_pipe)
 	{
-		if (is_env_buitin(cmd) == TRUE) //cd, export, unset, exit
+		if (is_env_buitin(cmd) == TRUE)
 			exec_builtin(cmd);
 		else
-			fork_builtin(cmd); // echo, env, pwd
+			fork_builtin(cmd);
 	}
 	else if (cmd->is_pipe)
 	{
@@ -48,9 +36,20 @@ void command_execute(t_minishell *cmd)
 		fork_process(cmd);
 }
 
-void fork_process(t_minishell *cmd)
+void	child(t_minishell *cmd)
 {
-	int pid;
+	signal(SIGQUIT, signals_manager_child);
+	dup2(cmd->fd_out, STDOUT_FILENO);
+	dup2(cmd->fd_in, STDIN_FILENO);
+	if ((access(cmd->args->cmd[0], F_OK | X_OK) == 0))
+		exec_absolute_path(cmd, cmd->args);
+	else
+		exec_simple_command(cmd, cmd->args);
+}
+
+void	fork_process(t_minishell *cmd)
+{
+	int	pid;
 	int	status;
 
 	status = 0;
@@ -59,20 +58,14 @@ void fork_process(t_minishell *cmd)
 		perror("fork");
 	if (pid == 0)
 	{
-		signal(SIGQUIT, signals_manager_child);
-		dup2(cmd->fd_out, STDOUT_FILENO);
-		dup2(cmd->fd_in, STDIN_FILENO);
-		if ((access(cmd->args->cmd[0], F_OK | X_OK) == 0))
-			exec_absolute_path(cmd, cmd->args);
-		else
-			exec_simple_command(cmd, cmd->args);
+		child(cmd);
 	}
 	else
 	{
 		signal(SIGQUIT, signals_manager_child);
 		signal(SIGINT, signals_manager_child);
 		waitpid(pid, &status, 0);
-		kill(pid, SIGTERM);	
+		kill(pid, SIGTERM);
 		signal(SIGINT, signals_manager);
 		signal(SIGQUIT, SIG_IGN);
 	}
@@ -95,10 +88,8 @@ void	exec_simple_command(t_minishell *cmd, t_args *arg)
 		if (access(exe, F_OK | X_OK) == 0)
 		{
 			if (execve(exe, arg->cmd, env_tab(cmd->envs)) == -1)
-			{
 				perror("execve");
-				exit(EXIT_FAILURE);
-			}
+			exit(EXIT_FAILURE);
 		}
 		free(exe);
 	}

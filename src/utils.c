@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:57:48 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 15:55:36 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 22:57:34 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**ft_last_cmd(t_minishell *minishell)
 {
-	t_args *temp;
+	t_args	*temp;
 
 	temp = minishell->args;
 	while (temp)
@@ -37,31 +37,6 @@ void	free_str(char **str)
 		i++;
 	}
 	free(str);
-}
-
-char	*get_path(t_env *env)
-{
-	int		j;
-	char	*sub_path;
-
-	while (env)
-	{
-		j = 0;
-		while (env->content[j] != '=')
-		{
-			j++;
-		}
-		sub_path = ft_substr(env->content, 0, j);
-		if (ft_strncmp("PATH", sub_path, j) == 0)
-		{
-			free(sub_path);
-			return (env->content + j + 1);
-		}
-		free(sub_path);
-		env = env->next;
-	}
-	
-	return (0);
 }
 
 int	env_size(t_env *lst)
@@ -110,12 +85,4 @@ int	ft_strcmp(const char *str, const char *str2)
 	if (str[i] != str2[i])
 		return ((unsigned char)str[i] - (unsigned char)str2[i]);
 	return (0);
-}
-
-void print_error_str(char *str)
-{
-	ft_putstr_fd("bash: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": command not found", 2);
-	ft_putstr_fd("\n", 2);
 }

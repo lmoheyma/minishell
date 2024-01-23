@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/23 15:49:14 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/23 22:59:32 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_tokens	*create_token(char *cmd, int *i, t_minishell *minishell)
 
 int	setup_tokens(t_minishell *minishell, char *cmd)
 {
-	int			i;
+	int	i;
 
 	i = 0;
 	skip_spaces(cmd, &i);

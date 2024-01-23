@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 16:26:28 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/17 14:56:54 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 22:59:36 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	skip_spaces(char *str, int *i)
 
 int	is_cmd(char *type)
 {
-	if (ft_strncmp(type, "pipe", 4) == 0
-		|| ft_strncmp(type, "simple_cmd", 10) == 0)
+	if (ft_strncmp(type, "pipe", 4) == 0 || ft_strncmp(type, "simple_cmd",
+			10) == 0)
 		return (1);
 	else
 		return (0);
