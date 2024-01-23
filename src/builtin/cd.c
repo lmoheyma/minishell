@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:23:57 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/21 18:59:58 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:59:53 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*replace_home_alias(t_minishell *cmd)
 
 	i = 0;
 	cmd_len = ft_strlen(cmd->args->cmd[1]);
-	path = ft_strdup("");
+	path = NULL;
 	while (cmd->args->cmd[1][i] && cmd->args->cmd[1][i] != '~')
 		i++;
 	sub_path = ft_substr(cmd->args->cmd[1], 0, i);
@@ -86,6 +86,7 @@ int	ft_cd(t_minishell *cmd)
 		if (chdir(path) == -1)
 			perror("cd");
 	}
+	free(path);
 	getcwd(cwd, sizeof(cwd));
 	add_oldpwd_to_env(cmd->envs, old_cwd);
 	add_pwd_to_env(cmd->envs, cwd);
@@ -94,11 +95,9 @@ int	ft_cd(t_minishell *cmd)
 
 void add_pwd_to_env(t_env *env, char *str)
 {
-	char	**pwd_split;
 	char	cwd[PATH_MAX];
 	char	*new_pwd;
 
-	pwd_split = ft_split(get_pwd(env, "PWD"), '=');
 	if (is_env_var_set(env, "PWD"))
 		change_pwd_var(env, str, ft_strlen(str) + 1, "PWD");
 	else
@@ -110,9 +109,6 @@ void add_pwd_to_env(t_env *env, char *str)
 
 void add_oldpwd_to_env(t_env *env, char *str)
 {
-	char	**pwd_split;
-
-	pwd_split = ft_split(get_pwd(env, "OLDPWD"), '=');
 	if (is_env_var_set(env, "OLDPWD"))
 		change_pwd_var(env, str, ft_strlen(str) + 1, "OLDPWD");
 }

@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:31:39 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/22 19:16:49 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:08:06 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,6 @@ void	print_env(t_env *env)
 int	ft_env(t_minishell *cmd)
 {
 	print_env(cmd->envs);
+	free_env(cmd->envs);
 	exit(EXIT_SUCCESS);
 }

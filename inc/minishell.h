@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 12:53:56 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:17:30 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,10 @@ void				add_back_node_env(t_env **lst, t_env *new);
 int					is_env_var_set(t_env *env, char *str);
 void				add_to_env(t_env *env, char *str);
 
+// Free
+void 				free_env(t_env *env);
+void 				free_2d_array(char **str);
+
 // Pwd
 void				add_pwd_to_env(t_env *env, char *str);
 void				add_oldpwd_to_env(t_env *env, char *str);
@@ -106,7 +110,7 @@ int					is_builtin_arg(t_args *arg);
 int					ft_env(t_minishell *cmd);
 int					ft_echo(t_minishell *cmd);
 int					ft_export(t_minishell *cmd);
-int					ft_pwd(void);
+int					ft_pwd(t_minishell *cmd);
 int					ft_unset(t_minishell *cmd);
 int					ft_exit(t_minishell *cmd);
 
@@ -131,6 +135,7 @@ void				free_str(char **str);
 char				**ft_last_cmd(t_minishell *minishell);
 int					ft_strcmp(const char *str, const char *str2);
 void 				print_error_str(char *str);
+
 
 // Here-doc
 int					add_line_to_fd(char **argv, int fd[2]);

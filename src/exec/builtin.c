@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:54:13 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 13:08:26 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:10:32 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,6 @@
 // 		free(builtin[i]);
 // 	free(builtin);
 // }
-
-char	**fill_builtin_tab(char **builtin)
-{
-	builtin[0] = "echo";
-	builtin[1] = "cd";
-	builtin[2] = "pwd";
-	builtin[3] = "export";
-	builtin[4] = "unset";
-	builtin[5] = "env";
-	builtin[6] = "exit";
-	return (builtin);
-}
 
 int	is_builtin(t_minishell *cmd)
 {
@@ -60,7 +48,7 @@ int	exec_builtin(t_minishell *cmd)
 	if (ft_strcmp(cmd->args->cmd[0], "cd") == 0)
 		g_exit_code = ft_cd(cmd);
 	else if (ft_strcmp(cmd->args->cmd[0], "pwd") == 0)
-		g_exit_code = ft_pwd();
+		g_exit_code = ft_pwd(cmd);
 	else if (ft_strcmp(cmd->args->cmd[0], "env") == 0)
 		g_exit_code = ft_env(cmd);
 	else if (ft_strcmp(cmd->args->cmd[0], "export") == 0)
@@ -110,8 +98,9 @@ void fork_builtin(t_minishell *cmd)
 	{
 		dup2(cmd->fd_out, STDOUT_FILENO);
 		g_exit_code = exec_builtin(cmd);
-		ft_putnbr_fd(g_exit_code, 2);
-		ft_putstr_fd("\n", 2);
+		free_env(cmd->envs);
+		// ft_putnbr_fd(g_exit_code, 2);
+		// ft_putstr_fd("\n", 2);
 		exit(g_exit_code);
 	}
 	else

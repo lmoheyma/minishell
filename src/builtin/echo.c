@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:35:08 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 13:04:25 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:55:31 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int ft_echo(t_minishell *cmd)
 		ft_putchar_fd('\n', 1);
 		return (0);
 	}
-	while (arg->cmd && ((ft_strcmp(arg->cmd[i], "-n") == 0) || (arg->cmd[i][0] == '-' && only_n(arg->cmd[i] + 1))))
+	while (arg->cmd[i] && ((ft_strcmp(arg->cmd[i], "-n") == 0) || (arg->cmd[i][0] == '-' && only_n(arg->cmd[i] + 1))))
 	{
 		has_n = 1;
 		i++;

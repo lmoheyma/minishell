@@ -6,23 +6,33 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:10:40 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 13:12:24 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:16:47 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void free_args(t_args *arg)
+void free_env(t_env *env)
 {
+	t_env	*tmp;
 
+	while (env)
+	{
+		tmp = env->next;
+		free(env);
+		env = tmp;
+	}
 }
 
-void free_minishell(t_minishell *minishell)
+void free_2d_array(char **str)
 {
-	
-}
+	int	i;
 
-void free_tokens(t_tokens *tokens)
-{
-	
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }

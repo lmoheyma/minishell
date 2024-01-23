@@ -8,6 +8,7 @@ LIB = -L libft/ -lft -lreadline
 
 SRCS = src/main.c \
 		src/utils.c \
+		src/free.c \
 		src/exec/exec.c \
 		src/exec/builtin.c \
 		src/exec/here_doc.c \

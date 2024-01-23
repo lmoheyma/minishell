@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 13:41:52 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 14:17:08 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void signals_manager(int signal)
 	}
 }
 
-char	*get_input(void)
+char	*get_input(t_minishell *cmd)
 {
 	char	*prompt;
 	char	*buffer;
@@ -127,6 +127,7 @@ char	*get_input(void)
 	if (!buffer)
 	{
 		printf("exit\n");
+		free_env(cmd->envs);
 		exit(0);
 	}
 	if (!ft_strlen(buffer))
@@ -158,7 +159,7 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		cmd->is_pipe = 0;
-		buffer = get_input();
+		buffer = get_input(cmd);
 		if (!buffer)
 			continue ;
 		if (ft_strncmp(buffer, "$?", 2) == 0)

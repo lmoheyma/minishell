@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:11 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 12:53:37 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:24:41 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,17 @@ int	check_syntax(t_minishell *cmd, char *str)
 		return (export_error(str), 0);
 	str_split = ft_split(str, '=');
 	if (!str_split || !*str_split)
-		return (export_error(str), 0);
+		return (free_2d_array(str_split), export_error(str), 0);
 	if (ft_strchr(str_split[0], '%') || ft_strchr(str_split[0], '@')
 		|| ft_strchr(str_split[0], '-') || ft_strchr(str_split[0], '}')
 		|| ft_strchr(str_split[0], '{') || ft_strchr(str_split[0], '*')
 		|| ft_strchr(str_split[0], '#') || ft_strchr(str_split[0], '!')
 		|| ft_strchr(str_split[0], '+') || ft_strchr(str_split[0], '?')
 		|| ft_strchr(str_split[0], '.'))
-		return (export_error(str), 0);
+		return (free_2d_array(str_split), export_error(str), 0);
 	if (ft_isdigit(str_split[0][0]) || str_split[0][0] == '=')
-		return (export_error(str), 0);
-	return (1);
+		return (free_2d_array(str_split), export_error(str), 0);
+	return (free_2d_array(str_split), 1);
 }
 
 int	ft_strlcpy2(char *dest, const char *src, size_t size)
@@ -144,6 +144,7 @@ void	add_to_env(t_env *env, char *str)
 		change_var(env, str, str_split);
 	else
 		add_back_node_env(&env, new_env_node(str));
+	free_2d_array(str_split);
 }
 
 int	ft_export(t_minishell *cmd)
