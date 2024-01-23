@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 14:17:08 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:32:58 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,8 @@ int main(int argc, char **argv, char **envp)
 			print_error(cmd, 1);
 			g_exit_code = 127;
 		}
+		free_tokens(&cmd->tokens_start);
+		free_args(&cmd->args_start);
 		// free(buffer);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 10:17:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/22 15:25:08 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:45:36 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,17 @@
 void	ft_err(t_minishell *minishell, char *err, int code)
 {
 	free_tokens(&minishell->tokens_start);
-	// if (minishell->args)
-	// 	free_args(&minishell->args);
+	free_args(&minishell->args_start);
 	minishell->exit_code = code;
-	ft_putendl_fd(err, 2);
+	ft_putstr_fd(err, 2);
+}
+
+void	ft_err_args(t_minishell *minishell, char *err, int code)
+{
+	free_tokens(&minishell->tokens_start);
+	free_args(&minishell->args_start);
+	minishell->exit_code = code;
+	ft_putstr_fd(err, 2);
 }
 
 void	free_tokens(t_tokens **tokens)
@@ -38,6 +45,9 @@ void	free_args(t_args **args)
 	t_args	*tmp;
 	int		i;
 
+	i = 0;
+	if (!args || !*args)
+		return ;
 	while (*args)
 	{
 		tmp = (*args)->next;

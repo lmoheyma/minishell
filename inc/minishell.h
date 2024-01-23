@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 16:17:30 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:35:47 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_minishell
 	int				nb_cmd;
 	int				exit_code;
 	t_args			*args;
+	t_args			*args_start;
 	t_tokens		*tokens;
 	t_tokens		*tokens_start;
 	t_write_params	*write_params;
@@ -142,10 +143,10 @@ int					add_line_to_fd(char **argv, int fd[2]);
 
 // PARSING
 
-void				setup_files(t_minishell *minishell);
-void				replace_infile(t_minishell *minishell, char *path);
-void				replace_outfile(t_minishell *minishell, char *path);
-void				replace_append_outfile(t_minishell *minishell, char *path);
+int					setup_files(t_minishell *minishell);
+int					replace_infile(t_minishell *minishell, char *path);
+int					replace_outfile(t_minishell *minishell, char *path);
+int					replace_append_outfile(t_minishell *minishell, char *path);
 
 int					get_elem(char *cmd);
 int					parse_all_minishell(t_minishell *minishell, char *cmd);
@@ -168,6 +169,7 @@ int					ft_cmdsize(t_args *args);
 int					create_args(t_minishell *minishell);
 
 void				ft_err(t_minishell *minishell, char *err, int code);
+void				ft_err_args(t_minishell *minishell, char *err, int code);
 void				free_tokens(t_tokens **tokens);
 void				free_args(t_args **args);
 

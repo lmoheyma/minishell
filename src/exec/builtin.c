@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:54:13 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 15:10:32 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:33:25 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,8 @@ void fork_builtin(t_minishell *cmd)
 	{
 		dup2(cmd->fd_out, STDOUT_FILENO);
 		g_exit_code = exec_builtin(cmd);
-		free_env(cmd->envs);
-		// ft_putnbr_fd(g_exit_code, 2);
-		// ft_putstr_fd("\n", 2);
+		ft_putnbr_fd(g_exit_code, 2);
+		ft_putstr_fd("\n", 2);
 		exit(g_exit_code);
 	}
 	else

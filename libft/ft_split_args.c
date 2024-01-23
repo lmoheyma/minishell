@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:51:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/22 10:42:08 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:32:28 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static char	*write_word(char *s)
 	str[i] = '\0';
 	return (str);
 }
-#include <stdio.h>
+
 char	**ft_split_args(char *s)
 {
 	char	**str;
