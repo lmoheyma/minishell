@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 18:45:37 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 20:32:55 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,12 +141,12 @@ int main(int argc, char **argv, char **envp)
 {
 	char		*buffer;
 	t_minishell *cmd;
-	int			flag;
+	// int			flag;
 	int			i;
 	(void)argv;
 	
 	i = 0;
-	flag = 0;
+	// flag = 0;
 	if (argc != 1)
 		return (ft_putendl_fd("Too much arguments", 1), 1);
 	cmd = (t_minishell *)malloc(sizeof(t_minishell));

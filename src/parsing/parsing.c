@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:47 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/23 16:03:20 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/23 21:09:35 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ int	parse_all_minishell(t_minishell *minishell, char *cmd)
 	// 		minishell->tokens->type);
 	// 	minishell->tokens = minishell->tokens->next;
 	// }
-	// minishell->tokens = minishell->tokens_start;
 	// int i = 0;
 	// while (minishell->args)
 	// {
+	// 	i = 0;
 	// 	while (minishell->args->cmd[i])
 	// 	{
 	// 		printf("Args");
@@ -91,8 +91,9 @@ int	parse_all_minishell(t_minishell *minishell, char *cmd)
 	// 	}
 	// 	minishell->args = minishell->args->next;
 	// }
+	// minishell->tokens = minishell->tokens_start;
 	// minishell->args = minishell->args_start;
-	// ft_err(minishell, "", 2);
+	ft_err(minishell, "", 2);
 	minishell->nb_cmd = ft_cmdsize(minishell->args);
 	if (minishell->nb_cmd > 1)
 		minishell->is_pipe = 1;
