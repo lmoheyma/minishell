@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:54:13 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/21 18:39:04 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:08:26 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,24 @@ int	is_builtin(t_minishell *cmd)
 		return (0);
 }
 
-void	exec_builtin(t_minishell *cmd)
+int	exec_builtin(t_minishell *cmd)
 {	
 	dup2(cmd->fd_out, STDOUT_FILENO);
 	if (ft_strcmp(cmd->args->cmd[0], "cd") == 0)
-		ft_cd(cmd);
+		g_exit_code = ft_cd(cmd);
 	else if (ft_strcmp(cmd->args->cmd[0], "pwd") == 0)
-		ft_pwd();
+		g_exit_code = ft_pwd();
 	else if (ft_strcmp(cmd->args->cmd[0], "env") == 0)
-		ft_env(cmd);
+		g_exit_code = ft_env(cmd);
 	else if (ft_strcmp(cmd->args->cmd[0], "export") == 0)
-		ft_export(cmd);
+		g_exit_code = ft_export(cmd);
 	else if (ft_strcmp(cmd->args->cmd[0], "unset") == 0)
-		ft_unset(cmd);
+		g_exit_code = ft_unset(cmd);
 	else if (ft_strcmp(cmd->args->cmd[0], "exit") == 0)
-		ft_exit(cmd);
+		g_exit_code = ft_exit(cmd);
 	else if (ft_strcmp(cmd->args->cmd[0], "echo") == 0)
-		ft_echo(cmd);
+		g_exit_code = ft_echo(cmd);
+	return (g_exit_code);
 }
 
 int	last_arg_is_builtin(t_minishell *cmd)
@@ -108,11 +109,13 @@ void fork_builtin(t_minishell *cmd)
 	if (pid == 0)
 	{
 		dup2(cmd->fd_out, STDOUT_FILENO);
-		exec_builtin(cmd);
+		g_exit_code = exec_builtin(cmd);
+		ft_putnbr_fd(g_exit_code, 2);
+		ft_putstr_fd("\n", 2);
+		exit(g_exit_code);
 	}
 	else
 	{
-		//g_pid = pid;
 		waitpid(pid, &status, 0);
 		kill(pid, SIGTERM);
 		if (ft_strcmp(cmd->args->cmd[0], "exit") == 0)

@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:11 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/22 17:09:25 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:53:37 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	add_to_env(t_env *env, char *str)
 		add_back_node_env(&env, new_env_node(str));
 }
 
-void	ft_export(t_minishell *cmd)
+int	ft_export(t_minishell *cmd)
 {
 	t_args	*arg;
 	int		i;
@@ -164,4 +164,5 @@ void	ft_export(t_minishell *cmd)
 			i++;
 		}
 	}
+	return (0);
 }

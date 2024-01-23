@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/22 16:56:20 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:41:52 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,45 +64,6 @@ void	ft_add_back(t_args **lst, t_args *new)
 	}
 }
 
-t_minishell	*simple_init(t_minishell *cmd, char *line, char **envp)
-{
-	t_args *arg;
-	(void)envp;
-
-	arg = NULL;
-	ft_add_back(&arg, ft_new(line));
-	//ft_add_back(&arg, ft_new("head"));
-	//ft_add_back(&arg, ft_new("wc -l"));
-	cmd->args = arg;
-	cmd->fd_in = 0;
-	cmd->fd_out = 1;
-	cmd->is_pipe = 0;
-	cmd->nb_cmd = 2;
-	return (cmd);
-}
-
-void print_args(t_args *arg)
-{
-	int i;
-	int	j;
-
-	i = -1;
-	j = 0;
-	if (!arg)
-		return ;
-	while (arg)
-	{
-		while (++i < 2)
-			printf("args[%d][%d] -> %s ", j, i, arg->cmd[i]);
-		arg = arg->next;
-		i = -1;
-		j++;
-		if (arg)
-			printf("\n");
-	}
-	printf("\n");
-}
-
 int get_path1(t_minishell *cmd, t_args *arg)
 {
 	char	**path_split;
@@ -126,22 +87,20 @@ int get_path1(t_minishell *cmd, t_args *arg)
 		free(exe);
 		exe = NULL;
 	}
+	free(exe);
 	free_str(path_split);
 	return (exe == NULL ? 0 : 1);
 }
 
-char	*dynamic_prompt(size_t buffer_size)
+char	*dynamic_prompt(void)
 {
 	char	*prompt;
 	char 	cwd[PATH_MAX];
 
-	prompt = (char *)malloc(sizeof(char) * buffer_size);
-	if (!prompt)
-		return (NULL);
 	getcwd(cwd, sizeof(cwd));
-		// perror("pwd");
+	prompt = NULL;
 	prompt = ft_strjoin("minishell:", cwd);
-	prompt = ft_strjoin(prompt, "$ ");
+	prompt = ft_strjoin_free(prompt, "$ ");
 	return (prompt);
 }
 
@@ -161,10 +120,8 @@ char	*get_input(void)
 {
 	char	*prompt;
 	char	*buffer;
-	int		buffer_size;
 
-	buffer_size = 4096;
-	prompt = dynamic_prompt(buffer_size);
+	prompt = dynamic_prompt();
 	buffer = readline(prompt);
 	free(prompt);
 	if (!buffer)
@@ -197,9 +154,7 @@ int main(int argc, char **argv, char **envp)
 	signal(SIGINT, signals_manager);
 	signal(SIGQUIT, SIG_IGN);
 	cmd->envs = dup_env(envp);
-	buffer = (char *)malloc(sizeof(char) * 4096);
-	if (!buffer)
-		return (0);
+	buffer = NULL;
 	while (1)
 	{
 		cmd->is_pipe = 0;
@@ -224,8 +179,11 @@ int main(int argc, char **argv, char **envp)
 		if (get_path1(cmd, cmd->args) || is_builtin(cmd) == TRUE || (ft_strncmp(buffer, "./", 2) == 0) || (access(cmd->args->cmd[0], F_OK | X_OK) == 0))
 			command_execute(cmd);
 		else
+		{
 			print_error(cmd, 1);
-		free(buffer);
+			g_exit_code = 127;
+		}
+		// free(buffer);
 	}
 	return (0);
 }

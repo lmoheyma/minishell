@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/22 19:32:11 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:53:56 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int					ft_strlcpy2(char *dest, const char *src, size_t size);
 
 // Builtin
 int					is_builtin(t_minishell *cmd);
-void				exec_builtin(t_minishell *cmd);
+int					exec_builtin(t_minishell *cmd);
 t_args				*ft_last(t_args *lst);
 int					last_arg_is_builtin(t_minishell *cmd);
 void 				fork_builtin(t_minishell *cmd);
@@ -104,10 +104,10 @@ int					is_env_buitin(t_minishell *cmd);
 int					is_builtin_arg(t_args *arg);
 
 int					ft_env(t_minishell *cmd);
-void				ft_echo(t_minishell *cmd);
-void				ft_export(t_minishell *cmd);
-void				ft_pwd(void);
-void				ft_unset(t_minishell *cmd);
+int					ft_echo(t_minishell *cmd);
+int					ft_export(t_minishell *cmd);
+int					ft_pwd(void);
+int					ft_unset(t_minishell *cmd);
 int					ft_exit(t_minishell *cmd);
 
 // Pipe

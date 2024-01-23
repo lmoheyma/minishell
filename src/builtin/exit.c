@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 15:30:16 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/22 22:03:46 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:39:03 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ long int	ft_atol(char *str)
 		sign = -1;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
-	if (ft_strncmp(str + i, "-9223372036854775808", 19) == 0)
+	if (ft_strncmp(str + i, "9223372036854775808", 19) == 0)
 		return (LONG_MIN);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
@@ -56,7 +56,7 @@ int	is_too_long(char *str, int i)
 		return (1);
 	if (nb_digits == 19)
 	{
-		if (str[0] == '-' && ft_strncmp(str + i, "-9223372036854775808",
+		if (str[0] == '-' && ft_strncmp(str + i, "9223372036854775808",
 				19) < 0)
 			return (1);
 		if ((str[0] == '+' || ft_isdigit(str[0])) && ft_strncmp(str + i,
