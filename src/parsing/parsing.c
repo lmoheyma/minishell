@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:47 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/23 22:59:29 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 07:38:01 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,27 +72,27 @@ int	parse_all_minishell(t_minishell *minishell, char *cmd)
 		return (1);
 	if (create_args(minishell))
 		return (1);
-	// while (minishell->tokens)
-	// {
-	// 	printf("End Token : %s - %s\n", minishell->tokens->content,
-	// 		minishell->tokens->type);
-	// 	minishell->tokens = minishell->tokens->next;
-	// }
-	// minishell->tokens = minishell->tokens_start;
-	// int i = 0;
-	// while (minishell->args)
-	// {
-	// 	while (minishell->args->cmd[i])
-	// 	{
-	// 		printf("Args");
-	// 		printf(" - %s", minishell->args->cmd[i]);
-	// 		printf("\n");
-	// 		i++;
-	// 	}
-	// 	minishell->args = minishell->args->next;
-	// }
-	// minishell->args = minishell->args_start;
-	// ft_err(minishell, "", 2);
+	while (minishell->tokens)
+	{
+		printf("End Token : %s - %s\n", minishell->tokens->content,
+			minishell->tokens->type);
+		minishell->tokens = minishell->tokens->next;
+	}
+	minishell->tokens = minishell->tokens_start;
+	int i = 0;
+	while (minishell->args)
+	{
+		i = 0;
+		while (minishell->args->cmd[i])
+		{
+			printf("Args");
+			printf(" - %s", minishell->args->cmd[i]);
+			printf("\n");
+			i++;
+		}
+		minishell->args = minishell->args->next;
+	}
+	minishell->args = minishell->args_start;
 	minishell->nb_cmd = ft_cmdsize(minishell->args);
 	if (minishell->nb_cmd > 1)
 		minishell->is_pipe = 1;

@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 16:38:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/23 16:02:57 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/24 07:38:45 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,34 @@
 int	create_args(t_minishell *minishell)
 {
 	t_tokens	*save;
-	int			depart;
 
-	depart = 1;
 	minishell->args_start = NULL;
 	save = minishell->tokens;
-	while (minishell->tokens || depart)
+	while (minishell->tokens)
 	{
-		if (depart)
-			depart = 0;
 		if (is_cmd(minishell->tokens->type))
 		{
-			minishell->args = ft_calloc(sizeof(t_args), 1);
-			if (!minishell->args)
-				return (1);
 			if (!minishell->args_start)
+			{
+				printf("d");
+				minishell->args = ft_calloc(sizeof(t_args), 1);
+				if (!minishell->args)
+					return (1);
+				minishell->args->cmd = ft_split_args(minishell->tokens->content);
 				minishell->args_start = minishell->args;
-			minishell->args->cmd = ft_split_args(minishell->tokens->content);
-			// minishell->args->cmd = ft_split(minishell->tokens->content, ' ');
-			minishell->args->next = NULL;
-			minishell->args = minishell->args->next;
+				minishell->args->next = NULL;
+			}
+			else
+			{
+				printf("f");
+				minishell->args->next = ft_calloc(sizeof(t_args), 1);
+				if (!minishell->args->next)
+					return (1);
+				minishell->args->next->cmd = ft_split_args(minishell->tokens->content);
+				// minishell->args->cmd = ft_split(minishell->tokens->content, ' ');
+				minishell->args = minishell->args->next;
+				minishell->args->next = NULL;
+			}
 		}
 		minishell->tokens = minishell->tokens->next;
 	}

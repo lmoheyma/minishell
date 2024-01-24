@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 22:56:18 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 23:45:02 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	main_loop(t_minishell *cmd, char *buffer)
 {
 	while (1)
 	{
-		cmd->is_pipe = 0;
 		buffer = get_input(cmd);
 		if (!buffer)
 			continue ;

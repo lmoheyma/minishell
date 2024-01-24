@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 22:54:19 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/23 23:31:17 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	command_execute(t_minishell *cmd)
 	}
 	else if (cmd->is_pipe)
 	{
-		printf("pipe\n");
 		exec_pipe_command(cmd);
 	}
 	else if (!cmd->is_pipe)
