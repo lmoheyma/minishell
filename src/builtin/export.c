@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:11 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 15:46:57 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 23:43:15 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,10 @@ int	ft_export(t_minishell *cmd)
 		{
 			if (check_syntax(cmd, arg->cmd[i]))
 				add_to_env(cmd->envs, arg->cmd[i]);
+			else
+				g_exit_code = 1;
 			i++;
 		}
 	}
-	return (0);
+	return (g_exit_code);
 }

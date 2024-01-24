@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:58:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 19:49:55 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 22:40:59 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,15 @@ void	exec_pipe_command(t_minishell *cmd)
 	{
 		signal(SIGQUIT, signals_manager_child);
 		signal(SIGINT, signals_manager_child);
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &g_exit_code, 0);
+		if (WIFEXITED(g_exit_code) == TRUE)
+			g_exit_code = WEXITSTATUS(g_exit_code);
+		else if (WIFSIGNALED(g_exit_code) == TRUE)
+		{
+			if (WTERMSIG(g_exit_code) == SIGINT
+				|| WTERMSIG(g_exit_code) == SIGQUIT)
+				g_exit_code += 128;
+		}
 		kill(pid, SIGTERM);
 		signal(SIGINT, signals_manager);
 		signal(SIGQUIT, SIG_IGN);

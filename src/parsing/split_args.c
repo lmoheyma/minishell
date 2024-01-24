@@ -6,11 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:51:40 by aleite-b          #+#    #+#             */
-<<<<<<< HEAD:libft/ft_split_args.c
-/*   Updated: 2024/01/24 13:07:53 by lmoheyma         ###   ########.fr       */
-=======
-/*   Updated: 2024/01/24 16:56:04 by aleite-b         ###   ########.fr       */
->>>>>>> 718f8e546f32637bb4e0eb0b99183827678c256d:src/parsing/split_args.c
+/*   Updated: 2024/01/24 22:39:05 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:23:57 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 17:19:14 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 21:57:02 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*replace_home_alias(t_minishell *cmd, char *path)
 	return (path);
 }
 
-void	exec_cd(t_minishell *cmd, char *path)
+int	exec_cd(t_minishell *cmd, char *path)
 {
 	if (ft_strchr(cmd->args->cmd[1], '~'))
 	{
@@ -43,7 +43,7 @@ void	exec_cd(t_minishell *cmd, char *path)
 		{
 			chdir("..");
 			free(path);
-			return ;
+			return (0);
 		}
 		else
 			path = replace_home_alias(cmd, path);
@@ -51,8 +51,13 @@ void	exec_cd(t_minishell *cmd, char *path)
 	else
 		path = ft_strdup(cmd->args->cmd[1]);
 	if (chdir(path) == -1)
+	{
+		free(path);
 		perror("cd");
+		return (1);
+	}
 	free(path);
+	return (0);
 }
 
 int	ft_cd(t_minishell *cmd)
@@ -75,11 +80,11 @@ int	ft_cd(t_minishell *cmd)
 		chdir(get_home(cmd->envs));
 	}
 	else
-		exec_cd(cmd, path);
+		g_exit_code = exec_cd(cmd, path);
 	free(path);
 	getcwd(cwd, sizeof(cwd));
 	cwd_malloc = ft_strjoin("PWD=", cwd);
 	add_oldpwd_to_env(cmd->envs, oldcwd_malloc);
 	add_pwd_to_env(cmd->envs, cwd_malloc);
-	return (0);
+	return (g_exit_code);
 }

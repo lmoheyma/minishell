@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 17:29:39 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 00:44:43 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <wait.h>
+#include <errno.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -135,6 +136,7 @@ void				exec_absolute_path(t_minishell *cmd, t_args *arg);
 
 // Path
 int					get_path1(t_minishell *cmd, t_args *arg);
+int 				check_all_arg(t_minishell *cmd);
 
 // Utils
 char				*get_path(t_env *env);
@@ -147,6 +149,9 @@ long int			ft_atol(char *str);
 
 // Here-doc
 int					add_line_to_fd(char **argv, int fd[2]);
+
+// Exit
+int					ft_exit_code(t_args *arg);
 
 // PARSING
 // Args

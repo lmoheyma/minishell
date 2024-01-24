@@ -6,11 +6,28 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 21:43:15 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 22:23:56 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 22:33:24 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+int check_all_arg(t_minishell *cmd)
+{
+	t_args *arg;
+	int value;
+
+	value = 0;
+	arg = cmd->args;
+	while (arg)
+	{
+		value = get_path1(cmd, arg);
+		if (value)
+			return (1);
+		arg = arg->next;
+	}
+	return (0);
+}
 
 int	get_path1(t_minishell *cmd, t_args *arg)
 {
@@ -20,7 +37,7 @@ int	get_path1(t_minishell *cmd, t_args *arg)
 	int		i;
 
 	i = 0;
-	if (!cmd->args->cmd[0])
+	if (!arg->cmd[0])
 		return (0);
 	path_split = ft_split(get_path(cmd->envs), ':');
 	if (!path_split)

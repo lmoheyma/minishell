@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 19:50:08 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 00:46:16 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 
 void	command_execute(t_minishell *cmd)
 {
-	t_args	*last_arg;
-
-	last_arg = ft_last(cmd->args);
-	if (last_arg_is_builtin(cmd) == TRUE && cmd->is_pipe
-		&& ft_strcmp(last_arg->cmd[0], "echo"))
-		return ;
 	if (is_builtin(cmd) == TRUE && !cmd->is_pipe)
 	{
 		if (is_env_buitin(cmd) == TRUE)
@@ -50,12 +44,28 @@ void	child(t_minishell *cmd)
 		close(cmd->fd_out);
 }
 
+void	parent( int pid)
+{
+	signal(SIGQUIT, signals_manager_child);
+	signal(SIGINT, signals_manager_child);
+	waitpid(pid, &g_exit_code, 0);
+	if (WIFEXITED(g_exit_code) == TRUE)
+		g_exit_code = WEXITSTATUS(g_exit_code);
+	else if (WIFSIGNALED(g_exit_code) == TRUE)
+	{
+		if (WTERMSIG(g_exit_code) == SIGINT
+			|| WTERMSIG(g_exit_code) == SIGQUIT)
+			g_exit_code += 128;
+	}
+	kill(pid, SIGTERM);
+	signal(SIGINT, signals_manager);
+	signal(SIGQUIT, SIG_IGN);
+}
+
 void	fork_process(t_minishell *cmd)
 {
 	int	pid;
-	int	status;
 
-	status = 0;
 	pid = fork();
 	if (pid == -1)
 		perror("fork");
@@ -65,12 +75,7 @@ void	fork_process(t_minishell *cmd)
 	}
 	else
 	{
-		signal(SIGQUIT, signals_manager_child);
-		signal(SIGINT, signals_manager_child);
-		waitpid(pid, &status, 0);
-		kill(pid, SIGTERM);
-		signal(SIGINT, signals_manager);
-		signal(SIGQUIT, SIG_IGN);
+		parent(pid);
 	}
 }
 
@@ -100,15 +105,26 @@ void	exec_simple_command(t_minishell *cmd, t_args *arg)
 		free(exe);
 	}
 	if (!is_builtin_arg(arg))
-		print_error_str(arg->cmd[0]);
+	{
+		if (arg->cmd[0] != NULL && access(arg->cmd[0], F_OK) && ft_memchr(arg->cmd[0], '/', ft_strlen(arg->cmd[0])) == NULL)
+			print_error_str(arg->cmd[0]);
+		else if (access(arg->cmd[0], X_OK) == -1)
+			perror("bash");
+		if (errno == EACCES || errno == ENOTDIR)
+			g_exit_code = 126;
+		else if (errno == ENOENT || errno != 0)
+			g_exit_code = 127;
+	}
+	else if (ft_strcmp(arg->cmd[0], "exit") == 0 && arg->cmd[1])
+		g_exit_code = ft_exit_code(arg);
 	free_str(path_split);
 	free_all(cmd);
-	g_exit_code = 127;
-	exit(EXIT_FAILURE);
+	exit(g_exit_code);
 }
 
 void	exec_absolute_path(t_minishell *cmd, t_args *arg)
 {
+	g_exit_code = 0;
 	execve(arg->cmd[0], arg->cmd, env_tab(cmd->envs));
 	perror("execve");
 	g_exit_code = 127;

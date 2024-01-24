@@ -2,6 +2,21 @@
 https://docs.google.com/spreadsheets/d/1uJHQu0VPsjjBkR4hxOeCMEt3AOM1Hp_SmUzPFhAH-nA/edit#gid=0
 
 
+derniere choses a faire ou qui bug :
+	Les exitcodes des CtrlC ou Ctrl\ dans cat
+	Les heredocs
+	echo hola ||| cat => erreur ! + exitcode
+	ech|o hola | cat  => exitcode
+	echo hola > > bonjour => exitcode
+
+	echo hola > ../bonjour
+	echo hey > ../hello
+	>../bonjour >../hello <prout
+	cat ../bonjour ../hello
+	 	=> Des fd restent ouvert
+	
+	Le echo $? ou echo$VAR leak
+
 Commande qui marche pas :
 ECHO ->
 
@@ -17,8 +32,6 @@ ENV & EXPORT & UNSET ->
 	EXEC ->
 		export | grep HOME   => car pas fork => Fork export ?
 	PARSING ->
-		export ""   => not a valid identifier => if a rajouter
-		export $?   => expander du $?
 		export HOLA='""' + echo " $HOLA " | cat -e 
 		echo $HOLA$HOLA$HOLA=hey$HOLA
 

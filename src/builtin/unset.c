@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 13:52:35 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 23:35:38 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_unset(t_minishell *cmd)
 
 	i = 1;
 	if (!cmd->args->cmd[1])
-		return (1);
+		return (0);
 	while (cmd->envs && cmd->args->cmd[i])
 	{
 		if (is_env_var_set(cmd->envs, cmd->args->cmd[i]))

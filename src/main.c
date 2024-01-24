@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 19:50:43 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 00:01:30 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	main_loop(t_minishell *cmd, char *buffer)
 			continue ;
 		if (!cmd->args)
 			continue ;
-		if (get_path1(cmd, cmd->args) || is_builtin(cmd) == TRUE
+		if (check_all_arg(cmd) || is_builtin(cmd) == TRUE
 			|| (ft_strncmp(buffer, "./", 2) == 0) || (access(cmd->args->cmd[0],
 					F_OK | X_OK) == 0))
 			command_execute(cmd);
@@ -84,6 +84,7 @@ void	main_loop(t_minishell *cmd, char *buffer)
 			close(cmd->fd_out);
 		free_tokens(&cmd->tokens_start);
 		free_args(&cmd->args_start);
+		printf("exit code : %d\n", g_exit_code);
 	}
 }
 
