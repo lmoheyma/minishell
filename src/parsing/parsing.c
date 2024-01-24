@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:47 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/24 12:19:01 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:32:35 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ int	check_chevrons(char *cmd)
 
 int	parse_all_minishell(t_minishell *minishell, char *cmd)
 {
-	int	i;
-
 	if (get_elem(cmd) || get_elem(cmd))
 		return (ft_err(minishell, "Guillemets non fermees !\n", 2), 1);
 	if (check_chevrons(cmd))
@@ -73,7 +71,7 @@ int	parse_all_minishell(t_minishell *minishell, char *cmd)
 	if (setup_tokens(minishell, cmd))
 		return (1);
 	if (setup_args(minishell))
-		return (1);
+		return (ft_err(minishell, "Arg Malloc err\n", 1), 1);
 	// while (minishell->tokens)
 	// {
 	// 	printf("End Token : %s - %s - %d\n", minishell->tokens->content,
@@ -81,7 +79,7 @@ int	parse_all_minishell(t_minishell *minishell, char *cmd)
 	// 	minishell->tokens = minishell->tokens->next;
 	// }
 	// minishell->tokens = minishell->tokens_start;
-	// i = 0;
+	// int	i = 0;
 	// while (minishell->args)
 	// {
 	// 	i = 0;
@@ -94,8 +92,9 @@ int	parse_all_minishell(t_minishell *minishell, char *cmd)
 	// 	}
 	// 	minishell->args = minishell->args->next;
 	// }
-	// minishell->args = minishell->args_start;
+	minishell->args = minishell->args_start;
 	minishell->nb_cmd = ft_cmdsize(minishell->args);
+	minishell->is_pipe = 0;
 	if (minishell->nb_cmd > 1)
 		minishell->is_pipe = 1;
 	minishell->fd_in = 0;
