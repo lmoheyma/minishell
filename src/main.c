@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 13:04:21 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:06:55 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ void	main_loop(t_minishell *cmd, char *buffer)
 			print_error(cmd, 1);
 			g_exit_code = 127;
 		}
-		free_tokens(&cmd->tokens_start);
-		free_args(&cmd->args_start);
 	}
 }
 
@@ -105,6 +103,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, signals_manager);
 	signal(SIGQUIT, SIG_IGN);
 	cmd->envs = dup_env(envp);
+	g_exit_code = 0;
 	main_loop(cmd, buffer);
 	free(cmd);
 	return (0);

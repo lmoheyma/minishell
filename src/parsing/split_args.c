@@ -1,16 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_args.c                                    :+:      :+:    :+:   */
+/*   split_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:51:40 by aleite-b          #+#    #+#             */
+<<<<<<< HEAD:libft/ft_split_args.c
 /*   Updated: 2024/01/24 13:07:53 by lmoheyma         ###   ########.fr       */
+=======
+/*   Updated: 2024/01/24 16:56:04 by aleite-b         ###   ########.fr       */
+>>>>>>> 718f8e546f32637bb4e0eb0b99183827678c256d:src/parsing/split_args.c
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../inc/minishell.h"
 
 static int	ft_trigger(char c, char *trigger)
 {
@@ -33,31 +37,6 @@ static int	ft_trigger(char c, char *trigger)
 		i++;
 	}
 	return (i);
-}
-
-static int	count_str(char const *s)
-{
-	int		i;
-	int		words;
-	char	trigger;
-
-	words = 0;
-	i = 0;
-	trigger = '/';
-	while (s[i])
-	{
-		if (s[i] == '\'' && trigger == '/')
-			trigger = '\'';
-		else if (s[i] == '\"' && trigger == '/')
-			trigger = '\"';
-		else if (s[i] == trigger && trigger != '/')
-			trigger = '/';
-		if ((s[i + 1] == ' ' || s[i + 1] == '\0') && (s[i] != ' '
-				|| s[i] != '\0') && trigger == '/')
-			words++;
-		i++;
-	}
-	return (words);
 }
 
 static int	get_len(char *s, int add)
@@ -109,6 +88,25 @@ static char	*write_word(char *s)
 	return (str);
 }
 
+static void	**ft_split_args2(char **str, char *s, int *i, int *j)
+{
+	str[*j] = write_word(s + *i);
+	if (!str[*j])
+	{
+		*j -= 1;
+		while (*j != 0)
+		{
+			free(str[*j]);
+			*j -= 1;
+		}
+		return (NULL);
+	}
+	*j += 1;
+	*i += get_len(s + *i, 1);
+	while (s[*i] == 32 || (s[*i] >= 9 && s[*i] <= 13))
+		*i += 1;
+}
+
 char	**ft_split_args(char *s)
 {
 	char	**str;
@@ -126,18 +124,7 @@ char	**ft_split_args(char *s)
 		i++;
 	while (s[i])
 	{
-		str[j] = write_word(s + i);
-		if (!str[j])
-		{
-			j--;
-			while (j--)
-				free(str[j]);
-			return (NULL);
-		}
-		j++;
-		i += get_len(s + i, 1);
-		while (s[i] == 32 || (s[i] >= 9 && s[i] <= 13))
-			i++;
+		ft_split_args2(str, s, &i, &j);
 	}
 	str[j] = 0;
 	return (str);

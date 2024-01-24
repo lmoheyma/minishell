@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:47 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/24 12:32:35 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:58:28 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	check_chevrons(char *cmd)
 			while (cmd[i + count] == chevron)
 				count++;
 			if (count > 2 || (cmd[i + count] == '<' && cmd[i] == '>') || (cmd[i
-					+ count] == '>' && cmd[i] == '<'))
+						+ count] == '>' && cmd[i] == '<'))
 				return (1);
 		}
 		i++;
@@ -72,27 +72,6 @@ int	parse_all_minishell(t_minishell *minishell, char *cmd)
 		return (1);
 	if (setup_args(minishell))
 		return (ft_err(minishell, "Arg Malloc err\n", 1), 1);
-	// while (minishell->tokens)
-	// {
-	// 	printf("End Token : %s - %s - %d\n", minishell->tokens->content,
-	// 		minishell->tokens->type, ft_strlen(minishell->tokens->content));
-	// 	minishell->tokens = minishell->tokens->next;
-	// }
-	// minishell->tokens = minishell->tokens_start;
-	// int	i = 0;
-	// while (minishell->args)
-	// {
-	// 	i = 0;
-	// 	while (minishell->args->cmd[i])
-	// 	{
-	// 		printf("Args");
-	// 		printf(" - %s", minishell->args->cmd[i]);
-	// 		printf("\n");
-	// 		i++;
-	// 	}
-	// 	minishell->args = minishell->args->next;
-	// }
-	minishell->args = minishell->args_start;
 	minishell->nb_cmd = ft_cmdsize(minishell->args);
 	minishell->is_pipe = 0;
 	if (minishell->nb_cmd > 1)
