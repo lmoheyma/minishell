@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:08:53 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 22:50:33 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:53:29 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 t_env	*new_env_node(void *content)
 {
 	t_env	*node;
-
+	char	*str;
+	
+	str = ft_strdup(content);
 	node = malloc(sizeof(*node));
-	if (!node)
+	if (!node || !str)
 		return (NULL);
-	node->content = content;
+	node->content = str;
 	node->next = NULL;
 	return (node);
 }

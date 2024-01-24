@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:06:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 22:18:47 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:50:11 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,21 @@ void	add_pwd_to_env(t_env *env, char *str)
 		change_pwd_var(env, str, ft_strlen(str) + 1, "PWD");
 	else
 	{
-		new_pwd = ft_strjoin("PWD=", getcwd(cwd, sizeof(cwd)));
+		free(str);
+		new_pwd = ft_strjoin("PWD=", getcwd(cwd, sizeof(cwd)));  // A MODIFIER
 		add_back_node_env(&env, new_env_node(new_pwd));
+		free(new_pwd);
 	}
 }
 
 void	add_oldpwd_to_env(t_env *env, char *str)
 {
 	if (is_env_var_set(env, "OLDPWD"))
+	{
 		change_pwd_var(env, str, ft_strlen(str) + 1, "OLDPWD");
+	}
+	else
+		free(str);
 }
 
 void	change_pwd_var(t_env *env, char *pwd, int path_len, char *str)
@@ -83,6 +89,7 @@ void	change_pwd_var(t_env *env, char *pwd, int path_len, char *str)
 	char	*sub_path;
 	int		j;
 
+	(void)path_len;
 	j = 0;
 	while (env)
 	{
@@ -94,8 +101,8 @@ void	change_pwd_var(t_env *env, char *pwd, int path_len, char *str)
 		{
 			if (!pwd && !env->content)
 				return ;
-			j++;
-			ft_strlcpy(env->content + j, pwd, path_len);
+			free(env->content);
+			env->content = pwd;
 		}
 		free(sub_path);
 		env = env->next;

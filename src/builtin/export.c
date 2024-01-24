@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:11 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 22:12:05 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:46:57 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,13 @@ int	check_syntax(t_minishell *cmd, char *str)
 void	change_var(t_env *env, char *str, char **str_split)
 {
 	char	*sub_path;
+	char	*str_w_equals;
+	char	*str_big;
 	int		j;
 
 	j = 0;
+	str_w_equals = ft_strjoin(str_split[0], "=");
+	str_big = ft_strjoin(str_w_equals, str_split[1]);
 	while (env)
 	{
 		j = 0;
@@ -73,9 +77,17 @@ void	change_var(t_env *env, char *str, char **str_split)
 				return ;
 			j++;
 			if (!str_split[1])
-				ft_strlcpy2(env->content, str_split[0], ft_strlen(str));
+			{
+				free(env->content);
+				env->content = str_w_equals;
+				free(str_big);
+			}
 			else
-				ft_strlcpy(env->content + j, str_split[1], ft_strlen(str));
+			{
+				free(env->content);
+				env->content = str_big;
+				free(str_w_equals);
+			}
 		}
 		free(sub_path);
 		env = env->next;

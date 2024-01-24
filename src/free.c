@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:10:40 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 22:58:54 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:51:13 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	free_env(t_env *env)
 	while (env)
 	{
 		tmp = env->next;
+		free(env->content);
 		free(env);
 		env = tmp;
 	}

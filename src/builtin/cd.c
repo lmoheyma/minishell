@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:23:57 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 22:53:47 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:55:08 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,29 +43,34 @@ void	exec_cd(t_minishell *cmd, char *path)
 		path = ft_strdup(cmd->args->cmd[1]);
 	if (chdir(path) == -1)
 		perror("cd");
+	free(path);
 }
 
 int	ft_cd(t_minishell *cmd)
 {
 	char	*path;
 	char	cwd[PATH_MAX];
+	char 	*cwd_malloc;
+	char	*oldcwd_malloc;
 	char	old_cwd[PATH_MAX];
-
+	
 	if (cmd->args->cmd[1] && cmd->args->cmd[2])
 		return (ft_putstr_fd("bash: cd: too many arguments\n", 1), 1);
-	path = NULL;
 	getcwd(old_cwd, sizeof(old_cwd));
+	oldcwd_malloc = ft_strjoin("OLDPWD=", old_cwd);
+	path = NULL;
 	if (!cmd->args->cmd[1])
 	{
 		if (!get_home(cmd->envs))
-			return (ft_putendl_fd("cd: HOME not set", 1), 1);
+			return (free(oldcwd_malloc), ft_putendl_fd("cd: HOME not set", 1), 1);
 		chdir(get_home(cmd->envs));
 	}
 	else
 		exec_cd(cmd, path);
 	free(path);
 	getcwd(cwd, sizeof(cwd));
-	add_oldpwd_to_env(cmd->envs, old_cwd);
-	add_pwd_to_env(cmd->envs, cwd);
+	cwd_malloc = ft_strjoin("PWD=", cwd);
+	add_oldpwd_to_env(cmd->envs, oldcwd_malloc);
+	add_pwd_to_env(cmd->envs, cwd_malloc);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 12:45:14 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:04:21 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	main_loop(t_minishell *cmd, char *buffer)
 			print_error(cmd, 1);
 			g_exit_code = 127;
 		}
+		free_tokens(&cmd->tokens_start);
+		free_args(&cmd->args_start);
 	}
 }
 

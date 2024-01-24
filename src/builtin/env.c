@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:31:39 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 22:53:55 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:12:20 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void	print_env(t_env *env)
 		return ;
 	while (env)
 	{
-		printf("%s\n", env->content);
+		//printf("%s\n", env->content);
+		ft_putendl_fd(env->content, 1);
 		env = env->next;
 	}
 }

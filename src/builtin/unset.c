@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 22:19:27 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:52:35 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	unset_first_node(t_env **env, char *var)
 	if (env && ft_strncmp(var_split[0], var, ft_strlen(var)) == 0)
 	{
 		*env = current->next;
+		free(current->content);
 		free(current);
 		free_2d_array(var_split);
 		return (1);
@@ -46,6 +47,7 @@ void	unset_var(t_env **env, char *var)
 		{
 			to_delete = current->next;
 			current->next = current->next->next;
+			free(to_delete->content);
 			free(to_delete);
 			free_2d_array(var_split);
 			break ;
