@@ -22,11 +22,11 @@ ENV & EXPORT & UNSET ->
 		export HOLA='""' + echo " $HOLA " | cat -e 
 		echo $HOLA$HOLA$HOLA=hey$HOLA
 
-		export HOLA="  bonjour  hey  "
-		echo """$HOLA""" | cat -e
-		echo wesh"$HOLA" | cat -e
-		echo wesh""$HOLA.
-		echo wesh$"HOLA HOLA".
+		# export HOLA="  bonjour  hey  "
+		# echo """$HOLA""" | cat -e
+		# echo wesh"$HOLA" | cat -e
+		# echo wesh""$HOLA.
+		# echo wesh$"HOLA HOLA".
 
 		export HOLA=bonjour
 		export HOLA=" hola et $HOLA"

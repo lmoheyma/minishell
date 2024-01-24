@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 22:58:23 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 11:34:36 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_write_params
 	int				i;
 	int				j;
 	int				k;
+	char			trigger;
 }					t_write_params;
 
 typedef struct s_minishell
@@ -148,41 +149,68 @@ long int			ft_atol(char *str);
 int					add_line_to_fd(char **argv, int fd[2]);
 
 // PARSING
+// Args
+
+t_args				*create_arg(t_minishell *minishell);
+int					setup_args(t_minishell *minishell);
+
+// Error
+
+void				ft_err(t_minishell *minishell, char *err, int code);
+void				free_tokens(t_tokens **tokens);
+void				free_args(t_args **args);
+
+// Files
 
 int					setup_files(t_minishell *minishell);
 int					replace_infile(t_minishell *minishell, char *path);
 int					replace_outfile(t_minishell *minishell, char *path);
 int					replace_append_outfile(t_minishell *minishell, char *path);
 
+// Global Parse
+
 int					get_elem(char *cmd);
+int					check_chevrons(char *cmd);
 int					parse_all_minishell(t_minishell *minishell, char *cmd);
 
+// Tokens
+
 int					set_token_type(t_tokens *token, char *str, int *i);
+int					write_loop(t_minishell *minishell, t_tokens *token,
+						char *cmd, t_write_params *params);
 void				write_word(t_minishell *minishell, t_tokens *token,
 						char *cmd);
 t_tokens			*create_token(char *cmd, int *i, t_minishell *minishell);
 int					setup_tokens(t_minishell *minishell, char *cmd);
+
+// Utils
 
 int					is_spaces(char c);
 int					is_special_char(char c);
 void				skip_spaces(char *str, int *i);
 int					is_cmd(char *type);
 void				skip_special_char(char *str, int *i);
+
+// Utils2
+
 int					nb_special_char(t_minishell *minishell, t_tokens *token,
 						char *cmd, int *i);
 int					ft_cmdsize(t_args *args);
+int					get_len_for_env(char *str, char *sub_path);
+t_write_params		*init_write_params(t_minishell *minishell);
 
-int					create_args(t_minishell *minishell);
+// Vars
 
-void				ft_err(t_minishell *minishell, char *err, int code);
-void				ft_err_args(t_minishell *minishell, char *err, int code);
-void				free_tokens(t_tokens **tokens);
-void				free_args(t_args **args);
-
+int					get_len(char *str);
+int					get_env_var_size_loop(t_env *env, char *str, int *i);
 int					get_env_var_size(t_env *env, char *str, int *i);
+char				**get_env_var_content_loop(t_env *env, char *str);
 char				**get_env_var_content(t_env *env, char *str);
+
+// Vars2
+
+int					check_env_start(char c);
 int					write_env_var(t_minishell *minishell, char *content,
 						char *cmd);
-t_write_params		*init_write_params(t_minishell *minishell);
 
 #endif

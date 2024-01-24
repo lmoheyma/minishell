@@ -31,9 +31,10 @@ SRCS = src/main.c \
 		src/parsing/files.c \
 		src/parsing/parsing.c \
 		src/parsing/tokens.c \
+		src/parsing/vars.c \
+		src/parsing/vars2.c \
 		src/parsing/utils.c \
-		src/parsing/utils2.c \
-		src/parsing/utils3.c
+		src/parsing/utils2.c 
 
 OBJS_BASE = $(SRCS:.c=.o)
 

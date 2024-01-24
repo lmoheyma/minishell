@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:47 by aleite-b          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/01/24 07:38:01 by aleite-b         ###   ########.fr       */
-=======
-/*   Updated: 2024/01/23 21:09:35 by antoine          ###   ########.fr       */
->>>>>>> aec937561d15f3ab3bd64d7132750e4b9d6c9997
+/*   Updated: 2024/01/24 11:28:17 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +53,7 @@ int	check_chevrons(char *cmd)
 			while (cmd[i + count] == chevron)
 				count++;
 			if (count > 2 || (cmd[i + count] == '<' && cmd[i] == '>') || (cmd[i
-					+ count] == '>' && cmd[i] == '<'))
+						+ count] == '>' && cmd[i] == '<'))
 				return (1);
 		}
 		i++;
@@ -74,29 +70,8 @@ int	parse_all_minishell(t_minishell *minishell, char *cmd)
 				2), 1);
 	if (setup_tokens(minishell, cmd))
 		return (1);
-	if (create_args(minishell))
+	if (setup_args(minishell))
 		return (1);
-	while (minishell->tokens)
-	{
-		printf("End Token : %s - %s\n", minishell->tokens->content,
-			minishell->tokens->type);
-		minishell->tokens = minishell->tokens->next;
-	}
-	minishell->tokens = minishell->tokens_start;
-	int i = 0;
-	while (minishell->args)
-	{
-		i = 0;
-		while (minishell->args->cmd[i])
-		{
-			printf("Args");
-			printf(" - %s", minishell->args->cmd[i]);
-			printf("\n");
-			i++;
-		}
-		minishell->args = minishell->args->next;
-	}
-	minishell->args = minishell->args_start;
 	minishell->nb_cmd = ft_cmdsize(minishell->args);
 	if (minishell->nb_cmd > 1)
 		minishell->is_pipe = 1;

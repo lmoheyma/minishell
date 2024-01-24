@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 07:42:06 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/24 09:18:06 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	*get_input(t_minishell *cmd)
 	{
 		printf("exit\n");
 		free_env(cmd->envs);
+		free_tokens(&cmd->tokens_start);
+		free_args(&cmd->args_start);
 		free(cmd);
 		exit(0);
 	}
@@ -79,8 +81,8 @@ void	main_loop(t_minishell *cmd, char *buffer)
 			print_error(cmd, 1);
 			g_exit_code = 127;
 		}
-		// free_tokens(&cmd->tokens_start);
-		// free_args(&cmd->args_start);
+		free_tokens(&cmd->tokens_start);
+		free_args(&cmd->args_start);
 	}
 }
 

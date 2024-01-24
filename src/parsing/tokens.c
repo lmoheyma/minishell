@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/24 07:42:23 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/24 11:00:54 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,30 @@ int	set_token_type(t_tokens *token, char *str, int *i)
 		return (0);
 }
 
+int	write_loop(t_minishell *minishell, t_tokens *token, char *cmd,
+		t_write_params *params)
+{
+	if (cmd[params->i + params->k] == '\\')
+	{
+		token->content[params->i + params->j] = cmd[params->i + params->k + 1];
+		params->i++;
+		params->k++;
+	}
+	if (cmd[params->i + params->k] == '\'' && params->trigger == '/')
+		params->trigger = '\'';
+	else if (cmd[params->i + params->k] == '\"' && params->trigger == '/')
+		params->trigger = '\"';
+	else if (cmd[params->i + params->k] == params->trigger
+		&& params->trigger != '/')
+		params->trigger = '/';
+	else if (cmd[params->i + params->k] == '$')
+	{
+		params->k += write_env_var(minishell, token->content, cmd);
+		return (1);
+	}
+	return (0);
+}
+
 void	write_word(t_minishell *minishell, t_tokens *token, char *cmd)
 {
 	char			trigger;
@@ -51,28 +75,11 @@ void	write_word(t_minishell *minishell, t_tokens *token, char *cmd)
 	while ((cmd[params->i + params->k] && !is_spaces(cmd[params->i + params->k])
 			&& !is_special_char(cmd[params->i + params->k]) && !check_cmd)
 		|| (cmd[params->i + params->k] && !is_special_char(cmd[params->i
-				+ params->k]) && check_cmd) || (cmd[params->i + params->k]
+					+ params->k]) && check_cmd) || (cmd[params->i + params->k]
 			&& (trigger == '\'' || trigger == '\"')))
 	{
-		if (cmd[params->i + params->k] == '\\')
-		{
-			token->content[params->i + params->j] = cmd[params->i + params->k
-				+ 1];
-			params->i++;
-			params->k++;
-		}
-		if (cmd[params->i + params->k] == '\'' && trigger == '/')
-			trigger = '\'';
-		else if (cmd[params->i + params->k] == '\"' && trigger == '/')
-			trigger = '\"';
-		else if (cmd[params->i + params->k] == trigger && trigger != '/')
-			trigger = '/';
-		else if (cmd[params->i + params->k] == '$')
-		{
-			params->k += write_env_var(minishell, token->content, cmd);
-			if (cmd[params->i + params->k] == '$')
-				continue ;
-		}
+		if (write_loop(minishell, token, cmd, params))
+			continue ;
 		token->content[params->i + params->j] = cmd[params->i + params->k];
 		params->i++;
 	}
@@ -103,6 +110,7 @@ t_tokens	*create_token(char *cmd, int *i, t_minishell *minishell)
 	if (ft_strlen(token->content) < 1)
 		return (ft_err(minishell,
 				"bash: syntax error near unexpected token '|'\n", 2), NULL);
+	token->next = NULL;
 	*i += j;
 	return (token);
 }
@@ -122,7 +130,6 @@ int	setup_tokens(t_minishell *minishell, char *cmd)
 	if (!minishell->tokens)
 		return (1);
 	minishell->tokens_start = minishell->tokens;
-	minishell->tokens->next = NULL;
 	skip_spaces(cmd, &i);
 	while (cmd[i])
 	{
@@ -130,7 +137,6 @@ int	setup_tokens(t_minishell *minishell, char *cmd)
 		if (!minishell->tokens->next)
 			return (1);
 		minishell->tokens = minishell->tokens->next;
-		minishell->tokens->next = NULL;
 		skip_spaces(cmd, &i);
 	}
 	minishell->tokens = minishell->tokens_start;

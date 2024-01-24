@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 16:26:28 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/23 23:27:29 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 11:32:45 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ int	nb_special_char(t_minishell *minishell, t_tokens *token, char *cmd, int *i)
 		else if (cmd[*i] == trigger && trigger != '/')
 			trigger = '/';
 		else if (cmd[*i] == '$')
+		{
 			env_size += get_env_var_size(minishell->envs, cmd + *i + 1, i);
+			continue ;
+		}
 		*i += 1;
 	}
 	return (env_size);
@@ -71,107 +74,16 @@ int	get_len_for_env(char *str, char *sub_path)
 	return (i);
 }
 
-int	get_env_var_size(t_env *env, char *str, int *i)
+t_write_params	*init_write_params(t_minishell *minishell)
 {
-	int		j;
-	t_env	*temp;
-	char	*sub_path;
-	char	**splitted_env;
+	t_write_params	*params;
 
-	temp = env;
-	if (ft_strncmp(str, "$?", 2) == 0)
-		return (2);
-	// if ((!(str[0] >= 'a' && str[0] <= 'z')
-	// 		|| (str[0] >= 'A' && str[0] <= 'Z') || (str[0] >= '0' && str[0] <= '9')))
-	// 	return (0);
-	while (env)
-	{
-		j = 0;
-		while (env->content[j] != '=')
-			j++;
-		sub_path = ft_substr(env->content, 0, j);
-		if (ft_strncmp(str, sub_path, get_len_for_env(str, sub_path)) == 0)
-		{
-			free(sub_path);
-			splitted_env = ft_split(env->content, '=');
-			*i += (ft_strlen(splitted_env[0]) + 1);
-			return (ft_strlen(splitted_env[1]) + 1);
-		}
-		free(sub_path);
-		env = env->next;
-	}
-	env = temp;
-	return (0);
-}
-
-char	**get_env_var_content(t_env *env, char *str)
-{
-	int		j;
-	t_env	*temp;
-	char	*sub_path;
-	char	**splitted_env;
-
-	str++;
-	temp = env;
-	// if ((str[0] >= 'a' && str[0] <= 'z')
-	// 	|| (str[0] >= 'A' && str[0] <= 'Z') || (str[0] >= '0' && str[0] <= '9'))
-	// 	return (0);
-	while (env)
-	{
-		j = 0;
-		while (env->content[j] != '=')
-			j++;
-		sub_path = ft_substr(env->content, 0, j);
-		if (ft_strncmp(str, sub_path, get_len_for_env(str, sub_path)) == 0)
-		{
-			free(sub_path);
-			splitted_env = ft_split(env->content, '=');
-			return (splitted_env);
-		}
-		free(sub_path);
-		env = env->next;
-	}
-	env = temp;
-	return (NULL);
-}
-
-int	write_env_var(t_minishell *minishell, char *content, char *cmd)
-{
-	char	**splitted_env_var;
-	int		iter;
-	int		len;
-
-	iter = 0;
-	len = 0;
-	if (is_spaces(cmd[minishell->write_params->i + minishell->write_params->k
-			+ 1]) || !cmd[minishell->write_params->i
-		+ minishell->write_params->k + 1] || cmd[minishell->write_params->i
-		+ minishell->write_params->k + 1] == '?')
-	{
-		content[minishell->write_params->i + minishell->write_params->j] = '$';
-		minishell->write_params->j++;
-		return (1);
-	}
-	splitted_env_var = get_env_var_content(minishell->envs, cmd
-			+ minishell->write_params->i + minishell->write_params->k);
-	if (!splitted_env_var)
-	{
-		len++;
-		while (cmd[minishell->write_params->i + minishell->write_params->k
-			+ len] && !is_spaces(cmd[minishell->write_params->i
-				+ minishell->write_params->k + len])
-			&& cmd[minishell->write_params->i + minishell->write_params->k
-			+ len] != '$' && cmd[minishell->write_params->i
-			+ minishell->write_params->k + len] != ']')
-			len++;
-		return (len);
-	}
-	while (splitted_env_var[1][iter])
-	{
-		content[minishell->write_params->i + minishell->write_params->j
-			+ iter] = splitted_env_var[1][iter];
-		iter++;
-	}
-	minishell->write_params->j += iter;
-	return (ft_strlen(splitted_env_var[0]) + 1);
+	params = ft_calloc(sizeof(t_write_params), 1);
+	if (!params)
+		return (ft_err(minishell, "Write Params Malloc err\n", 1), NULL);
+	minishell->write_params = params;
+	params->i = 0;
+	params->j = 0;
+	params->k = 0;
+	return (params);
 }
