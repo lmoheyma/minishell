@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 14:55:17 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:50:08 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ void	child(t_minishell *cmd)
 		exec_absolute_path(cmd, cmd->args);
 	else
 		exec_simple_command(cmd, cmd->args);
+	if (cmd->fd_in != 0)
+		close(cmd->fd_in);
+	if (cmd->fd_out != 1)
+		close(cmd->fd_out);
 }
 
 void	fork_process(t_minishell *cmd)
@@ -98,6 +102,7 @@ void	exec_simple_command(t_minishell *cmd, t_args *arg)
 	if (!is_builtin_arg(arg))
 		print_error_str(arg->cmd[0]);
 	free_str(path_split);
+	free_all(cmd);
 	g_exit_code = 127;
 	exit(EXIT_FAILURE);
 }

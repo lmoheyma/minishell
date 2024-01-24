@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:23:57 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 16:55:08 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:19:14 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*replace_home_alias(t_minishell *cmd, char *path)
 	int		i;
 	int		cmd_len;
 
-	i = 0;
+	i = 0;		
 	cmd_len = ft_strlen(cmd->args->cmd[1]);
 	if (!path)
 		path = ft_strdup("");
@@ -38,7 +38,16 @@ char	*replace_home_alias(t_minishell *cmd, char *path)
 void	exec_cd(t_minishell *cmd, char *path)
 {
 	if (ft_strchr(cmd->args->cmd[1], '~'))
-		path = replace_home_alias(cmd, path);
+	{
+		if (!get_home(cmd->envs))
+		{
+			chdir("..");
+			free(path);
+			return ;
+		}
+		else
+			path = replace_home_alias(cmd, path);
+	}
 	else
 		path = ft_strdup(cmd->args->cmd[1]);
 	if (chdir(path) == -1)

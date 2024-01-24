@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 17:06:55 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:50:43 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ char	*get_input(t_minishell *cmd)
 	if (!buffer)
 	{
 		printf("exit\n");
-		free_env(cmd->envs);
-		free_tokens(&cmd->tokens_start);
-		free_args(&cmd->args_start);
-		free(cmd);
+		free_all(cmd);
 		exit(0);
 	}
 	if (!ft_strlen(buffer))
@@ -81,6 +78,12 @@ void	main_loop(t_minishell *cmd, char *buffer)
 			print_error(cmd, 1);
 			g_exit_code = 127;
 		}
+		if (cmd->fd_in != 0)
+			close(cmd->fd_in);
+		if (cmd->fd_out != 1)
+			close(cmd->fd_out);
+		free_tokens(&cmd->tokens_start);
+		free_args(&cmd->args_start);
 	}
 }
 

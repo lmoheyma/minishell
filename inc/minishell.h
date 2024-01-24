@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 16:50:46 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:29:39 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ t_env				*empty_start_env(t_env *env);
 // Free
 void				free_env(t_env *env);
 void				free_2d_array(char **str);
+void 				free_all(t_minishell *cmd);
 
 // Pwd
 void				add_pwd_to_env(t_env *env, char *str);

@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:54:13 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 12:59:09 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:48:15 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,11 @@ void	fork_builtin(t_minishell *cmd)
 	{
 		dup2(cmd->fd_out, STDOUT_FILENO);
 		g_exit_code = exec_builtin(cmd);
-		free_env(cmd->envs);
-		free_tokens(&cmd->tokens_start);
-		free_args(&cmd->args_start);
-		free(cmd);
+		if (cmd->fd_in != 0)
+			close(cmd->fd_in);
+		if (cmd->fd_out != 1)
+			close(cmd->fd_out);
+		free_all(cmd);
 		exit(g_exit_code);
 	}
 	else
