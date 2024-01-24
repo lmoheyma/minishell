@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 11:34:36 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:50:46 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ typedef struct s_minishell
 	int				fd_out;
 	int				is_pipe;
 	int				nb_cmd;
-	int				exit_code;
 	t_args			*args;
 	t_args			*args_start;
 	t_tokens		*tokens;
@@ -198,6 +197,7 @@ int					nb_special_char(t_minishell *minishell, t_tokens *token,
 int					ft_cmdsize(t_args *args);
 int					get_len_for_env(char *str, char *sub_path);
 t_write_params		*init_write_params(t_minishell *minishell);
+int					int_len(int nb);
 
 // Vars
 
@@ -212,5 +212,11 @@ char				**get_env_var_content(t_env *env, char *str);
 int					check_env_start(char c);
 int					write_env_var(t_minishell *minishell, char *content,
 						char *cmd);
+char				**set_exit_code(char **j);
+
+// Split args
+
+int					count_str(char const *s);
+char				**ft_split_args(char *s);
 
 #endif

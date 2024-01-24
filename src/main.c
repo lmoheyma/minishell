@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 12:45:14 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:08:11 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	main_loop(t_minishell *cmd, char *buffer)
 			print_error(cmd, 1);
 			g_exit_code = 127;
 		}
+		g_exit_code = 0;
 	}
 }
 
@@ -103,6 +104,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, signals_manager);
 	signal(SIGQUIT, SIG_IGN);
 	cmd->envs = dup_env(envp);
+	g_exit_code = 0;
 	main_loop(cmd, buffer);
 	free(cmd);
 	return (0);

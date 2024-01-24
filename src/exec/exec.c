@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 23:31:17 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:55:17 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,10 @@ void	exec_simple_command(t_minishell *cmd, t_args *arg)
 		if (access(exe, F_OK | X_OK) == 0)
 		{
 			if (execve(exe, arg->cmd, env_tab(cmd->envs)) == -1)
+			{
+				g_exit_code = 126;
 				perror("execve");
+			}
 			exit(EXIT_FAILURE);
 		}
 		free(exe);
@@ -95,6 +98,7 @@ void	exec_simple_command(t_minishell *cmd, t_args *arg)
 	if (!is_builtin_arg(arg))
 		print_error_str(arg->cmd[0]);
 	free_str(path_split);
+	g_exit_code = 127;
 	exit(EXIT_FAILURE);
 }
 
@@ -102,5 +106,6 @@ void	exec_absolute_path(t_minishell *cmd, t_args *arg)
 {
 	execve(arg->cmd[0], arg->cmd, env_tab(cmd->envs));
 	perror("execve");
+	g_exit_code = 127;
 	exit(EXIT_FAILURE);
 }

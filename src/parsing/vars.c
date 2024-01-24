@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/24 11:27:38 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:57:48 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,10 @@ int	get_env_var_size(t_env *env, char *str, int *i)
 	j = 0;
 	temp = env;
 	if (str[0] == '?')
-		return (2);
+		return (*i += 1, int_len(g_exit_code));
 	if (!((str[0] >= 'a' && str[0] <= 'z') || (str[0] >= 'A' && str[0] <= 'Z')
 			|| (str[0] >= '0' && str[0] <= '9')))
-	{
-		*i += 1;
-		return (0);
-	}
+		return (*i += 1, 0);
 	while (env)
 	{
 		j = get_env_var_size_loop(env, str, i);
@@ -68,8 +65,7 @@ int	get_env_var_size(t_env *env, char *str, int *i)
 		env = env->next;
 	}
 	env = temp;
-	*i += get_len(str);
-	return (get_len(str) * -1);
+	return (*i += get_len(str), get_len(str) * -1);
 }
 
 char	**get_env_var_content_loop(t_env *env, char *str)
@@ -99,6 +95,9 @@ char	**get_env_var_content(t_env *env, char *str)
 
 	str++;
 	temp = env;
+	j = NULL;
+	if (str[0] == '?')
+		return (j = set_exit_code(j), j);
 	if (!((str[0] >= 'a' && str[0] <= 'z') || (str[0] >= 'A' && str[0] <= 'Z')
 			|| (str[0] >= '0' && str[0] <= '9')))
 		return (0);

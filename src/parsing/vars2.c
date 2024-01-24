@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:24:30 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/24 11:27:50 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:45:40 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_env_start(char c)
 {
-	if (is_spaces(c) || !c || c == '?')
+	if (is_spaces(c) || !c)
 		return (1);
 	else
 		return (0);
@@ -46,4 +46,14 @@ int	write_env_var(t_minishell *minishell, char *content, char *cmd)
 	}
 	minishell->write_params->j += iter;
 	return (ft_strlen(splitted_env_var[0]) + 1);
+}
+
+char	**set_exit_code(char **j)
+{
+	j = malloc(sizeof(char *) * 3);
+	j[0] = malloc(sizeof(char) * 2);
+	j[0] = "?";
+	j[1] = ft_itoa(g_exit_code);
+	j[2] = NULL;
+	return (j);
 }

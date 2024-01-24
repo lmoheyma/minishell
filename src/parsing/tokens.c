@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/24 12:10:11 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:29:34 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	write_loop(t_minishell *minishell, t_tokens *token, char *cmd,
 	else if (cmd[params->i + params->k] == params->trigger
 		&& params->trigger != '/')
 		params->trigger = '/';
-	else if (cmd[params->i + params->k] == '$')
+	else if (cmd[params->i + params->k] == '$' && params->trigger != '\'')
 	{
 		params->k += write_env_var(minishell, token->content, cmd);
 		return (1);
@@ -63,20 +63,19 @@ int	write_loop(t_minishell *minishell, t_tokens *token, char *cmd,
 
 void	write_word(t_minishell *minishell, t_tokens *token, char *cmd)
 {
-	char			trigger;
 	int				check_cmd;
 	t_write_params	*params;
 
 	params = init_write_params(minishell);
 	if (!params)
 		return ;
-	trigger = '/';
+	params->trigger = '/';
 	check_cmd = is_cmd(token->type);
 	while ((cmd[params->i + params->k] && !is_spaces(cmd[params->i + params->k])
 			&& !is_special_char(cmd[params->i + params->k]) && !check_cmd)
 		|| (cmd[params->i + params->k] && !is_special_char(cmd[params->i
 					+ params->k]) && check_cmd) || (cmd[params->i + params->k]
-			&& (trigger == '\'' || trigger == '\"')))
+			&& (params->trigger == '\'' || params->trigger == '\"')))
 	{
 		if (write_loop(minishell, token, cmd, params))
 			continue ;
@@ -99,6 +98,7 @@ t_tokens	*create_token(char *cmd, int *i, t_minishell *minishell)
 		return (ft_err(minishell, "Token Malloc err\n", 1), NULL);
 	if (cmd[0] == '$' && get_env_var_size(minishell->envs, cmd + 1, &j) == 0)
 		return (ft_err(minishell, "", 0), NULL);
+	j = 0;
 	if (set_token_type(token, cmd, i))
 		return (ft_err(minishell, "bash: syntax error near unexpected token\n",
 				1), NULL);

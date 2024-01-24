@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 16:26:28 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/24 11:32:45 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:42:06 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	nb_special_char(t_minishell *minishell, t_tokens *token, char *cmd, int *i)
 			trigger = '\"';
 		else if (cmd[*i] == trigger && trigger != '/')
 			trigger = '/';
-		else if (cmd[*i] == '$')
+		else if (cmd[*i] == '$' && trigger != '\'')
 		{
 			env_size += get_env_var_size(minishell->envs, cmd + *i + 1, i);
 			continue ;
@@ -60,18 +60,24 @@ int	ft_cmdsize(t_args *args)
 
 int	get_len_for_env(char *str, char *sub_path)
 {
-	int		i;
-	char	*s;
+	int	i;
+	int	j;
 
 	i = 0;
-	if (ft_strlen(str) > ft_strlen(sub_path))
-		s = str;
-	else
-		s = sub_path;
-	while (s[i] && !is_spaces(s[i]) && ((s[i] >= 'a' && s[i] <= 'z')
-			|| (s[i] >= 'A' && s[i] <= 'Z') || (s[i] >= '0' && s[i] <= '9')))
+	j = 0;
+	while (str[i] && !is_spaces(str[i]) && ((str[i] >= 'a' && str[i] <= 'z')
+			|| (str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= '0'
+				&& str[i] <= '9')))
 		i++;
-	return (i);
+	while (sub_path[j] && !is_spaces(sub_path[j]) && ((sub_path[j] >= 'a'
+				&& sub_path[j] <= 'z') || (sub_path[j] >= 'A'
+				&& sub_path[j] <= 'Z') || (sub_path[j] >= '0'
+				&& sub_path[j] <= '9')))
+		j++;
+	if (i > j)
+		return (i);
+	else
+		return (j);
 }
 
 t_write_params	*init_write_params(t_minishell *minishell)
@@ -86,4 +92,24 @@ t_write_params	*init_write_params(t_minishell *minishell)
 	params->j = 0;
 	params->k = 0;
 	return (params);
+}
+
+int	int_len(int nb)
+{
+	int	count;
+
+	count = 0;
+	if (nb == 0)
+		return (1);
+	if (nb < 0)
+	{
+		nb *= -1;
+		count++;
+	}
+	while (nb > 0)
+	{
+		nb /= 10;
+		count++;
+	}
+	return (count);
 }
