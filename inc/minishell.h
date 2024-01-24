@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 00:44:43 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 00:55:32 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>
@@ -24,7 +25,6 @@
 # include <string.h>
 # include <unistd.h>
 # include <wait.h>
-#include <errno.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -73,7 +73,6 @@ typedef struct s_minishell
 	t_write_params	*write_params;
 }					t_minishell;
 
-// EXECUTION
 // Env
 t_env				*dup_env(char **envp);
 char				**env_tab(t_env *env);
@@ -86,7 +85,7 @@ t_env				*empty_start_env(t_env *env);
 // Free
 void				free_env(t_env *env);
 void				free_2d_array(char **str);
-void 				free_all(t_minishell *cmd);
+void				free_all(t_minishell *cmd);
 
 // Pwd
 void				add_pwd_to_env(t_env *env, char *str);
@@ -136,7 +135,7 @@ void				exec_absolute_path(t_minishell *cmd, t_args *arg);
 
 // Path
 int					get_path1(t_minishell *cmd, t_args *arg);
-int 				check_all_arg(t_minishell *cmd);
+int					check_all_arg(t_minishell *cmd);
 
 // Utils
 char				*get_path(t_env *env);
@@ -153,7 +152,6 @@ int					add_line_to_fd(char **argv, int fd[2]);
 // Exit
 int					ft_exit_code(t_args *arg);
 
-// PARSING
 // Args
 
 t_args				*create_arg(t_minishell *minishell);

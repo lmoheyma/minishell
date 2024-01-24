@@ -20,7 +20,6 @@ derniere choses a faire ou qui bug :
 Commande qui marche pas :
 ECHO ->
 
-	echo $?
 	echo $?$
 	echo $9HOME
 
