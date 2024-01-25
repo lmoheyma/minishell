@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/24 16:29:34 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/25 07:49:54 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	write_loop(t_minishell *minishell, t_tokens *token, char *cmd,
 	else if (cmd[params->i + params->k] == params->trigger
 		&& params->trigger != '/')
 		params->trigger = '/';
-	else if (cmd[params->i + params->k] == '$' && params->trigger != '\'')
+	else if (cmd[params->i + params->k] == '$' && params->trigger != '\''
+		&& ft_strncmp(token->type, "here_doc", 8))
 	{
 		params->k += write_env_var(minishell, token->content, cmd);
 		return (1);

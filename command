@@ -5,17 +5,23 @@ https://docs.google.com/spreadsheets/d/1uJHQu0VPsjjBkR4hxOeCMEt3AOM1Hp_SmUzPFhAH
 derniere choses a faire ou qui bug :
 	Les exitcodes des CtrlC ou Ctrl\ dans cat
 	Les heredocs
-	echo hola ||| cat => erreur ! + exitcode
-	ech|o hola | cat  => exitcode
-	echo hola > > bonjour => exitcode
+	# echo hola ||| cat => erreur ! + exitcode
+	ech|o hola | cat  => exitcode | J ai teste on a la meme que le bash ?
+	echo hola > > bonjour => exitcode | tokens.c l: 103
 
-	echo hola > ../bonjour
+	rm -rf a
+	minishell:/home/aleite-b/Documents/minishell-git/a/b$ unset PWD
+	minishell:/home/aleite-b/Documents/minishell-git/a/b$ cd reyetyet
+	cd: No such file or directory
+	[1]    201318 segmentation fault (core dumped)  ./minishell
+
+		echo hola > ../bonjour
 	echo hey > ../hello
 	>../bonjour >../hello <prout
 	cat ../bonjour ../hello
 	 	=> Des fd restent ouvert
 	
-	Le echo $? ou echo$VAR leak
+	# Le echo $? ou echo$VAR leak
 
 Commande qui marche pas :
 ECHO ->
@@ -96,3 +102,13 @@ REDIRECTIONS ->
 	>$HOLA>hey
 	>hey>$HOLA>hey>hey
 
+
+SAVE
+
+
+	while (minishell->tokens)
+	{
+		printf("Token : %s - %s\n", minishell->tokens->content,
+			minishell->tokens->type);
+		minishell->tokens = minishell->tokens->next;
+	}

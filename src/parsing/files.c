@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:47 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/23 14:10:29 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/25 08:00:46 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	setup_files(t_minishell *minishell)
 		if (ft_strncmp(tmp->type, "in_file", 7) == 0)
 			if (replace_infile(minishell, tmp->content))
 				return (1);
+		if (ft_strncmp(tmp->type, "here_doc", 8) == 0)
+			ft_here_doc(minishell, tmp->content);
 		if (ft_strncmp(tmp->type, "out_file", 8) == 0)
 			if (replace_outfile(minishell, tmp->content))
 				return (1);

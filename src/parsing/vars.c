@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vars.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/24 19:26:50 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 07:21:30 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ int	get_env_var_size_loop(t_env *env, char *str, int *i)
 		free(sub_path);
 		splitted_env = ft_split(env->content, '=');
 		*i += (ft_strlen(splitted_env[0]) + 1);
-		return (ft_strlen(splitted_env[1]) - (ft_strlen(splitted_env[0]) + 1));
+		j = ft_strlen(splitted_env[1]) - (ft_strlen(splitted_env[0]) + 1);
+		ft_free_tab_s(splitted_env);
+		return (j);
 	}
 	free(sub_path);
 	return (0);

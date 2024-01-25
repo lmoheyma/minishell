@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 16:26:28 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/24 16:42:06 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/25 07:50:04 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 int	nb_special_char(t_minishell *minishell, t_tokens *token, char *cmd, int *i)
 {
 	char	trigger;
-	int		check_cmd;
 	int		env_size;
 
 	trigger = '/';
 	env_size = 0;
-	check_cmd = is_cmd(token->type);
 	while ((cmd[*i] && !is_spaces(cmd[*i]) && !is_special_char(cmd[*i])
-			&& !check_cmd) || (cmd[*i] && !is_special_char(cmd[*i])
-			&& check_cmd) || (cmd[*i] && (trigger == '\'' || trigger == '\"')))
+			&& !is_cmd(token->type)) || (cmd[*i] && !is_special_char(cmd[*i])
+			&& is_cmd(token->type)) || (cmd[*i] && (trigger == '\''
+				|| trigger == '\"')))
 	{
 		if (cmd[*i] == '\'' && trigger == '/')
 			trigger = '\'';
@@ -31,7 +30,8 @@ int	nb_special_char(t_minishell *minishell, t_tokens *token, char *cmd, int *i)
 			trigger = '\"';
 		else if (cmd[*i] == trigger && trigger != '/')
 			trigger = '/';
-		else if (cmd[*i] == '$' && trigger != '\'')
+		else if (cmd[*i] == '$' && trigger != '\'' && ft_strncmp(token->type,
+				"here_doc", 8))
 		{
 			env_size += get_env_var_size(minishell->envs, cmd + *i + 1, i);
 			continue ;

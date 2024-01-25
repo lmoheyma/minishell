@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 01:26:17 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 10:26:58 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,8 @@ void				print_error_str(char *str);
 long int			ft_atol(char *str);
 
 // Here-doc
-int					add_line_to_fd(char **argv, int fd[2]);
+void				ft_here_doc(t_minishell *minishell, char *argv);
+int					add_line_to_fd(char *argv, int fd[2]);
 
 // Exit
 int					ft_exit_code(t_args *arg);
@@ -178,6 +179,7 @@ int					replace_append_outfile(t_minishell *minishell, char *path);
 
 int					get_elem(char *cmd);
 int					check_chevrons(char *cmd);
+int					check_pipe(char *cmd);
 int					parse_all_minishell(t_minishell *minishell, char *cmd);
 
 // Tokens
@@ -221,6 +223,7 @@ int					check_env_start(char c);
 int					write_env_var(t_minishell *minishell, char *content,
 						char *cmd);
 char				**set_exit_code(char **j);
+void				ft_free_tab_s(char **s);
 
 // Split args
 

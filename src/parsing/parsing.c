@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:47 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/24 16:58:28 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/25 07:52:57 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,33 @@ int	check_chevrons(char *cmd)
 	return (0);
 }
 
+int	check_pipe(char *cmd)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] == '|')
+		{
+			count = 0;
+			while (cmd[i + count] == '|')
+				count++;
+			if (count > 1)
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	parse_all_minishell(t_minishell *minishell, char *cmd)
 {
 	if (get_elem(cmd) || get_elem(cmd))
 		return (ft_err(minishell, "Guillemets non fermees !\n", 2), 1);
-	if (check_chevrons(cmd))
+	if (check_chevrons(cmd) || check_pipe(cmd))
 		return (ft_err(minishell, "bash: syntax error near unexpected token\n",
 				2), 1);
 	if (setup_tokens(minishell, cmd))
