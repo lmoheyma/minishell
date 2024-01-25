@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 10:26:58 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:00:32 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ long int			ft_atol(char *str);
 
 // Here-doc
 void				ft_here_doc(t_minishell *minishell, char *argv);
-int					add_line_to_fd(char *argv, int fd[2]);
+int					add_line_to_fd(char *argv, int fd[2], t_minishell *minishell);
 
 // Exit
 int					ft_exit_code(t_args *arg);

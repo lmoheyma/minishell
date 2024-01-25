@@ -3,55 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:58:48 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 10:26:41 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:04:45 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+void signal_heredoc(int signal)
+{
+	(void)signal;
+	// printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	exit(1);
+}
+
 void	ft_here_doc(t_minishell *minishell, char *argv)
 {
 	int	fd[2];
 	int	pid;
+	int	status;
 
-	if (minishell->fd_in != 0)
-		close(minishell->fd_in);
-	minishell->fd_in = 0;
+	status = 0;
 	if (pipe(fd) == -1)
 		exit(0);
+	if (minishell->fd_in != 0)
+		close(minishell->fd_in);
+	minishell->fd_in = fd[0];
 	pid = fork();
 	if (pid == -1)
 		exit(0);
 	if (pid == 0)
-		add_line_to_fd(argv, fd);
-	else
 	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
+		add_line_to_fd(argv, fd, minishell);
 	}
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &status, 0);
+	if (status)
+		g_exit_code = INT_MAX;
+	close(fd[1]);
 }
 
-int	add_line_to_fd(char *argv, int fd[2])
+int	add_line_to_fd(char *argv, int fd[2], t_minishell *cmd)
 {
 	int		running;
 	char	*line;
+	char	*buffer;
 
-	running = 1;
+	buffer = ft_strdup("");
+	signal(SIGINT, signal_heredoc);
 	close(fd[0]);
+	running = 1;
 	while (running)
 	{
 		line = readline("> ");
-		if (ft_strncmp(line, argv, ft_strlen(argv)) == 0)
+		if (ft_strcmp(line, argv) == 0 || g_exit_code == INT_MAX)
 		{
 			free(line);
+			ft_putstr_fd(buffer, fd[1]);
+			free(buffer);
+			close(fd[1]);
+			free_all(cmd);
 			exit(0);
 		}
-		ft_putendl_fd(line, fd[1]);
+		line = ft_strjoin_free(line, "\n");
+		buffer = ft_strjoin_free(buffer, line);
 		free(line);
 	}
 	return (0);
