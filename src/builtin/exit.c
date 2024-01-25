@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 15:30:16 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 01:28:55 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:03:02 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,22 @@ int	check_exit_syntax(char *str)
 
 int	ft_exit_code(t_args *arg)
 {
-	int	exit_code;
+	int			exit_code;
+	long long	res;
 
+	res = 0;
+	exit_code = 2;
 	if (!arg->cmd[1])
 		exit_code = 0;
 	else if (!check_exit_syntax(arg->cmd[1]))
-	{
 		print_error_exit(arg->cmd[1]);
-		exit_code = 2;
-	}
 	else
-		exit_code = ft_atol(arg->cmd[1]) % 256;
+	{
+		if (ft_atol(arg->cmd[1], &res))
+			exit_code = res % 256;
+		else
+			print_error_exit(arg->cmd[1]);
+	}
 	if (exit_code != 2 && arg->cmd[1] && arg->cmd[2])
 	{
 		ft_putstr_fd("bash: exit: too many arguments\n", 1);

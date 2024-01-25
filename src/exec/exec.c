@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 01:09:53 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:06:19 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,10 @@ void	parent( int pid)
 		g_exit_code = WEXITSTATUS(g_exit_code);
 	else if (WIFSIGNALED(g_exit_code) == TRUE)
 	{
-		if (WTERMSIG(g_exit_code) == SIGINT
-			|| WTERMSIG(g_exit_code) == SIGQUIT)
+		if (WTERMSIG(g_exit_code) == SIGINT)
 			g_exit_code += 128;
+		if (WTERMSIG(g_exit_code) == SIGQUIT)
+			g_exit_code = 131;
 	}
 	kill(pid, SIGTERM);
 	signal(SIGINT, signals_manager);

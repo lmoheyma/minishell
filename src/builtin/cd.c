@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:23:57 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 01:16:53 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:02:34 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ int	ft_cd(t_minishell *cmd)
 	else
 		g_exit_code = exec_cd(cmd, path);
 	free(path);
-	getcwd(cwd, sizeof(cwd));
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+		return (ft_putstr_fd("error retrieving current directory\n", 1), 1);
 	cwd_malloc = ft_strjoin("PWD=", cwd);
-	change_old_and_pwd(cmd, oldcwd_malloc, cwd_malloc);
-	return (g_exit_code);
+	return (change_old_and_pwd(cmd, oldcwd_malloc, cwd_malloc), g_exit_code);
 }

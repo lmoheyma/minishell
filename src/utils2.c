@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:16:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 01:28:45 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:02:54 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,28 @@ void	print_error_str(char *str)
 	ft_putstr_fd("\n", 2);
 }
 
-long int	ft_atol(char *str)
+int	ft_atol(char *str, long long *res)
 {
-	int		i;
-	int		sign;
-	long	res;
+	int	i;
+	int	sign;
 
 	i = 0;
 	sign = 1;
-	res = 0;
 	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	if (str[i] == '-')
 		sign = -1;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
-	if (ft_strncmp(str + i, "9223372036854775808", 19) == 0)
-		return (LONG_MIN);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		res = res * 10 + (str[i] - '0');
+		if (*res > LLONG_MAX / 10 || (*res == LLONG_MAX / 10 && (str[i]
+					- '0') > LLONG_MAX % 10))
+			return (0);
+		*res = *res * 10 + (str[i] - '0');
 		i++;
 	}
-	return (res * sign);
+	return (1);
 }
 
 int	is_builtin_arg(t_args *arg)

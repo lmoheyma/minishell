@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 10:17:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/24 14:54:53 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:03:25 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	free_tokens(t_tokens **tokens)
 	while (*tokens)
 	{
 		tmp = (*tokens)->next;
-		free((*tokens)->content);
+		if ((*tokens)->content)
+		{
+			free((*tokens)->content);
+		}
 		free(*tokens);
 		*tokens = tmp;
 	}

@@ -6,16 +6,15 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:58:48 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 13:04:45 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:04:13 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void signal_heredoc(int signal)
+void	signal_heredoc(int signal)
 {
 	(void)signal;
-	// printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

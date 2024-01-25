@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 13:00:32 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:04:23 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,11 +148,12 @@ void				free_str(char **str);
 char				**ft_last_cmd(t_minishell *minishell);
 int					ft_strcmp(const char *str, const char *str2);
 void				print_error_str(char *str);
-long int			ft_atol(char *str);
+int					ft_atol(char *str, long long *res);
 
 // Here-doc
 void				ft_here_doc(t_minishell *minishell, char *argv);
-int					add_line_to_fd(char *argv, int fd[2], t_minishell *minishell);
+int					add_line_to_fd(char *argv, int fd[2],
+						t_minishell *minishell);
 
 // Exit
 int					ft_exit_code(t_args *arg);
@@ -180,6 +181,7 @@ int					replace_append_outfile(t_minishell *minishell, char *path);
 int					get_elem(char *cmd);
 int					check_chevrons(char *cmd);
 int					check_pipe(char *cmd);
+int					check_empty(char *cmd);
 int					parse_all_minishell(t_minishell *minishell, char *cmd);
 
 // Tokens

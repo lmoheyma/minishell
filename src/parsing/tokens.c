@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/25 07:49:54 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/25 15:26:45 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_tokens	*create_token(char *cmd, int *i, t_minishell *minishell)
 	j = 0;
 	if (set_token_type(token, cmd, i))
 		return (ft_err(minishell, "bash: syntax error near unexpected token\n",
-				1), NULL);
+				2), NULL);
 	var_size = nb_special_char(minishell, token, cmd + *i, &j);
 	token->content = ft_calloc(sizeof(char), (j + var_size + 1));
 	if (!token->content)
@@ -110,7 +110,7 @@ t_tokens	*create_token(char *cmd, int *i, t_minishell *minishell)
 	write_word(minishell, token, cmd + *i);
 	if (ft_strlen(token->content) < 1)
 		return (ft_err(minishell,
-				"bash: syntax error near unexpected token '|'\n", 1), NULL);
+				"bash: syntax error near unexpected token '|'\n", 2), NULL);
 	token->next = NULL;
 	*i += j;
 	return (token);
