@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:58:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 22:40:59 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:13:29 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,24 @@ void	child_pipe(t_minishell *cmd, t_args *arg)
 		exec_simple_command(cmd, arg);
 }
 
+void	parent_pipe(int pid)
+{
+	signal(SIGQUIT, signals_manager_child);
+	signal(SIGINT, signals_manager_child);
+	waitpid(pid, &g_exit_code, 0);
+	if (WIFEXITED(g_exit_code) == TRUE)
+		g_exit_code = WEXITSTATUS(g_exit_code);
+	else if (WIFSIGNALED(g_exit_code) == TRUE)
+	{
+		if (WTERMSIG(g_exit_code) == SIGINT
+			|| WTERMSIG(g_exit_code) == SIGQUIT)
+			g_exit_code += 128;
+	}
+	kill(pid, SIGTERM);
+	signal(SIGINT, signals_manager);
+	signal(SIGQUIT, SIG_IGN);
+}
+
 void	exec_pipe_command(t_minishell *cmd)
 {
 	t_args	*arg;
@@ -50,20 +68,7 @@ void	exec_pipe_command(t_minishell *cmd)
 	}
 	else
 	{
-		signal(SIGQUIT, signals_manager_child);
-		signal(SIGINT, signals_manager_child);
-		waitpid(pid, &g_exit_code, 0);
-		if (WIFEXITED(g_exit_code) == TRUE)
-			g_exit_code = WEXITSTATUS(g_exit_code);
-		else if (WIFSIGNALED(g_exit_code) == TRUE)
-		{
-			if (WTERMSIG(g_exit_code) == SIGINT
-				|| WTERMSIG(g_exit_code) == SIGQUIT)
-				g_exit_code += 128;
-		}
-		kill(pid, SIGTERM);
-		signal(SIGINT, signals_manager);
-		signal(SIGQUIT, SIG_IGN);
+		parent_pipe(pid);
 	}
 }
 

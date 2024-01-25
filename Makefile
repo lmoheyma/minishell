@@ -11,6 +11,7 @@ SRCS = src/main.c \
 		src/utils2.c \
 		src/free.c \
 		src/exec/exec.c \
+		src/exec/exec2.c \
 		src/exec/builtin.c \
 		src/exec/here_doc.c \
 		src/exec/pipe.c \

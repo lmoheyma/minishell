@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:23:57 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 21:57:02 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:16:53 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*replace_home_alias(t_minishell *cmd, char *path)
 	int		i;
 	int		cmd_len;
 
-	i = 0;		
+	i = 0;
 	cmd_len = ft_strlen(cmd->args->cmd[1]);
 	if (!path)
 		path = ft_strdup("");
@@ -60,14 +60,21 @@ int	exec_cd(t_minishell *cmd, char *path)
 	return (0);
 }
 
+void	change_old_and_pwd(t_minishell *cmd, char *oldcwd_malloc,
+		char *cwd_malloc)
+{
+	add_oldpwd_to_env(cmd->envs, oldcwd_malloc);
+	add_pwd_to_env(cmd->envs, cwd_malloc);
+}
+
 int	ft_cd(t_minishell *cmd)
 {
 	char	*path;
 	char	cwd[PATH_MAX];
-	char 	*cwd_malloc;
+	char	*cwd_malloc;
 	char	*oldcwd_malloc;
 	char	old_cwd[PATH_MAX];
-	
+
 	if (cmd->args->cmd[1] && cmd->args->cmd[2])
 		return (ft_putstr_fd("bash: cd: too many arguments\n", 1), 1);
 	getcwd(old_cwd, sizeof(old_cwd));
@@ -76,7 +83,8 @@ int	ft_cd(t_minishell *cmd)
 	if (!cmd->args->cmd[1])
 	{
 		if (!get_home(cmd->envs))
-			return (free(oldcwd_malloc), ft_putendl_fd("cd: HOME not set", 1), 1);
+			return (free(oldcwd_malloc), ft_putendl_fd("cd: HOME not set", 1),
+				1);
 		chdir(get_home(cmd->envs));
 	}
 	else
@@ -84,7 +92,6 @@ int	ft_cd(t_minishell *cmd)
 	free(path);
 	getcwd(cwd, sizeof(cwd));
 	cwd_malloc = ft_strjoin("PWD=", cwd);
-	add_oldpwd_to_env(cmd->envs, oldcwd_malloc);
-	add_pwd_to_env(cmd->envs, cwd_malloc);
+	change_old_and_pwd(cmd, oldcwd_malloc, cwd_malloc);
 	return (g_exit_code);
 }

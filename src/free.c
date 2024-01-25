@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:10:40 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 17:28:03 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:04:05 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	free_2d_array(char **str)
 	free(str);
 }
 
-void free_all(t_minishell *cmd)
+void	free_all(t_minishell *cmd)
 {
 	free_env(cmd->envs);
 	free_tokens(&cmd->tokens_start);

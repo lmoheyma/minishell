@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:11 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 23:43:15 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:26:50 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,21 +73,7 @@ void	change_var(t_env *env, char *str, char **str_split)
 		sub_path = ft_substr(env->content, 0, j);
 		if (ft_strncmp(str, sub_path, j) == 0)
 		{
-			if (!str_split[1] && !env->content)
-				return ;
-			j++;
-			if (!str_split[1])
-			{
-				free(env->content);
-				env->content = str_w_equals;
-				free(str_big);
-			}
-			else
-			{
-				free(env->content);
-				env->content = str_big;
-				free(str_w_equals);
-			}
+			change_var2(env, str_split, str_w_equals, str_big);
 		}
 		free(sub_path);
 		env = env->next;

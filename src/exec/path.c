@@ -6,16 +6,16 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 21:43:15 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 22:33:24 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:02:53 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int check_all_arg(t_minishell *cmd)
+int	check_all_arg(t_minishell *cmd)
 {
-	t_args *arg;
-	int value;
+	t_args	*arg;
+	int		value;
 
 	value = 0;
 	arg = cmd->args;

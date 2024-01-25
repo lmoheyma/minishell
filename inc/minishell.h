@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 00:55:32 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:26:17 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ char				*get_home(t_env *env);
 // Export
 int					ft_strlcpy2(char *dest, const char *src, size_t size);
 void				export_error(char *str);
+void				change_var2(t_env *env, char **str_split,
+						char *str_w_equals, char *str_big);
 
 // Builtin
 int					is_builtin(t_minishell *cmd);
@@ -132,6 +134,8 @@ void				command_execute(t_minishell *cmd);
 void				fork_process(t_minishell *cmd);
 void				exec_simple_command(t_minishell *cmd, t_args *arg);
 void				exec_absolute_path(t_minishell *cmd, t_args *arg);
+void				exit_code_and_exit(t_minishell *cmd, t_args *arg,
+						char **path_split);
 
 // Path
 int					get_path1(t_minishell *cmd, t_args *arg);

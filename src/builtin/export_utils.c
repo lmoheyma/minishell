@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:11:24 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 22:12:07 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:25:28 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,23 @@ int	is_env_var_set(t_env *env, char *str)
 	}
 	env = temp;
 	return (0);
+}
+
+void	change_var2(t_env *env, char **str_split, char *str_w_equals,
+		char *str_big)
+{
+	if (!str_split[1] && !env->content)
+		return ;
+	if (!str_split[1])
+	{
+		free(env->content);
+		env->content = str_w_equals;
+		free(str_big);
+	}
+	else
+	{
+		free(env->content);
+		env->content = str_big;
+		free(str_w_equals);
+	}
 }

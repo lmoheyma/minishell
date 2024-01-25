@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 15:30:16 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/24 17:28:26 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:28:55 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,6 @@ int	ft_exit_code(t_args *arg)
 
 	if (!arg->cmd[1])
 		exit_code = 0;
-	// if ((unsigned long long)ft_atol(arg->cmd[1]) == -9223372036854775808ULL
-	// 	|| (unsigned long long)ft_atol(arg->cmd[1]) == 9223372036854775807)
-	// 	return (print_error_exit(arg), 2);
 	else if (!check_exit_syntax(arg->cmd[1]))
 	{
 		print_error_exit(arg->cmd[1]);

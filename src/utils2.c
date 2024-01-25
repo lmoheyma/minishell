@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:16:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/23 22:57:54 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:28:45 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,6 @@ long int	ft_atol(char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		res = res * 10 + (str[i] - '0');
-		// if ((unsigned long long)res * sign > 9223372036854775807ULL
-		// 	|| (unsigned long long)res * sign < -9223372036854775808ULL)
-		// 	return (print_error_exit(str), 2);
 		i++;
 	}
 	return (res * sign);
