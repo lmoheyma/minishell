@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:51:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/25 16:24:06 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:54:45 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	ft_trigger(char c, char *trigger)
 	return (i);
 }
 
-static int	get_len(char *s, int add)
+static int	get_len_split(char *s, int add)
 {
 	int		i;
 	int		len;
@@ -57,7 +57,7 @@ static int	get_len(char *s, int add)
 		return (len);
 }
 
-static char	*write_word(char *s)
+static char	*write_word_split(char *s)
 {
 	int		i;
 	int		j;
@@ -67,7 +67,7 @@ static char	*write_word(char *s)
 	i = 0;
 	j = 0;
 	trigger = '/';
-	str = malloc(sizeof(char) * (get_len(s + i, 0) + 1));
+	str = malloc(sizeof(char) * (get_len_split(s + i, 0) + 1));
 	if (!str)
 		return (NULL);
 	while ((s[i + j] != ' ' && s[i + j]) || (trigger != '/' && s[i + j]))
@@ -84,9 +84,9 @@ static char	*write_word(char *s)
 	return (str);
 }
 
-static void	**ft_split_args2(char **str, char *s, int *i, int *j)
+static int	ft_split_args2(char **str, char *s, int *i, int *j)
 {
-	str[*j] = write_word(s + *i);
+	str[*j] = write_word_split(s + *i);
 	if (!str[*j])
 	{
 		*j -= 1;
@@ -95,12 +95,13 @@ static void	**ft_split_args2(char **str, char *s, int *i, int *j)
 			free(str[*j]);
 			*j -= 1;
 		}
-		return (NULL);
+		return (1);
 	}
 	*j += 1;
-	*i += get_len(s + *i, 1);
+	*i += get_len_split(s + *i, 1);
 	while (s[*i] == 32 || (s[*i] >= 9 && s[*i] <= 13))
 		*i += 1;
+	return (0);
 }
 
 char	**ft_split_args(char *s)
@@ -120,7 +121,8 @@ char	**ft_split_args(char *s)
 		i++;
 	while (s[i])
 	{
-		ft_split_args2(str, s, &i, &j);
+		if (ft_split_args2(str, s, &i, &j))
+			return (NULL);
 	}
 	str[j] = 0;
 	return (str);

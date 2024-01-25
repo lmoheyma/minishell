@@ -35,7 +35,9 @@ SRCS = src/main.c \
 		src/parsing/vars.c \
 		src/parsing/vars2.c \
 		src/parsing/utils.c \
-		src/parsing/utils2.c 
+		src/parsing/utils2.c \
+		src/parsing/split_args.c \
+		src/parsing/split_args2.c
 
 OBJS_BASE = $(SRCS:.c=.o)
 
@@ -43,13 +45,14 @@ OBJS = $(addprefix obj/,$(OBJS_BASE))
 
 NAME = minishell
 
-all: $(NAME)
+all: obj $(NAME)
 
 obj :
 	mkdir -p obj
 	mkdir -p obj/src
 	mkdir -p obj/src/builtin
 	mkdir -p obj/src/exec
+	mkdir -p obj/src/parsing
 
 $(NAME) : $(OBJS)
 	@echo "\n"
