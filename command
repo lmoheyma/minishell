@@ -3,7 +3,7 @@ https://docs.google.com/spreadsheets/d/1uJHQu0VPsjjBkR4hxOeCMEt3AOM1Hp_SmUzPFhAH
 
 
 derniere choses a faire ou qui bug :
-	Les exitcodes des CtrlC ou Ctrl\ dans cat
+	Les exitcodes de Ctrl\ dans cat
 	Les heredocs
 	# echo hola ||| cat => erreur ! + exitcode
 	ech|o hola | cat  => exitcode | J ai teste on a la meme que le bash ?
@@ -22,6 +22,9 @@ derniere choses a faire ou qui bug :
 	 	=> Des fd restent ouvert
 	
 	# Le echo $? ou echo$VAR leak
+
+	exit 9223372036854775808   => numeric arg required ?
+	exit -9223372036854775809
 
 Commande qui marche pas :
 ECHO ->
@@ -84,8 +87,7 @@ BATARDS ->
 
 EXIT ->
 	EXEC ->
-		exit 9223372036854775808   => numeric arg required ?
-		exit -9223372036854775809
+
 
 PIPE ->
 	PARSING ->
