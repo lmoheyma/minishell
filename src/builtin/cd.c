@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:23:57 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 16:02:34 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/29 22:41:41 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int	exec_cd(t_minishell *cmd, char *path)
 void	change_old_and_pwd(t_minishell *cmd, char *oldcwd_malloc,
 		char *cwd_malloc)
 {
+	if (!oldcwd_malloc || !cwd_malloc || !*cwd_malloc || !*oldcwd_malloc)
+		return ;
 	add_oldpwd_to_env(cmd->envs, oldcwd_malloc);
 	add_pwd_to_env(cmd->envs, cwd_malloc);
 }
@@ -77,8 +79,8 @@ int	ft_cd(t_minishell *cmd)
 
 	if (cmd->args->cmd[1] && cmd->args->cmd[2])
 		return (ft_putstr_fd("bash: cd: too many arguments\n", 1), 1);
-	getcwd(old_cwd, sizeof(old_cwd));
-	oldcwd_malloc = ft_strjoin("OLDPWD=", old_cwd);
+	if (getcwd(old_cwd, sizeof(old_cwd)) != NULL)
+		oldcwd_malloc = ft_strjoin("OLDPWD=", old_cwd);
 	path = NULL;
 	if (!cmd->args->cmd[1])
 	{

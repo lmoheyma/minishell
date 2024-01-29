@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 14:40:26 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/29 21:53:14 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ char	*dynamic_prompt(void)
 	char	*prompt;
 	char	cwd[PATH_MAX];
 
-	getcwd(cwd, sizeof(cwd));
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	{
+		ft_putstr_fd("error retrieving current directory\n", 1);
+		return (ft_strdup("minishell> "));
+	}
 	prompt = NULL;
 	prompt = ft_strjoin("minishell:", cwd);
 	prompt = ft_strjoin_free(prompt, "$ ");
@@ -91,12 +95,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*buffer;
 	t_minishell	*cmd;
-	int			flag;
-	int			i;
 
 	(void)argv;
-	i = 0;
-	flag = 0;
 	buffer = NULL;
 	if (argc != 1)
 		return (ft_putendl_fd("Too much arguments", 1), 1);

@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:16:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 16:02:54 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/29 21:23:36 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	ft_atol(char *str, long long *res)
 		*res = *res * 10 + (str[i] - '0');
 		i++;
 	}
+	*res *= sign;
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 19:35:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/29 17:10:06 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/29 21:29:42 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	command_execute(t_minishell *cmd)
 {
+	g_exit_code = 0;
 	if (is_builtin(cmd) == TRUE && !cmd->is_pipe)
 	{
 		if (is_env_buitin(cmd) == TRUE)
