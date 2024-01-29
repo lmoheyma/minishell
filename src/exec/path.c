@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 21:43:15 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 01:02:53 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/29 17:04:17 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	get_path1(t_minishell *cmd, t_args *arg)
 	char	*exe;
 	int		i;
 
-	i = 0;
+	i = -1;
 	if (!arg->cmd[0])
 		return (0);
 	path_split = ft_split(get_path(cmd->envs), ':');

@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 15:30:16 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 16:03:02 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:43:52 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ int	ft_exit(t_minishell *cmd)
 	arg = cmd->args;
 	ft_putstr_fd("exit\n", 1);
 	exit_code = ft_exit_code(arg);
-	free_all(cmd);
+	if (exit_code != 256)
+		free_all(cmd);
 	if (exit_code == 256)
 		return (1);
 	exit(exit_code);

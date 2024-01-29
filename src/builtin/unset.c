@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/28 15:55:52 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/29 13:42:26 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	unset_first_node(t_env **env, char *var)
 
 	current = *env;
 	var_split = ft_split((*env)->content, '=');
-	if (env && ft_strncmp(var_split[0], var, ft_strlen(var_split[0])) == 0)
+	if (env && ft_strcmp(var_split[0], var) == 0)
 	{
 		*env = current->next;
 		free(current->content);
@@ -43,7 +43,7 @@ void	unset_var(t_env **env, char *var)
 	while (!flag && current && current->next)
 	{
 		var_split = ft_split(current->next->content, '=');
-		if (current->next && ft_strncmp(var_split[0], var, ft_strlen(var_split[0])) == 0)
+		if (current->next && ft_strcmp(var_split[0], var) == 0)
 		{
 			to_delete = current->next;
 			current->next = current->next->next;
