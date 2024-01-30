@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:20:58 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/25 15:26:45 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:41:24 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,18 @@ int	set_token_type(t_tokens *token, char *str, int *i)
 int	write_loop(t_minishell *minishell, t_tokens *token, char *cmd,
 		t_write_params *params)
 {
-	if (cmd[params->i + params->k] == '\\')
+	if (cmd[params->i + params->k] == '\\' && params->trigger == '/')
 	{
 		token->content[params->i + params->j] = cmd[params->i + params->k + 1];
 		params->i++;
 		params->k++;
+		return (1);
+	}
+	else if (cmd[params->i + params->k] == '$' && params->trigger != '\''
+		&& ft_strncmp(token->type, "here_doc", 8))
+	{
+		params->k += write_env_var(minishell, token->content, cmd);
+		return (1);
 	}
 	if (cmd[params->i + params->k] == '\'' && params->trigger == '/')
 		params->trigger = '\'';
@@ -53,12 +60,6 @@ int	write_loop(t_minishell *minishell, t_tokens *token, char *cmd,
 	else if (cmd[params->i + params->k] == params->trigger
 		&& params->trigger != '/')
 		params->trigger = '/';
-	else if (cmd[params->i + params->k] == '$' && params->trigger != '\''
-		&& ft_strncmp(token->type, "here_doc", 8))
-	{
-		params->k += write_env_var(minishell, token->content, cmd);
-		return (1);
-	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:58:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/30 01:14:09 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:13:29 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,20 @@
 void	child_pipe(t_minishell *cmd, t_args *arg)
 {
 	int	i;
-	int pid[cmd->nb_cmd - 1];
 
 	i = -1;
 	signal(SIGQUIT, signals_manager_child);
 	while (++i < cmd->nb_cmd - 1)
 	{
-		add_pipe(cmd, arg, &pid[i]);
+		add_pipe(cmd, arg);
 		arg = arg->next;
 	}
 	dup2(cmd->fd_out, STDOUT_FILENO);
 	dup2(cmd->fd_in, STDIN_FILENO);
-	i = -1;
 	if ((access(arg->cmd[0], F_OK | X_OK) == 0))
 		exec_absolute_path(cmd, arg);
 	else
 		exec_simple_command(cmd, arg);
-	while (++i < cmd->nb_cmd - 1)
-		waitpid(pid[i], NULL, 0);
 }
 
 void	parent_pipe(int pid)
@@ -76,7 +72,7 @@ void	exec_pipe_command(t_minishell *cmd)
 	}
 }
 
-void	add_pipe(t_minishell *cmd, t_args *arg, int *pid_tab)
+void	add_pipe(t_minishell *cmd, t_args *arg)
 {
 	int	fd[2];
 	int	pid;
@@ -88,7 +84,6 @@ void	add_pipe(t_minishell *cmd, t_args *arg, int *pid_tab)
 		exit(0);
 	if (pid == 0)
 	{
-		*pid_tab = pid;
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);

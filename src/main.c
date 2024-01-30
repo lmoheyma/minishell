@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/29 21:53:14 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/30 19:31:51 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*dynamic_prompt(void)
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
-		ft_putstr_fd("error retrieving current directory\n", 1);
+		// ft_putstr_fd("error retrieving current directory\n", 1);
 		return (ft_strdup("minishell> "));
 	}
 	prompt = NULL;

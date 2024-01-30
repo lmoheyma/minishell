@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:06:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/29 22:41:11 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/30 19:11:40 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ void	add_pwd_to_env(t_env *env, char *str)
 	else
 	{
 		free(str);
-		new_pwd = ft_strjoin("PWD=", getcwd(cwd, sizeof(cwd)));
+		if (getcwd(cwd, sizeof(cwd)) != NULL)
+			new_pwd = ft_strjoin("PWD=", cwd);
+		else
+			new_pwd = ft_strdup("PWD=");
 		add_back_node_env(&env, new_env_node(new_pwd));
 		free(new_pwd);
 	}

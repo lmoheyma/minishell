@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:24:30 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/25 09:48:48 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:07:48 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,26 @@ char	**set_exit_code(char **j)
 	j[1] = ft_itoa(g_exit_code);
 	j[2] = NULL;
 	return (j);
+}
+
+int	get_len_for_env(char *str, char *sub_path)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i] && !is_spaces(str[i]) && ((str[i] >= 'a' && str[i] <= 'z')
+			|| (str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= '0'
+				&& str[i] <= '9')))
+		i++;
+	while (sub_path[j] && !is_spaces(sub_path[j]) && ((sub_path[j] >= 'a'
+				&& sub_path[j] <= 'z') || (sub_path[j] >= 'A'
+				&& sub_path[j] <= 'Z') || (sub_path[j] >= '0'
+				&& sub_path[j] <= '9')))
+		j++;
+	if (i > j)
+		return (i);
+	else
+		return (j);
 }

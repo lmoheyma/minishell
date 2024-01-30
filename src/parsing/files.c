@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:47 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/25 12:01:01 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:54:50 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ int	setup_files(t_minishell *minishell)
 int	replace_infile(t_minishell *minishell, char *path)
 {
 	if (minishell->fd_in != 0)
+	{
 		close(minishell->fd_in);
+		unlink("dev");
+	}
 	minishell->fd_in = open(path, O_RDONLY);
 	if (minishell->fd_in < 0)
 		return (ft_err(minishell, "bash: No such file or directory\n", 1), 1);

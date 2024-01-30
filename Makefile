@@ -30,6 +30,7 @@ SRCS = src/main.c \
 		src/parsing/args.c \
 		src/parsing/error.c \
 		src/parsing/files.c \
+		src/parsing/parsing_check.c \
 		src/parsing/parsing.c \
 		src/parsing/tokens.c \
 		src/parsing/vars.c \
@@ -78,6 +79,6 @@ fclean: clean
 	rm -f $(NAME)
 	@echo "\033[0m"
 
-re: fclean $(NAME)
+re: obj fclean $(NAME)
 
 .PHONY: all clean fclean re

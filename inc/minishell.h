@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/30 01:12:15 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:07:55 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int					ft_exit(t_minishell *cmd);
 
 // Pipe
 void				exec_pipe_command(t_minishell *cmd);
-void				add_pipe(t_minishell *cmd, t_args *arg, int *pid_tab);
+void				add_pipe(t_minishell *cmd, t_args *arg);
 
 // Signals
 void				signals_manager(int signal);
@@ -152,8 +152,7 @@ int					ft_atol(char *str, long long *res);
 
 // Here-doc
 void				ft_here_doc(t_minishell *minishell, char *argv);
-int					add_line_to_fd(char *argv, int fd[2],
-						t_minishell *minishell);
+int					add_line_to_fd(char *argv, int fd[2], t_minishell *cmd);
 
 // Exit
 int					ft_exit_code(t_args *arg);
@@ -179,9 +178,12 @@ int					replace_append_outfile(t_minishell *minishell, char *path);
 // Global Parse
 
 int					get_elem(char *cmd);
-int					check_chevrons(char *cmd);
+int					check_chev(char *cmd);
 int					check_pipe(char *cmd);
 int					check_empty(char *cmd);
+int					check_ng(char *cmd);
+int					all_char(char *cmd, char c);
+void				init_vars(t_minishell *minishell);
 int					parse_all_minishell(t_minishell *minishell, char *cmd);
 
 // Tokens
@@ -207,7 +209,6 @@ void				skip_special_char(char *str, int *i);
 int					nb_special_char(t_minishell *minishell, t_tokens *token,
 						char *cmd, int *i);
 int					ft_cmdsize(t_args *args);
-int					get_len_for_env(char *str, char *sub_path);
 t_write_params		*init_write_params(t_minishell *minishell);
 int					int_len(int nb);
 
@@ -226,6 +227,7 @@ int					write_env_var(t_minishell *minishell, char *content,
 						char *cmd);
 char				**set_exit_code(char **j);
 void				ft_free_tab_s(char **s);
+int					get_len_for_env(char *str, char *sub_path);
 
 // Split args
 

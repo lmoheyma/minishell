@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:58:48 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 16:04:13 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:01:10 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,18 @@ void	ft_here_doc(t_minishell *minishell, char *argv)
 	if (pipe(fd) == -1)
 		exit(0);
 	if (minishell->fd_in != 0)
+	{
 		close(minishell->fd_in);
-	minishell->fd_in = fd[0];
+		unlink("dev");
+	}
 	pid = fork();
 	if (pid == -1)
 		exit(0);
 	if (pid == 0)
-	{
 		add_line_to_fd(argv, fd, minishell);
-	}
 	waitpid(pid, &status, 0);
+	minishell->fd_in = open("dev", O_RDONLY, 0777);
+	dup2(minishell->fd_in, 0);
 	if (status)
 		g_exit_code = INT_MAX;
 	close(fd[1]);
@@ -48,28 +50,23 @@ void	ft_here_doc(t_minishell *minishell, char *argv)
 
 int	add_line_to_fd(char *argv, int fd[2], t_minishell *cmd)
 {
-	int		running;
 	char	*line;
-	char	*buffer;
+	int		dev_fd;
 
-	buffer = ft_strdup("");
+	dev_fd = open("dev", O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	signal(SIGINT, signal_heredoc);
 	close(fd[0]);
-	running = 1;
-	while (running)
+	while (1)
 	{
 		line = readline("> ");
 		if (ft_strcmp(line, argv) == 0 || g_exit_code == INT_MAX)
 		{
 			free(line);
-			ft_putstr_fd(buffer, fd[1]);
-			free(buffer);
-			close(fd[1]);
 			free_all(cmd);
+			close(dev_fd);
 			exit(0);
 		}
-		line = ft_strjoin_free(line, "\n");
-		buffer = ft_strjoin_free(buffer, line);
+		ft_putendl_fd(line, cmd->fd_in);
 		free(line);
 	}
 	return (0);

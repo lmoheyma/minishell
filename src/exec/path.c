@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 21:43:15 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/29 17:04:17 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:03:51 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ char	*get_path(t_env *env)
 	{
 		j = 0;
 		while (env->content[j] != '=')
-		{
 			j++;
-		}
 		sub_path = ft_substr(env->content, 0, j);
 		if (ft_strncmp("PATH", sub_path, j) == 0)
 		{
