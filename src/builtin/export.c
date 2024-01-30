@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:11 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 01:26:50 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/30 00:22:52 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ void	export_without_arg(t_minishell *cmd)
 	env = temp;
 }
 
-int	check_syntax(t_minishell *cmd, char *str)
+int	check_syntax(t_minishell *cmd, char *str, int *flag)
 {
 	char	**str_split;
 
 	(void)cmd;
 	if (!ft_strchr(str, '='))
-		return (0);
+		return (*flag = 1, 0);
 	if (str[0] == '=')
 		return (export_error(str), 0);
 	str_split = ft_split(str, '=');
@@ -95,9 +95,11 @@ void	add_to_env(t_env *env, char *str)
 int	ft_export(t_minishell *cmd)
 {
 	t_args	*arg;
+	int		flag;
 	int		i;
 
 	i = 1;
+	flag = 0;
 	arg = cmd->args;
 	if (!cmd->args->cmd[1])
 		export_without_arg(cmd);
@@ -105,9 +107,9 @@ int	ft_export(t_minishell *cmd)
 	{
 		while (arg->cmd[i])
 		{
-			if (check_syntax(cmd, arg->cmd[i]))
+			if (check_syntax(cmd, arg->cmd[i], &flag))
 				add_to_env(cmd->envs, arg->cmd[i]);
-			else
+			else if (!flag)
 				g_exit_code = 1;
 			i++;
 		}

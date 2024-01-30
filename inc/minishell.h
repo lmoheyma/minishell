@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 16:04:23 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/30 01:12:15 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int					ft_exit(t_minishell *cmd);
 
 // Pipe
 void				exec_pipe_command(t_minishell *cmd);
-void				add_pipe(t_minishell *cmd, t_args *arg);
+void				add_pipe(t_minishell *cmd, t_args *arg, int *pid_tab);
 
 // Signals
 void				signals_manager(int signal);
