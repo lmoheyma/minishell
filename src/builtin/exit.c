@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 15:30:16 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/30 17:42:10 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/31 22:43:07 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	print_error_exit(char *str)
 {
-	ft_putstr_fd("bash: exit: ", 1);
-	ft_putstr_fd(str, 1);
-	ft_putstr_fd(": numeric argument required\n", 1);
+	ft_putstr_fd("bash: exit: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
 }
 
 int	is_too_long(char *str, int i)
@@ -75,7 +75,7 @@ int	ft_exit_code(t_args *arg)
 	}
 	if (exit_code != 2 && arg->cmd[1] && arg->cmd[2])
 	{
-		ft_putstr_fd("bash: exit: too many arguments\n", 1);
+		ft_putstr_fd("bash: exit: too many arguments\n", 2);
 		exit_code = 256;
 	}
 	return (exit_code);

@@ -9,6 +9,7 @@ LIB = -L libft/ -lft -lreadline
 SRCS = src/main.c \
 		src/utils.c \
 		src/utils2.c \
+		src/utils3.c \
 		src/free.c \
 		src/exec/exec.c \
 		src/exec/exec2.c \
@@ -30,8 +31,8 @@ SRCS = src/main.c \
 		src/parsing/args.c \
 		src/parsing/error.c \
 		src/parsing/files.c \
-		src/parsing/parsing_check.c \
 		src/parsing/parsing.c \
+		src/parsing/parsing_check.c \
 		src/parsing/tokens.c \
 		src/parsing/vars.c \
 		src/parsing/vars2.c \
@@ -79,6 +80,6 @@ fclean: clean
 	rm -f $(NAME)
 	@echo "\033[0m"
 
-re: obj fclean $(NAME)
+re: fclean $(NAME)
 
 .PHONY: all clean fclean re

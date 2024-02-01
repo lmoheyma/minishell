@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:30:14 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/30 19:31:51 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/31 21:37:11 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,7 @@ char	*dynamic_prompt(void)
 	char	cwd[PATH_MAX];
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		// ft_putstr_fd("error retrieving current directory\n", 1);
 		return (ft_strdup("minishell> "));
-	}
 	prompt = NULL;
 	prompt = ft_strjoin("minishell:", cwd);
 	prompt = ft_strjoin_free(prompt, "$ ");
@@ -72,9 +69,12 @@ void	main_loop(t_minishell *cmd, char *buffer)
 		if (parse_all_minishell(cmd, buffer))
 			continue ;
 		if (!cmd->args)
+		{
+			free_fd_arg_token(cmd);
 			continue ;
-		if (check_all_arg(cmd) || is_builtin(cmd) == TRUE
-			|| (ft_strncmp(buffer, "./", 2) == 0) || (access(cmd->args->cmd[0],
+		}
+		if (check_all_arg(cmd) || is_builtin(cmd) == TRUE || (ft_strncmp(buffer,
+					"./", 2) == 0) || (access(cmd->args->cmd[0],
 					F_OK | X_OK) == 0))
 			command_execute(cmd);
 		else
@@ -82,12 +82,7 @@ void	main_loop(t_minishell *cmd, char *buffer)
 			print_error(cmd, 1);
 			g_exit_code = 127;
 		}
-		if (cmd->fd_in != 0)
-			close(cmd->fd_in);
-		if (cmd->fd_out != 1)
-			close(cmd->fd_out);
-		free_tokens(&cmd->tokens_start);
-		free_args(&cmd->args_start);
+		free_fd_arg_token(cmd);
 	}
 }
 
@@ -103,6 +98,9 @@ int	main(int argc, char **argv, char **envp)
 	cmd = (t_minishell *)malloc(sizeof(t_minishell));
 	if (!cmd)
 		return (0);
+	parse_all_minishell(cmd, "start");
+	free_tokens(&cmd->tokens_start);
+	free_args(&cmd->args_start);
 	signal(SIGINT, signals_manager);
 	signal(SIGQUIT, SIG_IGN);
 	cmd->envs = dup_env(envp);

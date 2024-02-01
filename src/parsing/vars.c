@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vars.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/25 15:00:27 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/31 17:39:19 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	get_env_var_size_loop(t_env *env, char *str, int *i)
 	return (0);
 }
 
-int	get_env_var_size(t_env *env, char *str, int *i)
+int	get_env_var_size(t_env *env, char *str, int *i, int trigger)
 {
 	t_env	*temp;
 	int		j;
@@ -67,6 +67,8 @@ int	get_env_var_size(t_env *env, char *str, int *i)
 		env = env->next;
 	}
 	env = temp;
+	if (trigger)
+		return (0);
 	return (*i += get_len(str), get_len(str) * -1);
 }
 

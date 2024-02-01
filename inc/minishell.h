@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 18:38:02 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/30 15:07:55 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/02/01 12:21:29 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ t_env				*empty_start_env(t_env *env);
 void				free_env(t_env *env);
 void				free_2d_array(char **str);
 void				free_all(t_minishell *cmd);
+void				free_fd_arg_token(t_minishell *cmd);
 
 // Pwd
 void				add_pwd_to_env(t_env *env, char *str);
@@ -98,12 +99,14 @@ void				change_pwd_var(t_env *env, char *pwd, int path_len,
 // CD
 int					ft_cd(t_minishell *cmd);
 char				*get_home(t_env *env);
+char				*check_pwd(void);
 
 // Export
 int					ft_strlcpy2(char *dest, const char *src, size_t size);
 void				export_error(char *str);
 void				change_var2(t_env *env, char **str_split,
 						char *str_w_equals, char *str_big);
+int					check_valid_identifer(char **str_split);
 
 // Builtin
 int					is_builtin(t_minishell *cmd);
@@ -152,7 +155,12 @@ int					ft_atol(char *str, long long *res);
 
 // Here-doc
 void				ft_here_doc(t_minishell *minishell, char *argv);
-int					add_line_to_fd(char *argv, int fd[2], t_minishell *cmd);
+int					add_line_to_fd(char *argv, int fd[2],
+						t_minishell *minishell);
+char				*ft_strcat(char *dest, char *src);
+void				write_heredoc_eof(int fd);
+void				ft_heredoc2(char *line, char *lim, char *buffer,
+						int *running);
 
 // Exit
 int					ft_exit_code(t_args *arg);
@@ -167,6 +175,8 @@ int					setup_args(t_minishell *minishell);
 void				ft_err(t_minishell *minishell, char *err, int code);
 void				free_tokens(t_tokens **tokens);
 void				free_args(t_args **args);
+int					check_only_null_env_var(char *cmd, int *j,
+						t_minishell *minishell);
 
 // Files
 
@@ -216,7 +226,8 @@ int					int_len(int nb);
 
 int					get_len(char *str);
 int					get_env_var_size_loop(t_env *env, char *str, int *i);
-int					get_env_var_size(t_env *env, char *str, int *i);
+int					get_env_var_size(t_env *env, char *str, int *i,
+						int trigger);
 char				**get_env_var_content_loop(t_env *env, char *str);
 char				**get_env_var_content(t_env *env, char *str);
 

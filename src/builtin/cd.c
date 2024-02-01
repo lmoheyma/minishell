@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:23:57 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/30 19:20:25 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/02/01 12:20:50 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int	exec_cd(t_minishell *cmd, char *path)
 void	change_old_and_pwd(t_minishell *cmd, char *oldcwd_malloc,
 		char *cwd_malloc)
 {
+	if (!oldcwd_malloc || !cwd_malloc || !*cwd_malloc || !*oldcwd_malloc)
+		return ;
 	add_oldpwd_to_env(cmd->envs, oldcwd_malloc);
 	add_pwd_to_env(cmd->envs, cwd_malloc);
 }
@@ -70,17 +72,16 @@ void	change_old_and_pwd(t_minishell *cmd, char *oldcwd_malloc,
 int	ft_cd(t_minishell *cmd)
 {
 	char	*path;
-	char	cwd[PATH_MAX];
 	char	*cwd_malloc;
 	char	*oldcwd_malloc;
 	char	old_cwd[PATH_MAX];
 
 	if (cmd->args->cmd[1] && cmd->args->cmd[2])
-		return (ft_putstr_fd("bash: cd: too many arguments\n", 1), 1);
-	if (getcwd(old_cwd, sizeof(old_cwd)) != NULL)
-		oldcwd_malloc = ft_strjoin("OLDPWD=", old_cwd);
-	else
+		return (ft_putstr_fd("bash: cd: too many arguments\n", 2), 1);
+	if (getcwd(old_cwd, sizeof(old_cwd)) == NULL)
 		oldcwd_malloc = ft_strdup("OLDPWD=");
+	else
+		oldcwd_malloc = ft_strjoin("OLDPWD=", old_cwd);
 	path = NULL;
 	if (!cmd->args->cmd[1])
 	{
@@ -92,15 +93,6 @@ int	ft_cd(t_minishell *cmd)
 	else
 		g_exit_code = exec_cd(cmd, path);
 	free(path);
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		ft_putstr_fd("cd: error retrieving current directory: ", 1);
-		ft_putstr_fd("getcwd: cannot access parent directories: ", 1);
-		ft_putstr_fd("No such file or directory\n", 1);
-		cwd_malloc = ft_strdup("PWD=");
-	}
-	else
-		cwd_malloc = ft_strjoin("PWD=", cwd);
-	change_old_and_pwd(cmd, oldcwd_malloc, cwd_malloc);
-	return (g_exit_code);
+	cwd_malloc = check_pwd();
+	return (change_old_and_pwd(cmd, oldcwd_malloc, cwd_malloc), g_exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 16:26:28 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/30 15:16:44 by aleite-b         ###   ########.fr       */
+/*   Updated: 2024/01/31 17:38:54 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	nb_special_char(t_minishell *minishell, t_tokens *token, char *cmd, int *i)
 		else if (cmd[*i] == '$' && trigger != '\'' && ft_strncmp(token->type,
 				"here_doc", 8))
 		{
-			env_size += get_env_var_size(minishell->envs, cmd + *i + 1, i);
+			env_size += get_env_var_size(minishell->envs, cmd + *i + 1, i, 0);
 			continue ;
 		}
 		*i += 1;

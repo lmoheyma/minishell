@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:36:11 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/25 01:26:50 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/31 22:40:28 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,18 @@ int	check_syntax(t_minishell *cmd, char *str)
 	char	**str_split;
 
 	(void)cmd;
-	if (!ft_strchr(str, '='))
-		return (0);
-	if (str[0] == '=')
+	if (!ft_strchr(str, '=') && ft_isdigit(str[0]))
 		return (export_error(str), 0);
 	str_split = ft_split(str, '=');
 	if (!str_split || !*str_split)
 		return (free_2d_array(str_split), export_error(str), 0);
-	if (ft_strchr(str_split[0], '%') || ft_strchr(str_split[0], '@')
-		|| ft_strchr(str_split[0], '-') || ft_strchr(str_split[0], '}')
-		|| ft_strchr(str_split[0], '{') || ft_strchr(str_split[0], '*')
-		|| ft_strchr(str_split[0], '#') || ft_strchr(str_split[0], '!')
-		|| ft_strchr(str_split[0], '+') || ft_strchr(str_split[0], '?')
-		|| ft_strchr(str_split[0], '.'))
+	if (!ft_strchr(str, '=') && !check_valid_identifer(str_split))
+		return (export_error(str), 0);
+	if (!ft_strchr(str, '='))
+		return (0);
+	if (str[0] == '=')
+		return (export_error(str), 0);
+	if (!check_valid_identifer(str_split))
 		return (free_2d_array(str_split), export_error(str), 0);
 	if (ft_isdigit(str_split[0][0]) || str_split[0][0] == '=')
 		return (free_2d_array(str_split), export_error(str), 0);
@@ -107,8 +106,6 @@ int	ft_export(t_minishell *cmd)
 		{
 			if (check_syntax(cmd, arg->cmd[i]))
 				add_to_env(cmd->envs, arg->cmd[i]);
-			else
-				g_exit_code = 1;
 			i++;
 		}
 	}

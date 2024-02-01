@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:16:27 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/30 19:56:59 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/01/31 14:49:51 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,18 @@ int	ft_atol(char *str, long long *res)
 		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if (*res * sign > LLONG_MAX / 10 || (*res * sign == LLONG_MAX / 10 && (str[i]
+		if (*res > LLONG_MAX / 10 || (*res == LLONG_MAX / 10 && (str[i]
 					- '0') > LLONG_MAX % 10))
+		{
+			if (sign == -1 && *res == LLONG_MAX / 10 && (str[i]
+					- '0') == (LLONG_MAX % 10 + 1))
+				return (*res = LLONG_MIN, 1);
 			return (0);
+		}
 		*res = *res * 10 + (str[i] - '0');
 		i++;
 	}
-	*res *= sign;
-	return (1);
+	return (*res *= sign, 1);
 }
 
 int	is_builtin_arg(t_args *arg)
@@ -74,4 +78,15 @@ int	is_builtin_arg(t_args *arg)
 		return (1);
 	else
 		return (0);
+}
+
+char	*ft_strcat(char *dest, char *src)
+{
+	char	*ptr;
+
+	ptr = dest + ft_strlen(dest);
+	while (*src)
+		*ptr++ = *src++;
+	*ptr = '\0';
+	return (dest);
 }

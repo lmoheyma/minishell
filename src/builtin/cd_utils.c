@@ -6,7 +6,7 @@
 /*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 22:06:31 by lmoheyma          #+#    #+#             */
-/*   Updated: 2024/01/30 19:11:40 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/02/01 12:30:02 by lmoheyma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,12 @@ char	*get_pwd(t_env *env, char *str)
 
 void	add_pwd_to_env(t_env *env, char *str)
 {
-	char	cwd[PATH_MAX];
-	char	*new_pwd;
-
 	if (is_env_var_set(env, "PWD"))
 		change_pwd_var(env, str, ft_strlen(str) + 1, "PWD");
 	else
 	{
+		add_back_node_env(&env, new_env_node(str));
 		free(str);
-		if (getcwd(cwd, sizeof(cwd)) != NULL)
-			new_pwd = ft_strjoin("PWD=", cwd);
-		else
-			new_pwd = ft_strdup("PWD=");
-		add_back_node_env(&env, new_env_node(new_pwd));
-		free(new_pwd);
 	}
 }
 

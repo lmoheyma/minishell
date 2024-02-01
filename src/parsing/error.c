@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoheyma <lmoheyma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aleite-b <aleite-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 10:17:40 by aleite-b          #+#    #+#             */
-/*   Updated: 2024/01/30 21:13:03 by lmoheyma         ###   ########.fr       */
+/*   Updated: 2024/02/01 09:55:41 by aleite-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,20 @@ void	free_args(t_args **args)
 		free(*args);
 		*args = tmp;
 	}
+}
+
+int	check_only_null_env_var(char *cmd, int *j, t_minishell *minishell)
+{
+	int	i;
+
+	i = 1;
+	if (cmd[0] == '$' && get_env_var_size(minishell->envs, cmd + 1, j, 1) == 0)
+	{
+		while (cmd[i] && !is_spaces(cmd[i]))
+			i++;
+		skip_spaces(cmd, &i);
+		if (!cmd[i])
+			return (1);
+	}
+	return (0);
 }
